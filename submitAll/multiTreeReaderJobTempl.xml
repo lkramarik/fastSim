@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<job nProcesses = "90" simulateSubmission="false">
+
+   <stdout URL="file:&outPath;/log/&sample;_$JOBID.out" />
+   <stderr URL="file:&outPath;/log/&sample;_$JOBID.err" />
+                
+<command>
+starver SL16d
+root -l -b &lt;&lt;EOF
+    .X toyMcEffZeroDecayLength.C+(10e6,$JOBINDEX)
+    .q
+EOF
+
+</command>
+
+<output fromScratch="D0.toy*.root" toURL="&outPath;/out/" />
+
+<SandBox installer="ZIP">
+  <Package name="LocalLibraries_tmva">
+    <File>file:&codePath;/toyMcEffZeroDecayLength.C</File>
+    <File>file:&codePath;/Momentum_resolution_SL16d.root</File>
+    <File>file:&codePath;/pp200_spectra.root</File>
+    <File>file:&codePath;/Run14_D0_MyRaa_pT1.0.root</File>
+    <File>file:&codePath;/HftRatio_AuAu2016_lumiprod.root</File>
+    <File>file:&codePath;/Dca2D_AuAu2016_lumiprod.root</File>
+    <File>file:&codePath;/Vz_Cent.root</File>
+    <File>file:&codePath;/Eff_PionPlus_embedding.root</File>
+    <File>file:&codePath;/Eff_PionMinus_embedding.root</File>
+    <File>file:&codePath;/Eff_KaonPlus_embedding.root</File>
+    <File>file:&codePath;/Eff_KaonMinus_embedding.root</File>
+    <File>file:&codePath;/runaux.sh</File>
+  </Package>
+</SandBox>
+
+</job>
