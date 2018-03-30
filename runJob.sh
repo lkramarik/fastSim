@@ -27,7 +27,6 @@ echo codePath
 
 mkdir ./jobs
 mkdir ./out/
-mkdir ./myOutput/
 mkdir ./jobs/log/
 mkdir ./jobs/err/
 mkdir ./jobs/report/

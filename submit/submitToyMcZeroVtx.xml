@@ -10,18 +10,20 @@
           <ListLocation>./jobs/list/</ListLocation>
         </Generator>
                                                 
-	<ResourceUsage>
-		<Memory>
-			<MinMemory>4000</MinMemory>
-		</Memory>
-	</ResourceUsage>
+	<!--<ResourceUsage>-->
+		<!--<Memory>-->
+			<!--<MinMemory>4000</MinMemory>-->
+		<!--</Memory>-->
+	<!--</ResourceUsage>-->
 
 <command>
     starver SL16d
-    root -l -b &lt;&lt;EOF
-    .X toyMcEffZeroDecayLength.C+(10e6,$JOBINDEX)
-    .q
-    EOF
+    root -q -b -l toyMcEffZeroDecayLength.C+\(1e6,2\)
+
+    <!--root -l -b &lt;&lt;EOF-->
+    <!--.X toyMcEffZeroDecayLength.C+(10e2,$JOBINDEX)-->
+    <!--.q-->
+    <!--EOF-->
 
 </command>
 
