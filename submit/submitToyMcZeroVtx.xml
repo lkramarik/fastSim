@@ -17,12 +17,12 @@
 	</ResourceUsage>
 
 <command>
-starver SL16d
+    starver SL16d
+    root -l -b &lt;&lt;EOF
+    .X toyMcEffZeroDecayLength.C+(10e6,$JOBINDEX)
+    .q
+    EOF
 
-root4star -q -b -l toyMcDpm.C++\(1e6\)
-mv Dpm.toyMc.root Dpm.$JOBID.toyMc.root
-chgrp rhstar *.root
-chmod g+rw *.root
 </command>
 
 <output fromScratch="D0.toy*.root" toURL="&codePath;/out/" />
