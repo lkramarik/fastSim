@@ -133,10 +133,10 @@ TH1D* hHftRatio1[nParticles][nEtasHftRatio][nVzsHftRatio][nPhisHftRatio][nZdcX];
 int const nCentDca = 9;
 TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nZdcX][nPtBinsDca];
 
-TH1D* hTpcPiPlus[nCentHftRatio];
-TH1D* hTpcPiMinus[nCentHftRatio];
-TH1D* hTpcKPlus[nCentHftRatio];
-TH1D* hTpcKMinus[nCentHftRatio];
+TH1D* hTpcPiPlus[nCentHftRatio]; //embedding
+TH1D* hTpcPiMinus[nCentHftRatio]; //embedding
+TH1D* hTpcKPlus[nCentHftRatio]; //embedding
+TH1D* hTpcKMinus[nCentHftRatio]; //embedding
 
 string outFileName = "D0.toyMc";
 std::pair<int, int> const decayChannels(747, 807);
@@ -146,7 +146,7 @@ float const gVzCut = 6.0e4;
 float const acceptanceRapidity = 1.0;
 float const sigmaPos0 = 15.2;
 float const pxlLayer1Thickness = 0.00486;
-float const sigmaVertexCent[nCentHftRatio] = {31., 18.1, 12.8, 9.3, 7.2, 5.9, 5., 4.6, 4.};
+float const sigmaVertexCent[nCentHftRatio] = {31., 18.1, 12.8, 9.3, 7.2, 5.9, 5., 4.6, 4.}; //not using
 
 //============== main  program ==================
 int jobindx;
@@ -175,11 +175,11 @@ void toyMcEffZeroDecayLength(int npart = 1e8, int jobId=0)
       if (!(ipart % 1000))
          cout << "____________ ipart = " << ipart / static_cast<float>(npart) << " ________________" << endl;
 
-      getKinematics(*b_d, M_D_0);
+      getKinematics(*b_d, M_D_0); //random pt, y, phi, return b vector with correct prop.
 
       //decayAndFill(421, b_d, fWeightFunction->Eval(b_d->Perp()), ptl);
       //decayAndFill(-421, b_d, fWeightFunction->Eval(b_d->Perp()), ptl);
-      decayAndFill(421, b_d, fWeightFunctionAuAu->Eval(b_d->Perp()), ptl);
+      decayAndFill(421, b_d, fWeightFunctionAuAu->Eval(b_d->Perp()), ptl);  //421 = D0, ptl = daughters array
       decayAndFill(-421, b_d, fWeightFunctionAuAu->Eval(b_d->Perp()), ptl);
       if (ipart % 1000 == 1) nt->AutoSave("SaveSelf");
    }
@@ -192,7 +192,7 @@ void toyMcEffZeroDecayLength(int npart = 1e8, int jobId=0)
 
 void setDecayChannels(int const mdme)
 {
-   for (int idc = decayChannels.first; idc < decayChannels.second + 1; idc++) TPythia6::Instance()->SetMDME(idc, 1, 0);
+   for (int idc = decayChannels.first; idc < decayChannels.second + 1; idc++) TPythia6::Instance()->SetMDME(idc, 1, 0); //747-807 switching off
    TPythia6::Instance()->SetMDME(mdme, 1, 1);
 }
 
@@ -212,12 +212,12 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
 
       switch (abs(ptl0->GetPdgCode()))
       {
-         case 321:
-            ptl0->Momentum(kMom);
+         case 321: //kaonplus
+            ptl0->Momentum(kMom); //seting momentum to kMom
             // v00.SetXYZ(0,0,0);
-            v00.SetXYZ(ptl0->Vx() * 1000., ptl0->Vy() * 1000., ptl0->Vz() * 1000.); // converted to μm
+            v00.SetXYZ(ptl0->Vx() * 1000., ptl0->Vy() * 1000., ptl0->Vz() * 1000.); // converted to μm, production vertex
             break;
-         case 211:
+         case 211:   // pionplus
             ptl0->Momentum(pMom);
             break;
          default:
@@ -233,16 +233,16 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 {
    int const centrality = floor(nCentHftRatio * gRandom->Rndm());
 
-   TVector3 const vertex = getVertex(centrality);
-   int zdcb = getZdcBin(centrality);
+   TVector3 const vertex = getVertex(centrality); //from hVz
+   int zdcb = getZdcBin(centrality); //from data
    // smear primary vertex
    // float const sigmaVertex = sigmaVertexCent[cent];
    // TVector3 const vertex(gRandom->Gaus(0, sigmaVertex), gRandom->Gaus(0, sigmaVertex), gRandom->Gaus(0, sigmaVertex));
 
-   v00 += vertex;
+   v00 += vertex; //vertex smear
 
    // smear momentum
-   TLorentzVector const kRMom = smearMom(kMom, fKaonMomResolution);
+   TLorentzVector const kRMom = smearMom(kMom, fKaonMomResolution); //fKaonMomResolution is TF1
    TLorentzVector const pRMom = smearMom(pMom, fPionMomResolution);
 
    // smear position
@@ -365,7 +365,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    arr[iArr++] = pRDcaZ;
    arr[iArr++] = tpcReconstructed(0, charge, centrality, pRMom);
 
-   arr[iArr++] = matchHft(1, vertex.z(), zdcb,  kRMom);
+   arr[iArr++] = matchHft(1, vertex.z(), zdcb,  kRMom); //kaon = 1, pion = 0
    arr[iArr++] = matchHft(0, vertex.z(), zdcb, pRMom);
 
    nt->Fill(arr);
