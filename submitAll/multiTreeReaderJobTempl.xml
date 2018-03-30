@@ -28,7 +28,7 @@ EOF
     <File>file:&codePath;/Eff_PionMinus_embedding.root</File>
     <File>file:&codePath;/Eff_KaonPlus_embedding.root</File>
     <File>file:&codePath;/Eff_KaonMinus_embedding.root</File>
-    <File>file:&codePath;/runaux.sh</File>
+    <!--<File>file:&codePath;/runaux.sh</File>-->
   </Package>
 </SandBox>
 
