@@ -170,9 +170,9 @@ void toyMcEffZeroDecayLength(int npart = 1e8, int jobId=0)
    pydecay->Init();
 
    setDecayChannels(763); // D0 --> Kpi
-
    TLorentzVector* b_d = new TLorentzVector;
    TClonesArray ptl("TParticle", 10);
+   cout<<"going to the for cycle of desiref npart"<<endl;
    for (int ipart = 0; ipart < npart; ipart++)
    {
       if (!(ipart % 1000))
@@ -667,7 +667,8 @@ void bookObjects()
        h1ZdcX[ii] = mh3VzZdcMult -> ProjectionY("_py",binVzmin, binVzup, binMultmin, binMultmax, ""); //vz zdc
        h1ZdcX[ii]->SetDirectory(0);
    }
-
+   fEvent.Close();
+   
    cout << "Loading input HFT ratios and DCA ..." << endl;
 
    for (int iParticle = 0; iParticle < nParticles; ++iParticle)
