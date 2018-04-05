@@ -183,10 +183,10 @@ void toyMcEffZeroDecayLength(int npart = 1e8, int jobId=0)
 
       getKinematics(*b_d, M_D_0); //random pt, y, phi, return b vector with correct prop.
     cout<<"decay and fill"<<endl;
-      decayAndFill(421, b_d, fWeightFunction->Eval(b_d->Perp()), ptl);
-      decayAndFill(-421, b_d, fWeightFunction->Eval(b_d->Perp()), ptl);
-//      decayAndFill(421, b_d, fWeightFunctionAuAu->Eval(b_d->Perp()), ptl);  //421 = D0, ptl = daughters array
-//      decayAndFill(-421, b_d, fWeightFunctionAuAu->Eval(b_d->Perp()), ptl);
+//      decayAndFill(421, b_d, fWeightFunction->Eval(b_d->Perp()), ptl);
+//      decayAndFill(-421, b_d, fWeightFunction->Eval(b_d->Perp()), ptl);
+      decayAndFill(421, b_d, fWeightFunctionAuAu->Eval(b_d->Perp()), ptl);  //421 = D0, ptl = daughters array
+      decayAndFill(-421, b_d, fWeightFunctionAuAu->Eval(b_d->Perp()), ptl);
       cout<<"autosave"<<endl;
        if (ipart % 1000 == 1) nt->AutoSave("SaveSelf");
    }
