@@ -187,7 +187,7 @@ void toyMcEffZeroDecayLength(int npart = 1e8, int jobId=0)
       decayAndFill(-421, b_d, fWeightFunction->Eval(b_d->Perp()), ptl);
 //      decayAndFill(421, b_d, fWeightFunctionAuAu->Eval(b_d->Perp()), ptl);  //421 = D0, ptl = daughters array
 //      decayAndFill(-421, b_d, fWeightFunctionAuAu->Eval(b_d->Perp()), ptl);
-      cout<"autosave"<<endl;
+      cout<<"autosave"<<endl;
        if (ipart % 1000 == 1) nt->AutoSave("SaveSelf");
    }
 
