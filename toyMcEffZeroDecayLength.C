@@ -213,6 +213,7 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
    TVector3 v00;
 
    int nTrk = daughters.GetEntriesFast();
+   cout<<"going into daughters"<<endl;
    for (int iTrk = 0; iTrk < nTrk; ++iTrk)
    {
       TParticle* ptl0 = (TParticle*)daughters.At(iTrk);
@@ -232,7 +233,7 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
       }
    }
    daughters.Clear();
-
+    cout<<"going to fill"<<endl;
    fill(kf, b, weight, kMom, pMom, v00);
 }
 
