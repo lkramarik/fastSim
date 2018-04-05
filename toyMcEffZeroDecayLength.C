@@ -129,8 +129,8 @@ const Double_t ptEdgeDca[nPtBinsDca + 1] =
 
 int centralitySelect=0;
 
-TH1D* h1Vz[nmultEdge];
-TH1D* h1ZdcX[nmultEdge];
+TH1D* h1Vz[nmultEdge+1];
+TH1D* h1ZdcX[nmultEdge+1];
 
 TH1D* hHftRatio1[nParticles][nEtasHftRatio][nVzsHftRatio][nPhisHftRatio][nZdcX];
 int const nCentDca = 9;
@@ -158,8 +158,11 @@ void toyMcEffZeroDecayLength(int npart = 1e8, int jobId=0)
 {
    // TMemStat mem;
    // mem.Enable();
-   jobindx = jobId/9;
-   centralitySelect = jobId%9;
+//   jobindx = jobId/9;
+//   centralitySelect = jobId%9;
+
+    jobindx = jobId/7;
+    centralitySelect = jobId%7;
 
    TStopwatch*   stopWatch = new TStopwatch();
    stopWatch->Start();
@@ -168,7 +171,7 @@ void toyMcEffZeroDecayLength(int npart = 1e8, int jobId=0)
 
    pydecay = TPythia6Decayer::Instance();
    pydecay->Init();
-
+    cout<<"let decay"<<endl;
    setDecayChannels(763); // D0 --> Kpi
    TLorentzVector* b_d = new TLorentzVector;
    TClonesArray ptl("TParticle", 10);
@@ -668,7 +671,7 @@ void bookObjects()
        h1ZdcX[ii]->SetDirectory(0);
    }
    fEvent.Close();
-   
+
    cout << "Loading input HFT ratios and DCA ..." << endl;
 
    for (int iParticle = 0; iParticle < nParticles; ++iParticle)
