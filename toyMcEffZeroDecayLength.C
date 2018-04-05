@@ -591,6 +591,7 @@ int getZdcBin(int const centrality)
 {
    int zdcbin=-1;
    while (zdcbin<0 || zdcbin>=nZdcX) {
+       cout<<zdcbin<<endl;
       zdcbin =  h1ZdcX[centrality]->GetRandom()-1;
    }
    return zdcbin;
