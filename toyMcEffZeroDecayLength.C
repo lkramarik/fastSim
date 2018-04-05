@@ -240,7 +240,7 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
 void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& kMom, TLorentzVector const& pMom, TVector3 v00)
 {
    int const centrality = floor(nmultEdge * gRandom->Rndm());
-
+    cout<<centrality<<endl;
    TVector3 const vertex = getVertex(centrality); //from hVz
    int zdcb = getZdcBin(centrality); //from data
     cout<<"vz and zdc taken"<<endl;
