@@ -84,6 +84,10 @@ TGraph* grEff[3];
 const Int_t nParticles = 2;
 const Int_t nCentHftRatio = 9;
 
+const int nmultEdge = 7;
+float const multEdge[nmultEdge+1] = {0, 4, 8, 12, 16, 20, 24, 200};
+
+
 const Int_t nZdcX = 5;
 const Double_t zdcxBins[] = {0,40,50,60,70,200};
 
@@ -92,19 +96,18 @@ const Int_t nEtasHftRatio = 10;
 const Int_t nVzsHftRatio = 6;
 const Int_t nPtBinsHftRatio = 15;
 const Int_t nPhisHftRatio = 11;
-const Double_t EtaEdgeHftRatio[nEtasHftRatio + 1] =
+const Double_t EtaEdgeHftRatio[nEtasHftRatio + 1] = //ok
 {
    -1.0, -0.8, -0.6, -0.4, -0.2, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0
 };
-const Double_t VzEdgeHftRatio[nVzsHftRatio + 1] =
+const Double_t VzEdgeHftRatio[nVzsHftRatio + 1] = //ok
 {
    -6.0e4, -4.0e4, -2.0e4, 0.0, 2.0e4, 4.0e4, 6.0e4  
 };
-const Double_t ptEdgeHftRatio[nPtBinsHftRatio + 1] =
-   {
-      0.2,0.3,0.4,0.5,0.6,0.8,1.0,1.2,1.4,1.6,2.0,2.5,3.0,4.0,6.0,12.0
-   };
-const Double_t PhiEdgeHftRatio[nPhisHftRatio + 1] =
+const Double_t ptEdgeHftRatio[nPtBinsHftRatio + 1] = { //ok
+   0.2,0.3,0.4,0.5,0.6,0.8,1.0,1.2,1.4,1.6,2.0,2.5,3.0,4.0,6.0,12.0
+};
+const Double_t PhiEdgeHftRatio[nPhisHftRatio + 1] = //ok
 {
    -3.14159 , -2.80359 , -2.17527 , -1.54696 , -0.918637 , -0.290319 , 0.338 , 0.966319 , 1.59464 , 2.22296 , 2.85127 , 3.14159
 };
@@ -121,22 +124,22 @@ const Double_t PhiEdgeDca[nPhisDca + 1] =
 };
 const Double_t ptEdgeDca[nPtBinsDca + 1] =
 {
-   0.2,0.3,0.4,0.5,0.6,0.8,1.,1.25,1.5,2.,3.0,5.,12.
+        0.2,0.3,0.4,0.5,0.6,0.8,1.,1.25,1.5,2.,3.0,5.,12.
 };
 
 int centralitySelect=0;
 
-TH1D* h1Vz[nCentHftRatio];
-TH1F* h1ZdcX[nCentHftRatio];
+TH1D* h1Vz[nmultEdge];
+TH1D* h1ZdcX[nmultEdge];
 
 TH1D* hHftRatio1[nParticles][nEtasHftRatio][nVzsHftRatio][nPhisHftRatio][nZdcX];
 int const nCentDca = 9;
 TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nZdcX][nPtBinsDca];
 
-TH1D* hTpcPiPlus[nCentHftRatio]; //embedding
-TH1D* hTpcPiMinus[nCentHftRatio]; //embedding
-TH1D* hTpcKPlus[nCentHftRatio]; //embedding
-TH1D* hTpcKMinus[nCentHftRatio]; //embedding
+TH1D* hTpcPiPlus[nmultEdge]; //embedding
+TH1D* hTpcPiMinus[nmultEdge]; //embedding
+TH1D* hTpcKPlus[nmultEdge]; //embedding
+TH1D* hTpcKMinus[nmultEdge]; //embedding
 
 string outFileName = "D0.toyMc";
 std::pair<int, int> const decayChannels(747, 807);
@@ -177,10 +180,10 @@ void toyMcEffZeroDecayLength(int npart = 1e8, int jobId=0)
 
       getKinematics(*b_d, M_D_0); //random pt, y, phi, return b vector with correct prop.
 
-      //decayAndFill(421, b_d, fWeightFunction->Eval(b_d->Perp()), ptl);
-      //decayAndFill(-421, b_d, fWeightFunction->Eval(b_d->Perp()), ptl);
-      decayAndFill(421, b_d, fWeightFunctionAuAu->Eval(b_d->Perp()), ptl);  //421 = D0, ptl = daughters array
-      decayAndFill(-421, b_d, fWeightFunctionAuAu->Eval(b_d->Perp()), ptl);
+      decayAndFill(421, b_d, fWeightFunction->Eval(b_d->Perp()), ptl);
+      decayAndFill(-421, b_d, fWeightFunction->Eval(b_d->Perp()), ptl);
+//      decayAndFill(421, b_d, fWeightFunctionAuAu->Eval(b_d->Perp()), ptl);  //421 = D0, ptl = daughters array
+//      decayAndFill(-421, b_d, fWeightFunctionAuAu->Eval(b_d->Perp()), ptl);
       if (ipart % 1000 == 1) nt->AutoSave("SaveSelf");
    }
 
@@ -231,7 +234,7 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
 
 void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& kMom, TLorentzVector const& pMom, TVector3 v00)
 {
-   int const centrality = floor(nCentHftRatio * gRandom->Rndm());
+   int const centrality = floor(nmultEdge * gRandom->Rndm());
 
    TVector3 const vertex = getVertex(centrality); //from hVz
    int zdcb = getZdcBin(centrality); //from data
@@ -628,10 +631,12 @@ bool matchHft(int const iParticleIndex, double const vz, int const zdcb, TLorent
 void bookObjects()
 {
    cout << "Loading input momentum resolution ..." << endl;
-   TFile f("Momentum_resolution_SL16d.root");
-   fPionMomResolution = (TF1*)f.Get("fPion")->Clone("fPion");
-   fKaonMomResolution = (TF1*)f.Get("fKaon")->Clone("fKaon");
-   f.Close();
+   TFile fPionMom("pion_momentum_resolution.root");
+   TFile fKaonMom("kaon_momentum_resolution.root");
+   fPionMomResolution = (TF1*)fPionMom.Get("pion_MomResFit")->Clone("pion_MomResFit");
+   fKaonMomResolution = (TF1*)fKaonMom.Get("kaon_MomResFit")->Clone("kaon_MomResFit");
+   fPionMom.Close();
+   fKaonMom.Close();
 
    cout << "Loading input spectra ..." << endl;
    TFile fPP("pp200_spectra.root");
@@ -645,16 +650,22 @@ void bookObjects()
    TFile fHftRatio1("HftRatio_AuAu2016_lumiprod.root");
    TFile fDca1("Dca2D_AuAu2016_lumiprod.root");
 
+   TFile fEvent("inputs.hists.root");
+
+   TH3F* mh3VzZdcMult = (TH3F*)fDca1.Get("mh3VzZdcMult");
    char name[500];
-   for (int ii = 0; ii < nCentHftRatio; ++ii)
-   {
-      TH2F* hVzTemp = (TH2F*)fDca1.Get("hvz_zdcx"); sprintf(name,"hvz_zdcx_c%d",ii);
-      h1Vz[ii]      = hVzTemp->ProjectionX(name);
-      h1Vz[ii]->SetDirectory(0);
-   }
-   for (int ii = 0; ii < nCentHftRatio; ++ii)
-   {
-      sprintf(name,"hnev_zdcx_c%d",ii); h1ZdcX[ii] = (TH1F*)fDca1.Get(name); h1ZdcX[ii]->SetDirectory(0);
+   //getting VZ histogram for each multiplicity
+   for (int ii = 0; ii < nmultEdge; ++ii)   {
+       int binVzmin = 0;
+       int binVzup = mh3VzZdcMult->GetXaxis()->GetNbins();
+       int binZDCmin = 0;
+       int binZDCmax = mh3VzZdcMult->GetYaxis()->GetNbins();
+       int binMultmin = mh3VzZdcMult->GetZaxis()->FindBin(multEdge[ii]);
+       int binMultmax = mh3VzZdcMult->GetZaxis()->FindBin(multEdge[ii+1]);
+       h1Vz[ii] = mh3VzZdcMult -> ProjectionX("_px",binZDCmin, binZDCup, binMultmin, binMultmax, ""); //vz zdc
+       h1Vz[ii]->SetDirectory(0);
+       h1ZdcX[ii] = mh3VzZdcMult -> ProjectionY("_py",binVzmin, binVzup, binMultmin, binMultmax, ""); //vz zdc
+       h1ZdcX[ii]->SetDirectory(0);
    }
 
    cout << "Loading input HFT ratios and DCA ..." << endl;
@@ -708,7 +719,7 @@ void bookObjects()
    TFile fTpcKPlus("Eff_KaonPlus_embedding.root");
    TFile fTpcKMinus("Eff_KaonMinus_embedding.root");
 
-   for (int iCent = 0; iCent < nCentHftRatio; ++iCent)
+   for (int iCent = 0; iCent < nmultEdge; ++iCent)
    {
       hTpcPiPlus[iCent] = (TH1D*)fTpcPiPlus.Get(Form("h1Ratiocent_%i", iCent));
       hTpcPiPlus[iCent]->SetDirectory(0);
