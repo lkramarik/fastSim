@@ -650,9 +650,9 @@ void bookObjects()
    TFile fHftRatio1("HftRatio_AuAu2016_lumiprod.root");
    TFile fDca1("Dca2D_AuAu2016_lumiprod.root");
 
-   TFile fEvent("inputs.hists.root");
+   TFile fEvent("inputs.event.root");
 
-   TH3F* mh3VzZdcMult = (TH3F*)fDca1.Get("mh3VzZdcMult");
+   TH3F* mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
    char name[500];
    //getting VZ histogram for each multiplicity
    for (int ii = 0; ii < nmultEdge; ++ii)   {
