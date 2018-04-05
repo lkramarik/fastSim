@@ -242,6 +242,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    int const centrality = floor(nmultEdge * gRandom->Rndm());
     cout<<centrality<<endl;
    TVector3 const vertex = getVertex(centrality); //from hVz
+    cout<<"after get vertex"<<endl;
    int zdcb = getZdcBin(centrality); //from data
     cout<<"vz and zdc taken"<<endl;
    // smear primary vertex
@@ -576,7 +577,10 @@ TVector3 getVertex(int const centrality)
    if (h1Vz[centrality]->GetEntries() == 0) rdmVz = 0.;
    else
    {
-      do rdmVz = h1Vz[centrality]->GetRandom() * 1e4;
+      do {
+          rdmVz = h1Vz[centrality]->GetRandom() * 1e4;
+          cout<<rdmVz<<endl;
+      }
       while (fabs(rdmVz) > gVzCut);
    }
 
