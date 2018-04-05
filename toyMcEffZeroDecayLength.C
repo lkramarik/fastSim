@@ -243,6 +243,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 
    TVector3 const vertex = getVertex(centrality); //from hVz
    int zdcb = getZdcBin(centrality); //from data
+    cout<<"vz and zdc taken"<<endl;
    // smear primary vertex
    // float const sigmaVertex = sigmaVertexCent[cent];
    // TVector3 const vertex(gRandom->Gaus(0, sigmaVertex), gRandom->Gaus(0, sigmaVertex), gRandom->Gaus(0, sigmaVertex));
