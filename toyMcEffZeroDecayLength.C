@@ -662,7 +662,7 @@ void bookObjects()
        int binZDCmax = mh3VzZdcMult->GetYaxis()->GetNbins();
        int binMultmin = mh3VzZdcMult->GetZaxis()->FindBin(multEdge[ii]);
        int binMultmax = mh3VzZdcMult->GetZaxis()->FindBin(multEdge[ii+1]);
-       h1Vz[ii] = mh3VzZdcMult -> ProjectionX("_px",binZDCmin, binZDCup, binMultmin, binMultmax, ""); //vz zdc
+       h1Vz[ii] = mh3VzZdcMult -> ProjectionX("_px",binZDCmin, binZDCmax, binMultmin, binMultmax, ""); //vz zdc
        h1Vz[ii]->SetDirectory(0);
        h1ZdcX[ii] = mh3VzZdcMult -> ProjectionY("_py",binVzmin, binVzup, binMultmin, binMultmax, ""); //vz zdc
        h1ZdcX[ii]->SetDirectory(0);
