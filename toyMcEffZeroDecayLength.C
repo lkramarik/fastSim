@@ -589,10 +589,12 @@ TVector3 getVertex(int const centrality)
 
 int getZdcBin(int const centrality) 
 {
+    float zdc;
    int zdcbin=-1;
    while (zdcbin<0 || zdcbin>=nZdcX) {
        cout<<zdcbin<<endl;
-      zdcbin =  h1ZdcX[centrality]->GetRandom()-1;
+      zdc = h1ZdcX[centrality]->GetRandom();
+      zdcbin = h1ZdcX[centrality]->FindBin(zdc)-1;
    }
    return zdcbin;
 }
