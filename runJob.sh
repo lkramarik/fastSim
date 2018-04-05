@@ -17,6 +17,11 @@ cp ../../Eff_PionPlus_embedding.root ./
 cp ../../Eff_PionMinus_embedding.root ./
 cp ../../Eff_KaonPlus_embedding.root ./
 cp ../../Eff_KaonMinus_embedding.root ./
+
+cp ../../kaon_momentum_resolution.root ./
+cp ../../pion_momentum_resolution.root ./
+cp ../../inputs.event.root ./
+
 echo "Copying done."
 
 rm -r LocalLibraries.package
