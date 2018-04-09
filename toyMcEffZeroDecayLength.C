@@ -60,6 +60,7 @@ int getZdcBin(int const centrality);
 bool matchHft(int iParticleIndex, double vz, int zdcb, TLorentzVector const& mom);
 bool tpcReconstructed(int iParticleIndex, float charge, int cent, TLorentzVector const& mom);
 bool reconstructD0(int const centrality, TLorentzVector const& mom);
+bool matchTOF(int const iParticleIndex, TLorentzVector const& mom);
 void bookObjects();
 void write();
 int getPtIndexDca(double);
@@ -301,7 +302,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    pRDca /= 1e4;
    kRDca /= 1e4;
 
-   float arr[110];
+   float arr[112];
    int iArr = 0;
    arr[iArr++] = centrality;
    arr[iArr++] = zdcb;
@@ -378,7 +379,8 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    arr[iArr++] = pRDcaXY;
    arr[iArr++] = pRDcaZ;
    arr[iArr++] = tpcReconstructed(0, charge, centrality, pRMom);
-
+   arr[iArr++] = matchTOF(1, kRMom);
+   arr[iArr++] = matchTOF(0, pRMom);
    arr[iArr++] = matchHft(1, vertex.z(), zdcb,  kRMom); //kaon = 1, pion = 0
    arr[iArr++] = matchHft(0, vertex.z(), zdcb, pRMom);
 
@@ -644,6 +646,19 @@ bool matchHft(int const iParticleIndex, double const vz, int const zdcb, TLorent
    int const bin = hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->FindBin(mom.Perp());
    return gRandom->Rndm() < hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->GetBinContent(bin);
 }
+
+bool matchTOF(int const iParticleIndex, TLorentzVector const& mom)
+{
+   if (iParticleIndex == 0) { // pion
+      return gRandom->Rndm() < h_pi_tof_eff->GetBinContent(h_pi_tof_eff->FindBin(mom.Perp())); //from histogram
+   }
+   else if (iParticleIndex == 1) { // kaon
+      return gRandom->Rndm() < h_k_tof_eff->GetBinContent(h_k_tof_eff->FindBin(mom.Perp())); //from histogram
+   } else {
+      return false;
+   }
+}
+
 //___________
 void bookObjects()
 {
@@ -671,6 +686,14 @@ void bookObjects()
    TFile fEvent("inputs.event.root");
 
    TH3F* mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
+
+   TFile f_tof("eff_tof.root");
+   h_pi_tof_eff = (TH1D*)f_tof.Get("eff_TOF_p0_nsigma1");
+   h_pi_tof_eff->SetDirectory(0);
+   h_k_tof_eff = (TH1D*)f_tof.Get("eff_TOF_p1_nsigma1");
+   h_k_tof_eff->SetDirectory(0);
+   f_tof.Close();
+
    char name[500];
    //getting VZ histogram for each multiplicity
    for (int ii = 0; ii < nmultEdge; ++ii)   {
