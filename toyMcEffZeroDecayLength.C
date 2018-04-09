@@ -699,8 +699,8 @@ void bookObjects()
             {
                for (int iPhi = 0; iPhi < nPhisHftRatio; ++iPhi)
                {
-                  if (iParticle==0)  hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc] = (TH1D*)(fHftRatio1Pion.Get(Form("h_hftratio_p%d_eta%d_vz%d_phi%d_z%d", iParticle, iEta, iVz, iPhi, iZDC)));
-                  if (iParticle==1)  hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc] = (TH1D*)(fHftRatio1Kaon.Get(Form("h_hftratio_p%d_eta%d_vz%d_phi%d_z%d", iParticle, iEta, iVz, iPhi, iZDC)));
+                  if (iParticle==0)  hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc] = (TH1D*)(fHftRatio1Pion.Get(Form("h_hftratio_p%d_eta%d_vz%d_phi%d_z%d", iParticle, iEta, iVz, iPhi, iZdc)));
+                  if (iParticle==1)  hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc] = (TH1D*)(fHftRatio1Kaon.Get(Form("h_hftratio_p%d_eta%d_vz%d_phi%d_z%d", iParticle, iEta, iVz, iPhi, iZdc)));
 
                   hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc]->SetDirectory(0);
                }
