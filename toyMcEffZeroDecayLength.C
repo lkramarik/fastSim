@@ -684,7 +684,6 @@ void bookObjects()
    TFile fHftRatio1Pion("hftratio_vs_pt_dAu_pion.root");
    TFile fHftRatio1Kaon("hftratio_vs_pt_dAu_kaon.root");
    TFile fDca1("Dca2D_AuAu2016_lumiprod.root");
-
    TFile fEvent("inputs.event.root");
 
    TH3F* mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
@@ -698,6 +697,7 @@ void bookObjects()
 
    char name[500];
    //getting VZ histogram for each multiplicity
+   cout<<"Loading Vz and ZDCs..."<<endl;
    for (int ii = 0; ii < nmultEdge; ++ii)   {
        int binVzmin = 0;
        int binVzup = mh3VzZdcMult->GetXaxis()->GetNbins();
@@ -760,20 +760,20 @@ void bookObjects()
 
    cout << " Loading TPC tracking efficiencies " << endl;
 
-   TFile fTpcPiPlus("Eff_PionPlus_embedding.root");
-   TFile fTpcPiMinus("Eff_PionMinus_embedding.root");
-   TFile fTpcKPlus("Eff_KaonPlus_embedding.root");
-   TFile fTpcKMinus("Eff_KaonMinus_embedding.root");
+   TFile fTpcPiPlus("piplus_tpc_eff_embedding.root");
+   TFile fTpcPiMinus("piminus_tpc_eff_embedding.root");
+   TFile fTpcKPlus("kplus_tpc_eff_embedding.root");
+   TFile fTpcKMinus("kminus_tpc_eff_embedding.root");
 
    for (int iCent = 0; iCent < nmultEdge; ++iCent)
    {
-      hTpcPiPlus[iCent] = (TH1D*)fTpcPiPlus.Get(Form("h1Ratiocent_%i", iCent));
+      hTpcPiPlus[iCent] = (TH1D*)fTpcPiPlus.Get(Form("TrackEffMult%i", iCent));
       hTpcPiPlus[iCent]->SetDirectory(0);
-      hTpcPiMinus[iCent] = (TH1D*)fTpcPiMinus.Get(Form("h1Ratiocent_%i", iCent));
+      hTpcPiMinus[iCent] = (TH1D*)fTpcPiMinus.Get(Form("TrackEffMult%i", iCent));
       hTpcPiMinus[iCent] ->SetDirectory(0);
-      hTpcKPlus[iCent] = (TH1D*)fTpcKPlus.Get(Form("h1Ratiocent_%i", iCent));
+      hTpcKPlus[iCent] = (TH1D*)fTpcKPlus.Get(Form("TrackEffMult%i", iCent));
       hTpcKPlus[iCent]->SetDirectory(0);
-      hTpcKMinus[iCent] = (TH1D*)fTpcKMinus.Get(Form("h1Ratiocent_%i", iCent));
+      hTpcKMinus[iCent] = (TH1D*)fTpcKMinus.Get(Form("TrackEffMult%i", iCent));
       hTpcKMinus[iCent]->SetDirectory(0);
    }
 

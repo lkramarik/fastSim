@@ -47,6 +47,9 @@
       <File>file:&codePath;/Eff_KaonMinus_embedding.root</File>
       <File>file:&codePath;/pion_momentum_resolution.root</File>
       <File>file:&codePath;/kaon_momentum_resolution.root</File>
+      <File>file:&codePath;/eff_tof.root</File>
+      <File>file:&codePath;/hftratio_vs_pt_dAu_pion.root</File>
+      <File>file:&codePath;/hftratio_vs_pt_dAu_kaon.root</File>
       <File>file:&codePath;/inputs.event.root</File>
 	</Package>
 </SandBox>

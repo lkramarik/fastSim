@@ -21,6 +21,9 @@ cp ../../Eff_KaonMinus_embedding.root ./
 cp ../../kaon_momentum_resolution.root ./
 cp ../../pion_momentum_resolution.root ./
 cp ../../inputs.event.root ./
+cp ../../eff_tof.root ./
+cp ../../hftratio_vs_pt_dAu_kaon.root ./
+cp ../../hftratio_vs_pt_dAu_pion.root ./
 
 echo "Copying done."
 
