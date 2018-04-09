@@ -145,6 +145,8 @@ TH1D* hTpcPiPlus[nmultEdge]; //embedding
 TH1D* hTpcPiMinus[nmultEdge]; //embedding
 TH1D* hTpcKPlus[nmultEdge]; //embedding
 TH1D* hTpcKMinus[nmultEdge]; //embedding
+TH1D* h_pi_tof_eff;//embedding
+TH1D* h_k_tof_eff;//embedding
 
 string outFileName = "D0.toyMc";
 std::pair<int, int> const decayChannels(747, 807);
