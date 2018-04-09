@@ -91,6 +91,10 @@ float const multEdge[nmultEdge+1] = {0, 4, 8, 12, 16, 20, 24, 200};
 const Int_t nZdcX = 5;
 const Double_t zdcxBins[] = {0,40,50,60,70,200};
 
+
+const int m_nZdc = 10;
+float const m_zdcEdge[m_nZdc+1] = {0,50,70,90,110,130,150,170,190,210,250};
+
 // HFT ratio binning
 const Int_t nEtasHftRatio = 10;
 const Int_t nVzsHftRatio = 6;
@@ -132,7 +136,7 @@ int centralitySelect=0;
 TH1D* h1Vz[nmultEdge+1];
 TH1D* h1ZdcX[nmultEdge+1];
 
-TH1D* hHftRatio1[nParticles][nEtasHftRatio][nVzsHftRatio][nPhisHftRatio][nZdcX];
+TH1D* hHftRatio1[nParticles][nEtasHftRatio][nVzsHftRatio][nPhisHftRatio][m_nZdc];
 int const nCentDca = 9;
 TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nZdcX][nPtBinsDca];
 
@@ -660,7 +664,8 @@ void bookObjects()
    fWeightFunctionAuAu = (TF1*)fAuAu.Get("myLevyFcn_9")->Clone("f1LevyAuAu");
    fAuAu.Close();
 
-   TFile fHftRatio1("HftRatio_AuAu2016_lumiprod.root");
+   TFile fHftRatio1Pion("hftratio_vs_pt_dAu_pion.root");
+   TFile fHftRatio1Kaon("hftratio_vs_pt_dAu_kaon.root");
    TFile fDca1("Dca2D_AuAu2016_lumiprod.root");
 
    TFile fEvent("inputs.event.root");
@@ -686,16 +691,17 @@ void bookObjects()
 
    for (int iParticle = 0; iParticle < nParticles; ++iParticle)
    {
-      for (int iZdc = 0; iZdc < nZdcX; ++iZdc)
+      for (int iZdc = 0; iZdc < m_nZdc; ++iZdc)
       {
-         // HFT ratio
          for (int iEta = 0; iEta < nEtasHftRatio; ++iEta)
          {
             for (int iVz = 0; iVz < nVzsHftRatio; ++iVz)
             {
                for (int iPhi = 0; iPhi < nPhisHftRatio; ++iPhi)
                {
-                  hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc] = (TH1D*)(fHftRatio1.Get(Form("hTrkRat_c%i_p%i_z%i_vz%i_eta%i_phi%i", centralitySelect, iParticle, iZdc, iVz, iEta, iPhi)));
+                  if (iParticle==0)  hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc] = (TH1D*)(fHftRatio1Pion.Get(Form("h_hftratio_p%d_eta%d_vz%d_phi%d_z%d", iParticle, iEta, iVz, iPhi, iZDC)));
+                  if (iParticle==1)  hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc] = (TH1D*)(fHftRatio1Kaon.Get(Form("h_hftratio_p%d_eta%d_vz%d_phi%d_z%d", iParticle, iEta, iVz, iPhi, iZDC)));
+
                   hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc]->SetDirectory(0);
                }
             }
@@ -723,7 +729,8 @@ void bookObjects()
       }
       cout << "Finished loading Dca: " <<  endl;
 
-   fHftRatio1.Close();
+   fHftRatio1Pion.Close();
+   fHftRatio1Kaon.Close();
    fDca1.Close();
 
    cout << " Loading TPC tracking efficiencies " << endl;
