@@ -178,23 +178,19 @@ void toyMcEffZeroDecayLength(int npart = 1e8, int jobId=0)
 
    pydecay = TPythia6Decayer::Instance();
    pydecay->Init();
-    cout<<"let decay"<<endl;
    setDecayChannels(763); // D0 --> Kpi
    TLorentzVector* b_d = new TLorentzVector;
    TClonesArray ptl("TParticle", 10);
-   cout<<"going to the for cycle of desiref npart"<<endl;
    for (int ipart = 0; ipart < npart; ipart++)
    {
       if (!(ipart % 1000))
          cout << "____________ ipart = " << ipart / static_cast<float>(npart) << " ________________" << endl;
 
       getKinematics(*b_d, M_D_0); //random pt, y, phi, return b vector with correct prop.
-    cout<<"decay and fill"<<endl;
 //      decayAndFill(421, b_d, fWeightFunction->Eval(b_d->Perp()), ptl);
 //      decayAndFill(-421, b_d, fWeightFunction->Eval(b_d->Perp()), ptl);
       decayAndFill(421, b_d, fWeightFunctionAuAu->Eval(b_d->Perp()), ptl);  //421 = D0, ptl = daughters array
       decayAndFill(-421, b_d, fWeightFunctionAuAu->Eval(b_d->Perp()), ptl);
-      cout<<"autosave"<<endl;
        if (ipart % 1000 == 1) nt->AutoSave("SaveSelf");
    }
 
@@ -220,7 +216,6 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
    TVector3 v00;
 
    int nTrk = daughters.GetEntriesFast();
-   cout<<"going into daughters"<<endl;
    for (int iTrk = 0; iTrk < nTrk; ++iTrk)
    {
       TParticle* ptl0 = (TParticle*)daughters.At(iTrk);
@@ -240,18 +235,14 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
       }
    }
    daughters.Clear();
-    cout<<"going to fill"<<endl;
    fill(kf, b, weight, kMom, pMom, v00);
 }
 
 void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& kMom, TLorentzVector const& pMom, TVector3 v00)
 {
    int const centrality = floor(nmultEdge * gRandom->Rndm());
-    cout<<centrality<<endl;
    TVector3 const vertex = getVertex(centrality); //from hVz
-    cout<<"after get vertex"<<endl;
    int zdcb = getZdcBin(centrality); //from data
-    cout<<"vz and zdc taken"<<endl;
    // smear primary vertex
    // float const sigmaVertex = sigmaVertexCent[cent];
    // TVector3 const vertex(gRandom->Gaus(0, sigmaVertex), gRandom->Gaus(0, sigmaVertex), gRandom->Gaus(0, sigmaVertex));
@@ -587,7 +578,6 @@ TVector3 getVertex(int const centrality)
    {
       do {
           rdmVz = h1Vz[centrality]->GetRandom() * 1e4;
-          cout<<rdmVz<<endl;
       }
       while (fabs(rdmVz) > gVzCut);
    }
@@ -600,7 +590,6 @@ int getZdcBin(int const centrality)
     float zdc;
    int zdcbin=-1;
    while (zdcbin<0 || zdcbin>=nZdcX) {
-       cout<<zdcbin<<endl;
       zdc = h1ZdcX[centrality]->GetRandom();
       zdcbin = h1ZdcX[centrality]->FindBin(zdc)-1;
    }
