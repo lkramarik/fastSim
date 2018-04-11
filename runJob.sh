@@ -13,10 +13,11 @@ cp ../../Run14_D0_MyRaa_pT1.0.root ./
 cp ../../HftRatio_AuAu2016_lumiprod.root ./
 cp ../../Dca2D_AuAu2016_lumiprod.root ./
 cp ../../Vz_Cent.root ./
-cp ../../Eff_PionPlus_embedding.root ./
-cp ../../Eff_PionMinus_embedding.root ./
-cp ../../Eff_KaonPlus_embedding.root ./
-cp ../../Eff_KaonMinus_embedding.root ./
+
+cp ../../kplus_tpc_eff_embedding.root ./
+cp ../../kminus_tpc_eff_embedding.root  ./
+cp ../../piminus_tpc_eff_embedding.root ./
+cp ../../piplus_tpc_eff_embedding.root ./
 
 cp ../../kaon_momentum_resolution.root ./
 cp ../../pion_momentum_resolution.root ./
@@ -44,3 +45,6 @@ mkdir ./jobs/csh
 echo "Directories created. Let's submit some jobs..."
 
 star-submit-template -template submitToyMcZeroVtx.xml -entities productionId=${productionId},codePath=$codePath
+
+
+

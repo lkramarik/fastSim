@@ -41,10 +41,10 @@
       <File>file:&codePath;/HftRatio_AuAu2016_lumiprod.root</File>
       <File>file:&codePath;/Dca2D_AuAu2016_lumiprod.root</File>
       <File>file:&codePath;/Vz_Cent.root</File>
-      <File>file:&codePath;/Eff_PionPlus_embedding.root</File>
-      <File>file:&codePath;/Eff_PionMinus_embedding.root</File>
-      <File>file:&codePath;/Eff_KaonPlus_embedding.root</File>
-      <File>file:&codePath;/Eff_KaonMinus_embedding.root</File>
+      <File>file:&codePath;/piplus_tpc_eff_embedding.root</File>
+      <File>file:&codePath;/piminus_tpc_eff_embedding.root</File>
+      <File>file:&codePath;/kplus_tpc_eff_embedding.root</File>
+      <File>file:&codePath;/kminus_tpc_eff_embedding.root</File>
       <File>file:&codePath;/pion_momentum_resolution.root</File>
       <File>file:&codePath;/kaon_momentum_resolution.root</File>
       <File>file:&codePath;/eff_tof.root</File>
@@ -55,3 +55,6 @@
 </SandBox>
 
 </job>
+
+
+

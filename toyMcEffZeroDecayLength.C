@@ -803,7 +803,7 @@ void bookObjects()
                     "kRM:kRPt:kREta:kRY:kRPhi:kRVx:kRVy:kRVz:kRDca:kRSDca:kRDcaXY:kRDcaZ:kTpc:" // Rc Kaon
                     "pM:pPt:pEta:pY:pPhi:pDca:" // MC Pion1
                     "pRM:pRPt:pREta:pRY:pRPhi:pRVx:pRVy:pRVz:pRDca:pRSDca:pRDcaXY:pRDcaZ:pTpc:" // Rc Pion1
-                    "kHft:pHft", BufSize);
+                    "kTOF:pTOF:kHft:pHft", BufSize);
    // nt->SetAutoSave(-500000); // autosave every 1 Mbytes
 }
 //___________
