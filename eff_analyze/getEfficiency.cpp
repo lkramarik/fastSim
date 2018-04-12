@@ -22,7 +22,8 @@ using namespace std;
 using namespace TMath;
 
 void getEfficiency() {
-    TString input = "D0.toyMc_c3_job0.root";
+//    TString input = "D0.toyMc_c3_job0.root";
+    TString input = "D0.toyMc.root";
 
     Float_t eff[10], bincenter[10];
 
@@ -58,8 +59,9 @@ void makeEff(TString input, float ptmin, float ptmax, float decayL, float dcaDau
     TString cosCut = Form("cosTheta>%f", cos);
     TString kdcaCut = Form("kRDca>%f",kdca);
     TString pidcaCut = Form("pRDca>%f", pidca);
-    TString TOFmatching = "kHft>0 && pHft>0";
-    TString setCuts = ptCut+" && "+preCut+" && "+decayLCut+" && "+dcaDaughtersCut+" && "+dcaD0Cut+" && "+cosCut+" && "+kdcaCut+" && "+pidcaCut+" && "+TOFmatching;
+    TString HFTmatching = "kHft>0 && pHft>0 && pTpc>0 && kTpc>0";
+    TString TOFmatching = "kTOF>0 && pTOF>0";
+    TString setCuts = ptCut+" && "+preCut+" && "+decayLCut+" && "+dcaDaughtersCut+" && "+dcaD0Cut+" && "+cosCut+" && "+kdcaCut+" && "+pidcaCut+" && "+TOFmatching+" && "+HFTmatching;
     cout<<"Cuts same as in data are:"<<endl;
     cout<<setCuts<<endl;
 

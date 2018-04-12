@@ -72,6 +72,9 @@ int getPtIndexHftRatio(double);
 int getEtaIndexHftRatio(double);
 int getVzIndexHftRatio(double);
 int getPhiIndexHftRatio(double);
+int getZdcBinDca(float);
+
+int zdcbinDCA;
 
 TPythia6Decayer* pydecay;
 TNtuple* nt;
@@ -89,9 +92,11 @@ const int nmultEdge = 7;
 float const multEdge[nmultEdge+1] = {0, 4, 8, 12, 16, 20, 24, 200};
 
 
-const Int_t nZdcX = 5;
-const Double_t zdcxBins[] = {0,40,50,60,70,200};
+//const Int_t nZdcX = 5;
+//const Double_t zdcxBins[] = {0,40,50,60,70,200};
 
+const int nZdcDCA = 5;
+float const zdcxBinsDCA[nZdcDCA+1] = {0,50,90,130,170,210};
 
 const int m_nZdc = 10;
 float const m_zdcEdge[m_nZdc+1] = {0,50,70,90,110,130,150,170,190,210,250};
@@ -139,7 +144,7 @@ TH1D* h1ZdcX[nmultEdge+1];
 
 TH1D* hHftRatio1[nParticles][nEtasHftRatio][nVzsHftRatio][nPhisHftRatio][m_nZdc];
 int const nCentDca = 9;
-TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nZdcX][nPtBinsDca];
+TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nZdcDCA][nPtBinsDca];
 
 TH1D* hTpcPiPlus[nmultEdge]; //embedding
 TH1D* hTpcPiMinus[nmultEdge]; //embedding
@@ -557,7 +562,7 @@ TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLore
    double sigmaPosZ = 0;
    double sigmaPosXY = 0;
 
-   h2Dca[iParticleIndex][iEtaIndex][iVzIndex][zdcb][iPtIndex]->GetRandom2(sigmaPosXY,sigmaPosZ);
+   h2Dca[iParticleIndex][iEtaIndex][iVzIndex][zdcbinDCA][iPtIndex]->GetRandom2(sigmaPosXY,sigmaPosZ);
    sigmaPosZ *= 1.e4;
    sigmaPosXY *= 1.e4;
 
@@ -589,11 +594,23 @@ int getZdcBin(int const centrality)
 {
     float zdc;
    int zdcbin=-1;
-   while (zdcbin<0 || zdcbin>=nZdcX) {
+//   int zdcbinDCA;
+   while (zdcbin<0 || zdcbin>=m_nZdc) {
       zdc = h1ZdcX[centrality]->GetRandom();
+      zdcbinDCA = getZdcBinDca(zdc);
       zdcbin = h1ZdcX[centrality]->FindBin(zdc)-1;
    }
+   cout<<"ZDC bin ratio: "<<zdcbin<<endl;
+   cout<<"ZDC bin dca: "<<zdcbinDCA<<endl;
    return zdcbin;
+}
+
+int getZdcBinDca(float zdc){
+    for (int i = 0; i < nZdcDCA; i++){
+        if ((zdc >= zdcxBinsDCA[i]) && (zdc < zdcxBinsDCA[i + 1]))
+            return i;
+    }
+    return -1;
 }
 
 bool reconstructD0(int const centrality, TLorentzVector const& mom)
@@ -672,7 +689,8 @@ void bookObjects()
 
    TFile fHftRatio1Pion("hftratio_vs_pt_dAu_pion.root");
    TFile fHftRatio1Kaon("hftratio_vs_pt_dAu_kaon.root");
-   TFile fDca1("Dca2D_AuAu2016_lumiprod.root");
+//   TFile fDca1("Dca2D_AuAu2016_lumiprod.root");
+   TFile fDca1("dcaxy_vs_dcaz.root");
    TFile fEvent("inputs.event.root");
 
    TH3F* mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
@@ -723,9 +741,9 @@ void bookObjects()
       }
       cout << "Finished loading HFT Ratio: " <<  endl;
 
-      for(int iZdc = 0; iZdc < nZdcX; ++iZdc)
+      //DCA
+      for(int iZdc = 0; iZdc < nZdcDCA; ++iZdc)
       {
-      // DCA
       for (int iEta = 0; iEta < nEtasDca; ++iEta)
       {
          for (int iVz = 0; iVz < nVzsDca; ++iVz)
@@ -733,7 +751,7 @@ void bookObjects()
             // for (int iPhi = 0; iPhi < nPhisDca; ++iPhi)
                for (int iPt = 0; iPt < nPtBinsDca; ++iPt)
                {
-                  h2Dca[iParticle][iEta][iVz][iZdc][iPt] = (TH2D*)((fDca1.Get(Form("h_dcaXYvsZ_c%i_p%i_z%i_vz%i_eta%i_pt%i", centralitySelect, iParticle, iZdc, iVz, iEta, iPt))));
+                  h2Dca[iParticle][iEta][iVz][iZdc][iPt] = (TH2D*)((fDca1.Get(Form("mh2DcaPtCentPartEtaVzPhi_p%i_eta%i_vz%i_pt%i_zdc%i", iParticle, iEta, iVz, iPt, iZdc))));
                   h2Dca[iParticle][iEta][iVz][iZdc][iPt]->SetDirectory(0);
                }
             }

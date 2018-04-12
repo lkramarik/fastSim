@@ -39,7 +39,7 @@
       <File>file:&codePath;/pp200_spectra.root</File>
       <File>file:&codePath;/Run14_D0_MyRaa_pT1.0.root</File>
       <File>file:&codePath;/HftRatio_AuAu2016_lumiprod.root</File>
-      <File>file:&codePath;/Dca2D_AuAu2016_lumiprod.root</File>
+      <File>file:&codePath;/dcaxy_vs_dcaz.root</File>
       <File>file:&codePath;/Vz_Cent.root</File>
       <File>file:&codePath;/piplus_tpc_eff_embedding.root</File>
       <File>file:&codePath;/piminus_tpc_eff_embedding.root</File>

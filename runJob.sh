@@ -12,6 +12,9 @@ cp ../../pp200_spectra.root ./
 cp ../../Run14_D0_MyRaa_pT1.0.root ./
 cp ../../HftRatio_AuAu2016_lumiprod.root ./
 cp ../../Dca2D_AuAu2016_lumiprod.root ./
+
+cp ../../dcaxy_vs_dcaz.root ./
+
 cp ../../Vz_Cent.root ./
 
 cp ../../kplus_tpc_eff_embedding.root ./
