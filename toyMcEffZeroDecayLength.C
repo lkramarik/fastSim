@@ -597,9 +597,9 @@ int getZdcBin(int const centrality)
 //   int zdcbinDCA;
    while (zdcbin<0 || zdcbin>=m_nZdc) {
       zdc = h1ZdcX[centrality]->GetRandom();
-      zdcbinDCA = getZdcBinDca(zdc);
       zdcbin = h1ZdcX[centrality]->FindBin(zdc)-1;
    }
+   zdcbinDCA = getZdcBinDca(zdc);
    cout<<"ZDC bin ratio: "<<zdcbin<<endl;
    cout<<"ZDC bin dca: "<<zdcbinDCA<<endl;
    return zdcbin;
