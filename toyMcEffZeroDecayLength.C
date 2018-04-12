@@ -73,6 +73,7 @@ int getEtaIndexHftRatio(double);
 int getVzIndexHftRatio(double);
 int getPhiIndexHftRatio(double);
 int getZdcBinDca(float);
+int getZdcBinRatio(float);
 
 int zdcbinDCA;
 
@@ -595,15 +596,28 @@ int getZdcBin(int const centrality)
     float zdc;
    int zdcbin=-1;
 //   int zdcbinDCA;
-   while (zdcbin<0 || zdcbin>=m_nZdc) {
-      zdc = h1ZdcX[centrality]->GetRandom();
-      zdcbin = h1ZdcX[centrality]->FindBin(zdc)-1;
-   }
-   zdcbinDCA = getZdcBinDca(zdc);
+    zdc = h1ZdcX[centrality]->GetRandom();
+    zdcbinDCA = getZdcBinDca(zdc);
+    zdcbin = getZdcBinRatio(zdc);
+
+//    while (zdcbin<0 || zdcbin>=m_nZdc) {
+//      zdcbin = h1ZdcX[centrality]->FindBin(zdc)-1;
+//   }
+
+   cout<<"zdc "<<zdc<<endl;
    cout<<"ZDC bin ratio: "<<zdcbin<<endl;
    cout<<"ZDC bin dca: "<<zdcbinDCA<<endl;
    return zdcbin;
 }
+
+int getZdcBinRatio(float zdc){
+    for (int i = 0; i < m_nZdc; i++){
+        if ((zdc >= m_zdcEdge[i]) && (zdc < m_zdcEdge[i + 1]))
+            return i;
+    }
+    return -1;
+}
+
 
 int getZdcBinDca(float zdc){
     for (int i = 0; i < nZdcDCA; i++){
