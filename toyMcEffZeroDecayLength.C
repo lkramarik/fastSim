@@ -600,6 +600,7 @@ int getZdcBin(int const centrality)
       zdcbin = h1ZdcX[centrality]->FindBin(zdc)-1;
    }
    zdcbinDCA = getZdcBinDca(zdc);
+   cout<<"zdc "<<zdc<<endl;
    cout<<"ZDC bin ratio: "<<zdcbin<<endl;
    cout<<"ZDC bin dca: "<<zdcbinDCA<<endl;
    return zdcbin;
