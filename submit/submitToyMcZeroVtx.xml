@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<job nProcesses="40" simulateSubmission="false">
+<job nProcesses="80" simulateSubmission="false">
 
         <stdout URL="file:&codePath;/jobs/log/$JOBID.log" />
         <stderr URL="file:&codePath;/jobs/err/$JOBID.err" />
