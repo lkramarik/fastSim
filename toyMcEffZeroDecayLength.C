@@ -604,9 +604,9 @@ int getZdcBin(int const centrality)
 //      zdcbin = h1ZdcX[centrality]->FindBin(zdc)-1;
 //   }
 
-   cout<<"zdc "<<zdc<<endl;
-   cout<<"ZDC bin ratio: "<<zdcbin<<endl;
-   cout<<"ZDC bin dca: "<<zdcbinDCA<<endl;
+//   cout<<"zdc "<<zdc<<endl;
+//   cout<<"ZDC bin ratio: "<<zdcbin<<endl;
+//   cout<<"ZDC bin dca: "<<zdcbinDCA<<endl;
    return zdcbin;
 }
 
@@ -684,7 +684,7 @@ bool matchTOF(int const iParticleIndex, TLorentzVector const& mom)
 //___________
 void bookObjects()
 {
-   cout << "Loading input momentum resolution ..." << endl;
+//   cout << "Loading input momentum resolution ..." << endl;
    TFile fPionMom("pion_momentum_resolution.root");
    TFile fKaonMom("kaon_momentum_resolution.root");
    fPionMomResolution = (TF1*)fPionMom.Get("pion_MomResFit")->Clone("pion_MomResFit");
@@ -692,7 +692,7 @@ void bookObjects()
    fPionMom.Close();
    fKaonMom.Close();
 
-   cout << "Loading input spectra ..." << endl;
+//   cout << "Loading input spectra ..." << endl;
    TFile fPP("pp200_spectra.root");
    fWeightFunction = (TF1*)fPP.Get("run12/f1Levy")->Clone("f1Levy");
    fPP.Close();
@@ -718,7 +718,7 @@ void bookObjects()
 
    char name[500];
    //getting VZ histogram for each multiplicity
-   cout<<"Loading Vz and ZDCs..."<<endl;
+//   cout<<"Loading Vz and ZDCs..."<<endl;
    for (int ii = 0; ii < nmultEdge; ++ii)   {
        int binVzmin = 0;
        int binVzup = mh3VzZdcMult->GetXaxis()->GetNbins();
@@ -733,7 +733,7 @@ void bookObjects()
    }
    fEvent.Close();
 
-   cout << "Loading input HFT ratios and DCA ..." << endl;
+//   cout << "Loading input HFT ratios and DCA ..." << endl;
 
    for (int iParticle = 0; iParticle < nParticles; ++iParticle)
    {
@@ -753,7 +753,7 @@ void bookObjects()
             }
          }
       }
-      cout << "Finished loading HFT Ratio: " <<  endl;
+//      cout << "Finished loading HFT Ratio: " <<  endl;
 
       //DCA
       for(int iZdc = 0; iZdc < nZdcDCA; ++iZdc)
@@ -773,13 +773,13 @@ void bookObjects()
       }
       // cout << "Finished loading centrality: " << iCent << endl;
       }
-      cout << "Finished loading Dca: " <<  endl;
+//      cout << "Finished loading Dca: " <<  endl;
 
    fHftRatio1Pion.Close();
    fHftRatio1Kaon.Close();
    fDca1.Close();
 
-   cout << " Loading TPC tracking efficiencies " << endl;
+//   cout << " Loading TPC tracking efficiencies " << endl;
 
    TFile fTpcPiPlus("piplus_tpc_eff_embedding.root");
    TFile fTpcPiMinus("piminus_tpc_eff_embedding.root");
@@ -803,7 +803,7 @@ void bookObjects()
    fTpcKPlus.Close();
    fTpcKMinus.Close();
 
-   cout << "Done with loading all files ..." << endl;
+//   cout << "Done with loading all files ..." << endl;
 
    /*grEff[0] = new TGraph("eff_4080.csv", "%lg %lg", ",");
    grEff[1] = new TGraph("eff_1040.csv", "%lg %lg", ",");
