@@ -301,7 +301,8 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    pRDca /= 1e4;
    kRDca /= 1e4;
 
-   float arr[112];
+   const int nNtVars = nt->GetNvar();
+   float arr[nNtVars];
    int iArr = 0;
    arr[iArr++] = centrality;
    arr[iArr++] = zdcb;
@@ -378,9 +379,10 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    arr[iArr++] = pRDcaXY;
    arr[iArr++] = pRDcaZ;
    arr[iArr++] = tpcReconstructed(0, charge, centrality, pRMom);
+
    arr[iArr++] = matchTOF(1, kRMom);
    arr[iArr++] = matchTOF(0, pRMom);
-   arr[iArr++] = matchHft(1, vertex.z(), zdcb,  kRMom); //kaon = 1, pion = 0
+   arr[iArr++] = matchHft(1, vertex.z(), zdcb, kRMom); //kaon = 1, pion = 0
    arr[iArr++] = matchHft(0, vertex.z(), zdcb, pRMom);
 
    nt->Fill(arr);
