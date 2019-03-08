@@ -99,8 +99,11 @@ float const multEdge[nmultEdge+1] = {0, 4, 8, 12, 16, 20, 24, 200};
 const int nZdcDCA = 5;
 float const zdcxBinsDCA[nZdcDCA+1] = {0,50,90,130,170,210};
 
-const int m_nZdc = 10;
-float const m_zdcEdge[m_nZdc+1] = {0,50,70,90,110,130,150,170,190,210,250};
+//const int m_nZdc = 10;
+//float const m_zdcEdge[m_nZdc+1] = {0,50,70,90,110,130,150,170,190,210,250};
+
+const int m_nZdc = 5;
+float const m_zdcEdge[m_nZdc+1] = {0,50,90,130,170,210};
 
 // HFT ratio binning
 const Int_t nEtasHftRatio = 10;
