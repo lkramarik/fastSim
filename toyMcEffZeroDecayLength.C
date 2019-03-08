@@ -172,7 +172,7 @@ float const sigmaVertexCent[nCentHftRatio] = {31., 18.1, 12.8, 9.3, 7.2, 5.9, 5.
 
 //============== main  program ==================
 int jobindx;
-void toyMcEffZeroDecayLength(int npart = 1e8, int jobId=0)
+void toyMcEffZeroDecayLength(int npart = 1e5, int jobId=0)
 //void toyMcEffZeroDecayLength(int npart = 500)
 {
    // TMemStat mem;
@@ -205,7 +205,7 @@ void toyMcEffZeroDecayLength(int npart = 1e8, int jobId=0)
       decayAndFill(-421, b_d, fWeightFunction->Eval(b_d->Perp()), ptl);
        if (ipart % 1000 == 1) nt->AutoSave("SaveSelf");
    }
-
+    cout<<"lets write"<<endl;
    write();
    // mem.Show();
    stopWatch->Stop();
