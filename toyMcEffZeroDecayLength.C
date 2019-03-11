@@ -701,8 +701,10 @@ void bookObjects()
    fKaonMom.Close();
 
 //   cout << "Loading input spectra ..." << endl;
-   TFile fPP("pp200_spectra.root");
-   fWeightFunction = (TF1*)fPP.Get("run12/f1Levy")->Clone("f1Levy");
+//   TFile fPP("pp200_spectra.root");
+//   fWeightFunction = (TF1*)fPP.Get("run12/f1Levy")->Clone("f1Levy");
+   TFile fPP("published_run10_D0_AuAu_data.root");
+   fWeightFunction = (TF1*)fPP.Get("Levy_pp")->Clone("f1Levy");
    fPP.Close();
    
    TFile fAuAu("Run14_D0_MyRaa_pT1.0.root");
