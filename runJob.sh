@@ -28,6 +28,7 @@ cp ../../inputs.event.root ./
 cp ../../eff_tof.root ./
 cp ../../hftratio_vs_pt_dAu_kaon.root ./
 cp ../../hftratio_vs_pt_dAu_pion.root ./
+cp ../../published_run10_D0_AuAu_data.root ./
 
 echo "Copying done."
 
