@@ -292,10 +292,13 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    float const angle12 = kRMom.Vect().Angle(pRMom.Vect());
 
    TLorentzVector kRMomRest = kRMom;
+   TLorentzVector pRMomRest = pRMom;
    TVector3 beta;
    beta.SetMagThetaPhi(rMom.Beta(), rMom.Theta(), rMom.Phi());
    kRMomRest.Boost(-beta);
-   float const cosThetaStar = rMom.Vect().Unit().Dot(kRMomRest.Vect().Unit());
+   pRMomRest.Boost(-beta);
+//   float const cosThetaStar = rMom.Vect().Unit().Dot(kRMomRest.Vect().Unit());
+   float const cosThetaStar = pRMomRest.Vect().Unit().Dot(kRMomRest.Vect().Unit());
 
    int const charge = kf > 0 ? 1 : -1;
    
