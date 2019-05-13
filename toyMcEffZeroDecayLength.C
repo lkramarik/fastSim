@@ -295,22 +295,19 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    TLorentzVector pRMomRest = pRMom;
 
    TLorentzVector rMomToBoost;
+   rMomToBoost.SetPxPyPzE(-rMom.Px(), -rMom.Py(), -rMom.Pz(), rMom.E());
+   TVector3 beta = rMomToBoost.BoostVector(); //not ginivg NaN
 
-   rMomToBoost.SetPxPyPzE(-rMom.Px(), -rMom.Py(), -rMom.Pz(), rMom.E()); //not working
-//   TVector3 beta(rMomToBoost.X()/rMomToBoost.T(), rMomToBoost.Y()/rMomToBoost.T(), rMomToBoost.Z()/rMomToBoost.T()); //this works
+   //   TVector3 beta(rMomToBoost.X()/rMomToBoost.T(), rMomToBoost.Y()/rMomToBoost.T(), rMomToBoost.Z()/rMomToBoost.T()); //this works
 //   TVector3 beta(rMomToBoost.X()/rMomToBoost.T(), rMomToBoost.Y()/rMomToBoost.T(), rMomToBoost.Z()/rMomToBoost.T()); //this works
 //   TVector3 beta(-rMom.X()/rMom.T(), -rMom.Y()/rMom.T(), -rMom.Z()/rMom.T());
 
-   TVector3 beta = rMomToBoost.BoostVector(); //not ginivg NaN
-    //   beta.SetMagThetaPhi(rMom.Beta(), rMom.Theta(), rMom.Phi());
-
    kRMomRest.Boost(beta);
    pRMomRest.Boost(beta);
-// kRMomRest.Boost(-beta.X(), -beta.Y(), -beta.Z());
-//   pRMomRest.Boost(-beta.X(), -beta.Y(), -beta.Z());
-//   pRMomRest.Boost(beta);
-//   float const cosThetaStar = rMom.Vect().Unit().Dot(kRMomRest.Vect().Unit());
-   float cosThetaStar = pRMomRest.Vect().Unit().Dot(kRMomRest.Vect().Unit());
+
+//   if (kRMomRest.Px()!=kRMom.Px()) cout<<"ale no"<<endl;
+
+   float cosThetaStar = rMom.Vect().Unit().Dot(kRMomRest.Vect().Unit());
    if (cosThetaStar!=cosThetaStar) cosThetaStar=-999;
    cout<<cosThetaStar<<endl;
    int const charge = kf > 0 ? 1 : -1;
