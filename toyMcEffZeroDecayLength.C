@@ -293,15 +293,16 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 
    TLorentzVector kRMomRest = kRMom;
    TLorentzVector pRMomRest = pRMom;
+   TLorentzVector rMomToBoost = -rMom;
 
 //   TVector3 const beta(-rMom.Px(), -rMom.Py(), -rMom.Pz());
-   TVector3 beta = rMom.BoostVector();
+   TVector3 beta = rMomToBoost.BoostVector();
 
    //   TVector3 beta;
 //   beta.SetMagThetaPhi(rMom.Beta(), rMom.Theta(), rMom.Phi());
 
-   kRMomRest.Boost(-beta);
-   pRMomRest.Boost(-beta);
+   kRMomRest.Boost(beta);
+   pRMomRest.Boost(beta);
 //   float const cosThetaStar = rMom.Vect().Unit().Dot(kRMomRest.Vect().Unit());
    float cosThetaStar = pRMomRest.Vect().Unit().Dot(kRMomRest.Vect().Unit());
    if (cosThetaStar!=cosThetaStar) cosThetaStar=-999;
