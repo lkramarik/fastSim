@@ -294,9 +294,12 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    TLorentzVector kRMomRest = kRMom;
    TLorentzVector pRMomRest = pRMom;
 
-   TLorentzVector rMomToBoost = -rMom;
+//   TLorentzVector rMomToBoost = -rMom;
+
+   TVector3 rMomToBoost(-rMom.Px(), -rMom.Py(), -rMom.Pz());
 //   rMomToBoost.SetPxPyPzE(-rMom.Px(), -rMom.Py(), -rMom.Pz(), rMom.E()); //not working
    TVector3 beta(rMomToBoost.X()/rMomToBoost.T(), rMomToBoost.Y()/rMomToBoost.T(), rMomToBoost.Z()/rMomToBoost.T()); //this works
+//   TVector3 beta(rMomToBoost.X()/rMomToBoost.T(), rMomToBoost.Y()/rMomToBoost.T(), rMomToBoost.Z()/rMomToBoost.T()); //this works
 //   TVector3 beta(-rMom.X()/rMom.T(), -rMom.Y()/rMom.T(), -rMom.Z()/rMom.T());
 
 //   TVector3 beta = rMomToBoost.BoostVector(); //not ginivg NaN
