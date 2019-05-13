@@ -300,8 +300,8 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    //   TVector3 beta;
 //   beta.SetMagThetaPhi(rMom.Beta(), rMom.Theta(), rMom.Phi());
 
-   kRMomRest.Boost(beta);
-   pRMomRest.Boost(beta);
+   kRMomRest.Boost(-beta);
+   pRMomRest.Boost(-beta);
 //   float const cosThetaStar = rMom.Vect().Unit().Dot(kRMomRest.Vect().Unit());
    float cosThetaStar = pRMomRest.Vect().Unit().Dot(kRMomRest.Vect().Unit());
    if (cosThetaStar!=cosThetaStar) cosThetaStar=-999;
@@ -372,7 +372,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    arr[iArr++] = kRDcaXY;
    arr[iArr++] = kRDcaZ;
    arr[iArr++] = tpcReconstructed(1, -1 * charge, centrality, kRMom);
-
+   cout<<"tpc reco"<<endl;
    arr[iArr++] = pMom.M();
    arr[iArr++] = pMom.Perp();
    arr[iArr++] = pMom.PseudoRapidity();
@@ -393,12 +393,12 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    arr[iArr++] = pRDcaXY;
    arr[iArr++] = pRDcaZ;
    arr[iArr++] = tpcReconstructed(0, charge, centrality, pRMom);
-
+   cout<<"tpc reco 1"<<endl;
    arr[iArr++] = matchTOF(1, kRMom);
    arr[iArr++] = matchTOF(0, pRMom);
    arr[iArr++] = matchHft(1, vertex.z(), zdcb, kRMom); //kaon = 1, pion = 0
    arr[iArr++] = matchHft(0, vertex.z(), zdcb, pRMom);
-
+    cout<<"matching"<<endl;
    nt->Fill(arr);
 }
 
