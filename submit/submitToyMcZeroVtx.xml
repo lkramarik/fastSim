@@ -51,6 +51,7 @@
       <File>file:&codePath;/hftratio_vs_pt_dAu_pion.root</File>
       <File>file:&codePath;/hftratio_vs_pt_dAu_kaon.root</File>
       <File>file:&codePath;/inputs.event.root</File>
+      <File>file:&codePath;/published_run10_D0_AuAu_data.root</File>
 	</Package>
 </SandBox>
 
