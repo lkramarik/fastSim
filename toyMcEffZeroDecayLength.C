@@ -295,7 +295,8 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    TLorentzVector pRMomRest = pRMom;
    TLorentzVector rMomToBoost = rMom;
 
-   TVector3 beta(-rMom.X()/rMom.T(), -rMom.Y()/rMom.T(), -rMom.Z()/rMom.T());
+   TVector3 beta(rMom.X()/rMom.T(), rMom.Y()/rMom.T(), rMom.Z()/rMom.T());
+//   TVector3 beta(-rMom.X()/rMom.T(), -rMom.Y()/rMom.T(), -rMom.Z()/rMom.T());
 
 //   TVector3 beta = rMomToBoost.BoostVector(); //not ginivg NaN
     //   beta.SetMagThetaPhi(rMom.Beta(), rMom.Theta(), rMom.Phi());
