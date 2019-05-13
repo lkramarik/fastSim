@@ -397,6 +397,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    cout<<"tpc reco 1"<<endl;
    arr[iArr++] = matchTOF(1, kRMom);
    arr[iArr++] = matchTOF(0, pRMom);
+   cout<<"TOF"<<endl;
    arr[iArr++] = matchHft(1, vertex.z(), zdcb, kRMom); //kaon = 1, pion = 0
    arr[iArr++] = matchHft(0, vertex.z(), zdcb, pRMom);
     cout<<"matching"<<endl;
