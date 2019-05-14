@@ -308,7 +308,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 //   if (kRMomRest.Px()!=kRMom.Px()) cout<<"ale no"<<endl;
 
 //   float cosThetaStar = rMom.Vect().Unit().Dot(kRMomRest.Vect().Unit());
-   float cosThetaStar = rMom.Vect().Unit().Dot(kRMom.Vect().Unit());
+   float cosThetaStar = rMom.Vect().Unit().Dot(pRMom.Vect().Unit());
    if (cosThetaStar!=cosThetaStar) cosThetaStar=-999;
    cout<<cosThetaStar<<endl;
    int const charge = kf > 0 ? 1 : -1;
