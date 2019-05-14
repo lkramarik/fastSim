@@ -301,7 +301,6 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 
    float cosThetaStar = kRMom.Vect().Unit().Dot(rMom.Vect().Unit());
    if (cosThetaStar!=cosThetaStar) cosThetaStar=-999;
-   cout<<cosThetaStar<<endl;
    int const charge = kf > 0 ? 1 : -1;
    
    // save
@@ -369,7 +368,6 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    arr[iArr++] = kRDcaXY;
    arr[iArr++] = kRDcaZ;
    arr[iArr++] = tpcReconstructed(1, -1 * charge, centrality, kRMom);
-   cout<<"tpc reco"<<endl;
    arr[iArr++] = pMom.M();
    arr[iArr++] = pMom.Perp();
    arr[iArr++] = pMom.PseudoRapidity();
@@ -389,14 +387,12 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    arr[iArr++] = pRSDca;
    arr[iArr++] = pRDcaXY;
    arr[iArr++] = pRDcaZ;
+
    arr[iArr++] = tpcReconstructed(0, charge, centrality, pRMom);
-   cout<<"tpc reco 1"<<endl;
    arr[iArr++] = matchTOF(1, kRMom);
    arr[iArr++] = matchTOF(0, pRMom);
-   cout<<"TOF"<<endl;
    arr[iArr++] = matchHft(1, vertex.z(), zdcb, kRMom); //kaon = 1, pion = 0
    arr[iArr++] = matchHft(0, vertex.z(), zdcb, pRMom);
-    cout<<"matching"<<endl;
    nt->Fill(arr);
 }
 
@@ -848,6 +844,6 @@ void bookObjects()
 void write()
 {
    result->cd();
-   nt->Write();
+   nt->Write(nt->GetName(), TObject::kOverwrite);
    result->Close();
 }
