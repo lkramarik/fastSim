@@ -291,24 +291,15 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    float const cosTheta = (v0 - vertex).Unit().Dot(rMom.Vect().Unit());
    float const angle12 = kRMom.Vect().Angle(pRMom.Vect());
 
-   TLorentzVector kRMomRest = kRMom;
-   TLorentzVector pRMomRest = pRMom;
+//   TLorentzVector kRMomRest = kRMom;
+//   TLorentzVector pRMomRest = pRMom;
+//   TLorentzVector rMomToBoost;
+//   rMomToBoost.SetPxPyPzE(-rMom.Px(), -rMom.Py(), -rMom.Pz(), rMom.E());
+//   TVector3 beta = rMomToBoost.BoostVector(); //not ginivg NaN
+//   kRMomRest.Boost(beta);
+//   pRMomRest.Boost(beta);
 
-   TLorentzVector rMomToBoost;
-   rMomToBoost.SetPxPyPzE(-rMom.Px(), -rMom.Py(), -rMom.Pz(), rMom.E());
-   TVector3 beta = rMomToBoost.BoostVector(); //not ginivg NaN
-
-   //   TVector3 beta(rMomToBoost.X()/rMomToBoost.T(), rMomToBoost.Y()/rMomToBoost.T(), rMomToBoost.Z()/rMomToBoost.T()); //this works
-//   TVector3 beta(rMomToBoost.X()/rMomToBoost.T(), rMomToBoost.Y()/rMomToBoost.T(), rMomToBoost.Z()/rMomToBoost.T()); //this works
-//   TVector3 beta(-rMom.X()/rMom.T(), -rMom.Y()/rMom.T(), -rMom.Z()/rMom.T());
-
-   kRMomRest.Boost(beta);
-   pRMomRest.Boost(beta);
-
-//   if (kRMomRest.Px()!=kRMom.Px()) cout<<"ale no"<<endl;
-
-//   float cosThetaStar = rMom.Vect().Unit().Dot(kRMomRest.Vect().Unit());
-   float cosThetaStar = rMom.Vect().Unit().Dot(pRMom.Vect().Unit());
+   float cosThetaStar = kRMom.Vect().Unit().Dot(rMom.Vect().Unit());
    if (cosThetaStar!=cosThetaStar) cosThetaStar=-999;
    cout<<cosThetaStar<<endl;
    int const charge = kf > 0 ? 1 : -1;
@@ -689,6 +680,7 @@ bool matchHft(int const iParticleIndex, double const vz, int const zdcb, TLorent
    int const iPhiIndex = getPhiIndexHftRatio(mom.Phi());
 
    int const bin = hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->FindBin(mom.Perp());
+   if (bin<1) return false;
    return gRandom->Rndm() < hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->GetBinContent(bin);
 }
 
