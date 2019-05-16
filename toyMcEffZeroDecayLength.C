@@ -195,7 +195,7 @@ void toyMcEffZeroDecayLength(int npart = 1e5, int jobId=0)
    TClonesArray ptl("TParticle", 10);
    for (int ipart = 0; ipart < npart; ipart++)
    {
-      if (!(ipart % 1000))
+      if (!(ipart/(float)npart % 10))
          cout << "____________ ipart = " << ipart / static_cast<float>(npart) << " ________________" << endl;
 
       getKinematics(*b_d, M_D_0); //random pt, y, phi, return b vector with correct prop.
