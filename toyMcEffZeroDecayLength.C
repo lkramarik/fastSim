@@ -195,8 +195,8 @@ void toyMcEffZeroDecayLength(int npart = 1e5, int jobId=0)
    TClonesArray ptl("TParticle", 10);
    for (int ipart = 0; ipart < npart; ipart++)
    {
-      if (i((float)part/(float)npart*10) % 10 == 0)
-         cout << "____________ ipart = " << ipart / static_cast<float>(npart) << " ________________" << endl;
+//      if (i((float)part/(float)npart*10) % 10 == 0)
+//         cout << "____________ ipart = " << ipart / static_cast<float>(npart) << " ________________" << endl;
 
       getKinematics(*b_d, M_D_0); //random pt, y, phi, return b vector with correct prop.
 //      decayAndFill(421, b_d, fWeightFunction->Eval(b_d->Perp()), ptl);
