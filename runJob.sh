@@ -17,6 +17,9 @@ cp ../../dcaxy_vs_dcaz.root ./
 
 cp ../../Vz_Cent.root ./
 
+cp ../../totalEff_pi.root ./
+cp ../../totalEff_K.root ./
+
 cp ../../kplus_tpc_eff_embedding.root ./
 cp ../../kminus_tpc_eff_embedding.root  ./
 cp ../../piminus_tpc_eff_embedding.root ./
