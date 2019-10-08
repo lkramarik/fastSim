@@ -61,6 +61,7 @@ bool matchHft(int iParticleIndex, double vz, int zdcb, TLorentzVector const& mom
 bool tpcReconstructed(int iParticleIndex, float charge, int cent, TLorentzVector const& mom);
 bool reconstructD0(int const centrality, TLorentzVector const& mom);
 bool matchTOF(int const iParticleIndex, TLorentzVector const& mom);
+bool goodPID(int const iParticleIndex, TLorentzVector const& mom);
 void bookObjects();
 void write();
 int getPtIndexDca(double);
@@ -85,6 +86,8 @@ TF1* fKaonMomResolution = NULL;
 TF1* fPionMomResolution = NULL;
 TF1* fWeightFunction = NULL;
 TF1* fWeightFunctionAuAu = NULL;
+TF1* f1PidPi = NULL;
+TF1* f1PidK = NULL;
 TGraph* grEff[3];
 const Int_t nParticles = 2;
 const Int_t nCentHftRatio = 9;
@@ -92,6 +95,8 @@ const Int_t nCentHftRatio = 9;
 const int nmultEdge = 7;
 float const multEdge[nmultEdge+1] = {0, 4, 8, 12, 16, 20, 24, 200};
 
+//const int m_nmultEdge = 1; //7
+//float const m_multEdge[m_nmultEdge+1] = {0, 200}; //currently not used in dca
 
 //const Int_t nZdcX = 5;
 //const Double_t zdcxBins[] = {0,40,50,60,70,200};
@@ -99,14 +104,14 @@ float const multEdge[nmultEdge+1] = {0, 4, 8, 12, 16, 20, 24, 200};
 //const int nZdcDCA = 5;
 //float const zdcxBinsDCA[nZdcDCA+1] = {0,50,90,130,170,210};
 
-const int nZdcDCA = 3;
-float const zdcxBinsDCA[nZdcDCA+1] = {0,90,170,210};
+const int m_nZdc = 2;
+float const m_zdcEdge[m_nZdc+1] = {0,150,210};
+
+const int m_nZdcDCA = 2;
+float const m_zdcEdgeDCA[m_nZdcDCA+1] = {0,150,210};
 
 //const int m_nZdc = 10;
 //float const m_zdcEdge[m_nZdc+1] = {0,50,70,90,110,130,150,170,190,210,250};
-
-const int m_nZdc = 5;
-float const m_zdcEdge[m_nZdc+1] = {0,50,90,130,170,210};
 
 // HFT ratio binning
 const Int_t nEtasHftRatio = 10;
@@ -390,15 +395,15 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 
    arr[iArr++] = tpcReconstructed(0, charge, centrality, pRMom);
 //   Seg fault in some of these...
-//   arr[iArr++] = matchTOF(1, kRMom);
-//   arr[iArr++] = matchTOF(0, pRMom);
-//   arr[iArr++] = matchHft(1, vertex.z(), zdcb, kRMom); //kaon = 1, pion = 0
-//   arr[iArr++] = matchHft(0, vertex.z(), zdcb, pRMom);
+   arr[iArr++] = goodPID(1, kRMom);
+   arr[iArr++] = goodPID(0, pRMom);
+   arr[iArr++] = matchHft(1, vertex.z(), zdcb, kRMom); //kaon = 1, pion = 0
+   arr[iArr++] = matchHft(0, vertex.z(), zdcb, pRMom);
 
-   arr[iArr++] = 1;
-   arr[iArr++] = 1;
-   arr[iArr++] = 1; //kaon = 1, pion = 0
-   arr[iArr++] = 1;
+//   arr[iArr++] = 1;
+//   arr[iArr++] = 1;
+//   arr[iArr++] = 1; //kaon = 1, pion = 0
+//   arr[iArr++] = 1;
 
    nt->Fill(arr);
 }
@@ -681,7 +686,7 @@ bool matchHft(int const iParticleIndex, double const vz, int const zdcb, TLorent
    int const iEtaIndex = getEtaIndexHftRatio(mom.PseudoRapidity());
    int const iVzIndex = getVzIndexHftRatio(vz);
    int const iPhiIndex = getPhiIndexHftRatio(mom.Phi());
-
+   if (mom.Perp()>12) return false;
    int const bin = hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->FindBin(mom.Perp());
    if (bin<1) return false;
    return gRandom->Rndm() < hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->GetBinContent(bin);
@@ -698,6 +703,19 @@ bool matchTOF(int const iParticleIndex, TLorentzVector const& mom)
       return false;
    }
 }
+
+bool goodPID(int const iParticleIndex, TLorentzVector const& mom)
+{
+    if (iParticleIndex == 0) { // pion
+        return gRandom->Rndm() < f1PidPi->Eval(mom.Perp()); //from histogram
+    }
+    else if (iParticleIndex == 1) { // kaon
+        return gRandom->Rndm() < f1PidK->Eval(mom.Perp()); //from histogram
+    } else {
+        return false;
+    }
+}
+
 
 //___________
 void bookObjects()
@@ -720,6 +738,15 @@ void bookObjects()
    TFile fAuAu("Run14_D0_MyRaa_pT1.0.root");
    fWeightFunctionAuAu = (TF1*)fAuAu.Get("myLevyFcn_9")->Clone("f1LevyAuAu");
    fAuAu.Close();
+
+
+   TFile filePidK("total_eff_K.root");
+   f1PidK = (TF1*)filePidK.Get("fTotalGraphEffPid_K")->Clone("f1PidK");
+   filePidK.Close();
+
+   TFile filePidPi("total_eff_pi.root");
+   f1PidPi = (TF1*)filePidPi.Get("fTotalGraphEffPid_pi")->Clone("f1PidPi");
+   filePidPi.Close();
 
    TFile fHftRatio1Pion("hftratio_vs_pt_dAu_pion.root");
    TFile fHftRatio1Kaon("hftratio_vs_pt_dAu_kaon.root");
@@ -844,7 +871,7 @@ void bookObjects()
                     "kRM:kRPt:kREta:kRY:kRPhi:kRVx:kRVy:kRVz:kRDca:kRSDca:kRDcaXY:kRDcaZ:kTpc:" // Rc Kaon
                     "pM:pPt:pEta:pY:pPhi:pDca:" // MC Pion1
                     "pRM:pRPt:pREta:pRY:pRPhi:pRVx:pRVy:pRVz:pRDca:pRSDca:pRDcaXY:pRDcaZ:pTpc:" // Rc Pion1
-                    "kTOF:pTOF:kHft:pHft", BufSize);
+                    "kPID:pPID:kHft:pHft", BufSize);
    // nt->SetAutoSave(-500000); // autosave every 1 Mbytes
 }
 //___________
