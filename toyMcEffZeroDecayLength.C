@@ -553,7 +553,7 @@ int getEtaIndexHftRatio(double Eta)
       if ((Eta >= EtaEdgeHftRatio[i]) && (Eta < EtaEdgeHftRatio[i + 1]))
          return i;
    }
-   return nEtasHftRatio - 1 ;
+   return  -1 ;
 }
 
 int getVzIndexHftRatio(double Vz)
@@ -563,7 +563,7 @@ int getVzIndexHftRatio(double Vz)
       if ((Vz >= VzEdgeHftRatio[i]) && (Vz < VzEdgeHftRatio[i + 1]))
          return i;
    }
-   return nVzsHftRatio - 1 ;
+   return -1 ;
 }
 
 int getPhiIndexHftRatio(double Phi)
@@ -573,7 +573,7 @@ int getPhiIndexHftRatio(double Phi)
       if ((Phi >= PhiEdgeHftRatio[i]) && (Phi < PhiEdgeHftRatio[i + 1]))
          return i;
    }
-   return nPhisHftRatio - 1 ;
+   return -1 ;
 }
 
 TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLorentzVector const& rMom, TVector3 const& pos)
@@ -687,6 +687,8 @@ bool matchHft(int const iParticleIndex, double const vz, int const zdcb, TLorent
    int const iEtaIndex = getEtaIndexHftRatio(mom.PseudoRapidity());
    int const iVzIndex = getVzIndexHftRatio(vz);
    int const iPhiIndex = getPhiIndexHftRatio(mom.Phi());
+
+   if (iEtaIndex<0 || iVzIndex<0 || iPhiIndex<0) return false;
     cout<<"hft"<<endl;
 
    if (mom.Perp()>12) return false;
