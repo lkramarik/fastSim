@@ -686,7 +686,10 @@ bool matchHft(int const iParticleIndex, double const vz, int const zdcb, TLorent
    int const iEtaIndex = getEtaIndexHftRatio(mom.PseudoRapidity());
    int const iVzIndex = getVzIndexHftRatio(vz);
    int const iPhiIndex = getPhiIndexHftRatio(mom.Phi());
+    cout<<"hft"<endl;
+
    if (mom.Perp()>12) return false;
+   if (mom.Perp()<0.15) return false;
    int const bin = hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->FindBin(mom.Perp());
    if (bin<1) return false;
    return gRandom->Rndm() < hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->GetBinContent(bin);
@@ -706,6 +709,8 @@ bool matchTOF(int const iParticleIndex, TLorentzVector const& mom)
 
 bool goodPID(int const iParticleIndex, TLorentzVector const& mom)
 {
+    cout<<"pid"<endl;
+
     if (iParticleIndex == 0) { // pion
         return gRandom->Rndm() < f1PidPi->Eval(mom.Perp()); //from histogram
     }
