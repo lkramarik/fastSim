@@ -740,11 +740,11 @@ void bookObjects()
    fAuAu.Close();
 
 
-   TFile filePidK("total_eff_K.root");
+   TFile filePidK("totalEff_K.root");
    f1PidK = (TF1*)filePidK.Get("fTotalGraphEffPid_K")->Clone("f1PidK");
    filePidK.Close();
 
-   TFile filePidPi("total_eff_pi.root");
+   TFile filePidPi("totalEff_pi.root");
    f1PidPi = (TF1*)filePidPi.Get("fTotalGraphEffPid_pi")->Clone("f1PidPi");
    filePidPi.Close();
 
