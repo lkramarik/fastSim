@@ -399,7 +399,6 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
    arr[iArr++] = goodPID(0, pRMom);
    arr[iArr++] = matchHft(1, vertex.z(), zdcb, kRMom); //kaon = 1, pion = 0
    arr[iArr++] = matchHft(0, vertex.z(), zdcb, pRMom);
-    cout<<"hft end"<<endl;
 
 //   arr[iArr++] = 1;
 //   arr[iArr++] = 1;
@@ -689,14 +688,11 @@ bool matchHft(int const iParticleIndex, double const vz, int const zdcb, TLorent
    int const iPhiIndex = getPhiIndexHftRatio(mom.Phi());
 
    if (iEtaIndex<0 || iVzIndex<0 || iPhiIndex<0) return false;
-    cout<<"hft"<<endl;
-
    if (mom.Perp()>12) return false;
    if (mom.Perp()<0.15) return false;
    int bin = -1;
    if (hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]) bin = hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->FindBin(mom.Perp());
    else return false;
-   cout<<"bin ok"<<endl;
    if (bin<1) return false;
    return gRandom->Rndm() < hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->GetBinContent(bin);
 }
@@ -715,7 +711,7 @@ bool matchTOF(int const iParticleIndex, TLorentzVector const& mom)
 
 bool goodPID(int const iParticleIndex, TLorentzVector const& mom)
 {
-    cout<<"pid"<<endl;
+//    cout<<"pid"<<endl;
 
     if (iParticleIndex == 0) { // pion
         return gRandom->Rndm() < f1PidPi->Eval(mom.Perp()); //from histogram
