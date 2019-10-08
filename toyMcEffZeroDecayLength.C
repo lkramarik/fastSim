@@ -693,7 +693,8 @@ bool matchHft(int const iParticleIndex, double const vz, int const zdcb, TLorent
 
    if (mom.Perp()>12) return false;
    if (mom.Perp()<0.15) return false;
-   if (hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]) int const bin = hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->FindBin(mom.Perp());
+   int const bin = -1;
+   if (hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]) bin = hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->FindBin(mom.Perp());
    else return false;
    cout<<"bin ok"<<endl;
    if (bin<1) return false;
