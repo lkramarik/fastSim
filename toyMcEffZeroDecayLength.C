@@ -816,7 +816,7 @@ void bookObjects()
                 for (int iVz = 0; iVz < nVzsDca; ++iVz) {
                     for (int iCent = 0; iCent < nmultEdge; ++iCent) {
                         for (int iPt = 0; iPt < nPtBinsDca; ++iPt) {
-                            const char *h2dName = Form("mh2DcaPtCentPartEtaVzPhi_p%i_eta%i_vz%i_m%i_pt%i_zdc%i", iParticle, iEta, iVz, iCent, iPt, iZDC);
+                            const char *h2dName = Form("mh2DcaPtCentPartEtaVzPhi_p%i_eta%i_vz%i_m%i_pt%i_zdc%i", iParticle, iEta, iVz, iCent, iPt, iZdc);
 
                             h2Dca[iParticle][iEta][iVz][iZdc][iPt][iCent] = (TH2D * )((fDca1.Get(h2dName)));
                             h2Dca[iParticle][iEta][iVz][iZdc][iPt][iCent]->SetDirectory(0);
