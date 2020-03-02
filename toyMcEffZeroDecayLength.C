@@ -104,8 +104,8 @@ float const multEdge[nmultEdge+1] = {0, 4, 8, 12, 16, 20, 24, 200};
 //const Int_t nZdcX = 5;
 //const Double_t zdcxBins[] = {0,40,50,60,70,200};
 
-const int nZdcDCA = 2;
-float const zdcxBinsDCA[nZdcDCA+1] = {0,150,210};
+const int nZdcDCA = 1;
+float const zdcxBinsDCA[nZdcDCA+1] = {0,210};
 
 const int m_nZdc = 2;
 float const m_zdcEdge[m_nZdc+1] = {0,150,210};
