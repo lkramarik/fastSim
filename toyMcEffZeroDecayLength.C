@@ -570,7 +570,7 @@ int getPhiIndexHftRatio(double Phi)
 int getMultiplicityBin(double mult)
 {
     for (int i = 0; i < nmultEdge; i++) {
-        if ((mult >= multEdge[i]) && (Phi < multEdge[i+1]))
+        if ((mult >= multEdge[i]) && (mult < multEdge[i+1]))
             return i;
     }
     return -1 ;
