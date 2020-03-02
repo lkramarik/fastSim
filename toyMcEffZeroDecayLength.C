@@ -49,7 +49,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 void getKinematics(TLorentzVector& b, double const mass);
 TLorentzVector smearMom(TLorentzVector const& b, TF1 const * const fMomResolution);
 TVector3 smearPos(TLorentzVector const& mom, TLorentzVector const& rMom, TVector3 const& pos);
-TVector3 smearPosData(int iParticleIndex, double vz, int zdcb, TLorentzVector const& rMom, TVector3 const& pos);
+TVector3 smearPosData(int iParticleIndex, double vz, int zdcb, TLorentzVector const& rMom, TVector3 const& pos, int const centrality);
 float dca(TVector3 const& p, TVector3 const& pos, TVector3 const& vertex);
 float dcaSigned(TVector3 const& p, TVector3 const& pos, TVector3 const& vertex);
 float dcaXY(TVector3 const& p, TVector3 const& pos, TVector3 const& vertex);
@@ -159,7 +159,7 @@ TH1D* h1ZdcX[nmultEdge+1];
 
 TH1D* hHftRatio1[nParticles][nEtasHftRatio][nVzsHftRatio][nPhisHftRatio][m_nZdc];
 int const nCentDca = 9;
-TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nZdcDCA][nPtBinsDca];
+TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nZdcDCA][nPtBinsDca][nmultEdge];
 
 TH1D* hTpcPiPlus[nmultEdge]; //embedding
 TH1D* hTpcPiMinus[nmultEdge]; //embedding
@@ -273,8 +273,8 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     TLorentzVector const pRMom = smearMom(pMom, fPionMomResolution);
 
     // smear position
-    TVector3 const kRPos = smearPosData(1, vertex.z(), zdcb, kRMom, v00); //particle dca smearing , transverse to its vector (why not to just change xy and z according to the dcaxy and dcaz from data without transverse position)
-    TVector3 const pRPos = smearPosData(0, vertex.z(), zdcb, pRMom, v00);
+    TVector3 const kRPos = smearPosData(1, vertex.z(), zdcb, kRMom, v00, centrality); //particle dca smearing , transverse to its vector (why not to just change xy and z according to the dcaxy and dcaz from data without transverse position)
+    TVector3 const pRPos = smearPosData(0, vertex.z(), zdcb, pRMom, v00, centrality);
 
     // reconstruct
     TLorentzVector const rMom = kRMom + pRMom;
@@ -576,7 +576,7 @@ int getMultiplicityBin(double mult)
     return -1 ;
 }
 
-TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLorentzVector const& rMom, TVector3 const& pos) //pos is SV
+TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLorentzVector const& rMom, TVector3 const& pos, int const centrality) //pos is SV
 {
     int const iEtaIndex = getEtaIndexDca(rMom.PseudoRapidity());
     int const iVzIndex = getVzIndexDca(vz);
@@ -586,7 +586,7 @@ TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLore
     double sigmaPosZ = 0;
     double sigmaPosXY = 0;
 
-    h2Dca[iParticleIndex][iEtaIndex][iVzIndex][zdcbinDCA][iPtIndex]->GetRandom2(sigmaPosXY,sigmaPosZ);
+    h2Dca[iParticleIndex][iEtaIndex][iVzIndex][zdcbinDCA][iPtIndex][centrality]->GetRandom2(sigmaPosXY,sigmaPosZ);
     sigmaPosZ *= 1.e4;
     sigmaPosXY *= 1.e4;
 
@@ -814,64 +814,67 @@ void bookObjects()
         for(int iZdc = 0; iZdc < nZdcDCA; ++iZdc) {
             for (int iEta = 0; iEta < nEtasDca; ++iEta) {
                 for (int iVz = 0; iVz < nVzsDca; ++iVz) {
-                    // for (int iPhi = 0; iPhi < nPhisDca; ++iPhi)
-                    for (int iPt = 0; iPt < nPtBinsDca; ++iPt) {
-                        h2Dca[iParticle][iEta][iVz][iZdc][iPt] = (TH2D*)((fDca1.Get(Form("mh2DcaPtCentPartEtaVzPhi_p%i_eta%i_vz%i_pt%i_zdc%i", iParticle, iEta, iVz, iPt, iZdc))));
-                        h2Dca[iParticle][iEta][iVz][iZdc][iPt]->SetDirectory(0);
-                    }
+                    for (int iCent = 0; iCent < nmultEdge; ++iCent) {
+                        for (int iPt = 0; iPt < nPtBinsDca; ++iPt) {
+                            const char *h2dName = Form("mh2DcaPtCentPartEtaVzPhi_p%i_eta%i_vz%i_m%i_pt%i_zdc%i", iParticle, iEta, iVz, iCent, iPt, iZDC);
+
+                            h2Dca[iParticle][iEta][iVz][iZdc][iPt][iCent] = (TH2D * )((fDca1.Get(h2dName)));
+                            h2Dca[iParticle][iEta][iVz][iZdc][iPt][iCent]->SetDirectory(0);
+                        }
                 }
             }
         }
-        // cout << "Finished loading centrality: " << iCent << endl;
     }
+    // cout << "Finished loading centrality: " << iCent << endl;
+}
 //      cout << "Finished loading Dca: " <<  endl;
 
-    fHftRatio1Pion.Close();
-    fHftRatio1Kaon.Close();
-    fDca1.Close();
+fHftRatio1Pion.Close();
+fHftRatio1Kaon.Close();
+fDca1.Close();
 
 //   cout << " Loading TPC tracking efficiencies " << endl;
 
-    TFile fTpcPiPlus("piplus_tpc_eff_embedding.root");
-    TFile fTpcPiMinus("piminus_tpc_eff_embedding.root");
-    TFile fTpcKPlus("kplus_tpc_eff_embedding.root");
-    TFile fTpcKMinus("kminus_tpc_eff_embedding.root");
+TFile fTpcPiPlus("piplus_tpc_eff_embedding.root");
+TFile fTpcPiMinus("piminus_tpc_eff_embedding.root");
+TFile fTpcKPlus("kplus_tpc_eff_embedding.root");
+TFile fTpcKMinus("kminus_tpc_eff_embedding.root");
 
-    for (int iCent = 0; iCent < nmultEdge; ++iCent) {
-        hTpcPiPlus[iCent] = (TH1D*)fTpcPiPlus.Get(Form("TrackEffMult%i", iCent));
-        hTpcPiPlus[iCent]->SetDirectory(0);
-        hTpcPiMinus[iCent] = (TH1D*)fTpcPiMinus.Get(Form("TrackEffMult%i", iCent));
-        hTpcPiMinus[iCent] ->SetDirectory(0);
-        hTpcKPlus[iCent] = (TH1D*)fTpcKPlus.Get(Form("TrackEffMult%i", iCent));
-        hTpcKPlus[iCent]->SetDirectory(0);
-        hTpcKMinus[iCent] = (TH1D*)fTpcKMinus.Get(Form("TrackEffMult%i", iCent));
-        hTpcKMinus[iCent]->SetDirectory(0);
-    }
+for (int iCent = 0; iCent < nmultEdge; ++iCent) {
+hTpcPiPlus[iCent] = (TH1D*)fTpcPiPlus.Get(Form("TrackEffMult%i", iCent));
+hTpcPiPlus[iCent]->SetDirectory(0);
+hTpcPiMinus[iCent] = (TH1D*)fTpcPiMinus.Get(Form("TrackEffMult%i", iCent));
+hTpcPiMinus[iCent] ->SetDirectory(0);
+hTpcKPlus[iCent] = (TH1D*)fTpcKPlus.Get(Form("TrackEffMult%i", iCent));
+hTpcKPlus[iCent]->SetDirectory(0);
+hTpcKMinus[iCent] = (TH1D*)fTpcKMinus.Get(Form("TrackEffMult%i", iCent));
+hTpcKMinus[iCent]->SetDirectory(0);
+}
 
-    fTpcPiPlus.Close();
-    fTpcPiMinus.Close();
-    fTpcKPlus.Close();
-    fTpcKMinus.Close();
+fTpcPiPlus.Close();
+fTpcPiMinus.Close();
+fTpcKPlus.Close();
+fTpcKMinus.Close();
 
 //   cout << "Done with loading all files ..." << endl;
 
-    std::stringstream ss_indx; ss_indx << jobindx;
-    result = new TFile((outFileName + "_c" + "_job" + ss_indx.str() + ".root").c_str(), "recreate");
-    result->SetCompressionLevel(1);
-    result->cd();
+std::stringstream ss_indx; ss_indx << jobindx;
+result = new TFile((outFileName + "_c" + "_job" + ss_indx.str() + ".root").c_str(), "recreate");
+result->SetCompressionLevel(1);
+result->cd();
 
-    int BufSize = (int)pow(2., 16.);
-    // int Split = 1;
-    nt = new TNtuple("nt", "", "cent:refMult:zdcxbin:vx:vy:vz:vzIdx:"
-                               "pid:w:m:pt:eta:y:phi:v0x:v0y:v0z:" // MC D0
-                               "rM:rPt:rEta:rY:rPhi:rV0x:rV0y:rV0z:" // Rc D0
-                               "dca12:decayLength:dcaD0ToPv:cosTheta:angle12:cosThetaStar:" // Rc pair
-                               "kM:kPt:kEta:kY:kPhi:kDca:" // MC Kaon
-                               "kRM:kRPt:kREta:kRY:kRPhi:kRVx:kRVy:kRVz:kRDca:kRSDca:kRDcaXY:kRDcaZ:kTpc:" // Rc Kaon
-                               "pM:pPt:pEta:pY:pPhi:pDca:" // MC Pion1
-                               "pRM:pRPt:pREta:pRY:pRPhi:pRVx:pRVy:pRVz:pRDca:pRSDca:pRDcaXY:pRDcaZ:pTpc:" // Rc Pion1
-                               "kPID:pPID:kHft:pHft", BufSize);
-    // nt->SetAutoSave(-500000); // autosave every 1 Mbytes
+int BufSize = (int)pow(2., 16.);
+// int Split = 1;
+nt = new TNtuple("nt", "", "cent:refMult:zdcxbin:vx:vy:vz:vzIdx:"
+                           "pid:w:m:pt:eta:y:phi:v0x:v0y:v0z:" // MC D0
+                           "rM:rPt:rEta:rY:rPhi:rV0x:rV0y:rV0z:" // Rc D0
+                           "dca12:decayLength:dcaD0ToPv:cosTheta:angle12:cosThetaStar:" // Rc pair
+                           "kM:kPt:kEta:kY:kPhi:kDca:" // MC Kaon
+                           "kRM:kRPt:kREta:kRY:kRPhi:kRVx:kRVy:kRVz:kRDca:kRSDca:kRDcaXY:kRDcaZ:kTpc:" // Rc Kaon
+                           "pM:pPt:pEta:pY:pPhi:pDca:" // MC Pion1
+                           "pRM:pRPt:pREta:pRY:pRPhi:pRVx:pRVy:pRVz:pRDca:pRSDca:pRDcaXY:pRDcaZ:pTpc:" // Rc Pion1
+                           "kPID:pPID:kHft:pHft", BufSize);
+// nt->SetAutoSave(-500000); // autosave every 1 Mbytes
 }
 
 //___________
