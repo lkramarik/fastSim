@@ -159,7 +159,7 @@ TH1D* h1ZdcX[nmultEdge+1];
 
 TH1D* hHftRatio1[nParticles][nEtasHftRatio][nVzsHftRatio][nPhisHftRatio][m_nZdc];
 int const nCentDca = 9;
-TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nZdcDCA][nPtBinsDca][nmultEdge];
+TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nPtBinsDca][nmultEdge];
 
 TH1D* hTpcPiPlus[nmultEdge]; //embedding
 TH1D* hTpcPiMinus[nmultEdge]; //embedding
@@ -811,69 +811,70 @@ void bookObjects()
 //      cout << "Finished loading HFT Ratio: " <<  endl;
 
         //DCA
-        for(int iZdc = 0; iZdc < nZdcDCA; ++iZdc) {
+        int iZdc=0;
+//        for(int iZdc = 0; iZdc < nZdcDCA; ++iZdc) {
             for (int iEta = 0; iEta < nEtasDca; ++iEta) {
                 for (int iVz = 0; iVz < nVzsDca; ++iVz) {
                     for (int iCent = 0; iCent < nmultEdge; ++iCent) {
                         for (int iPt = 0; iPt < nPtBinsDca; ++iPt) {
                             const char *h2dName = Form("mh2DcaPtCentPartEtaVzPhi_p%i_eta%i_vz%i_m%i_pt%i_zdc%i", iParticle, iEta, iVz, iCent, iPt, iZdc);
 
-                            h2Dca[iParticle][iEta][iVz][iZdc][iPt][iCent] = (TH2D * )((fDca1.Get(h2dName)));
-                            h2Dca[iParticle][iEta][iVz][iZdc][iPt][iCent]->SetDirectory(0);
+                            h2Dca[iParticle][iEta][iVz][iPt][iCent] = (TH2D * )((fDca1.Get(h2dName)));
+                            h2Dca[iParticle][iEta][iVz][iPt][iCent]->SetDirectory(0);
                         }
+                    }
                 }
             }
-        }
+//        }
+        // cout << "Finished loading centrality: " << iCent << endl;
     }
-    // cout << "Finished loading centrality: " << iCent << endl;
-}
 //      cout << "Finished loading Dca: " <<  endl;
 
-fHftRatio1Pion.Close();
-fHftRatio1Kaon.Close();
-fDca1.Close();
+    fHftRatio1Pion.Close();
+    fHftRatio1Kaon.Close();
+    fDca1.Close();
 
 //   cout << " Loading TPC tracking efficiencies " << endl;
 
-TFile fTpcPiPlus("piplus_tpc_eff_embedding.root");
-TFile fTpcPiMinus("piminus_tpc_eff_embedding.root");
-TFile fTpcKPlus("kplus_tpc_eff_embedding.root");
-TFile fTpcKMinus("kminus_tpc_eff_embedding.root");
+    TFile fTpcPiPlus("piplus_tpc_eff_embedding.root");
+    TFile fTpcPiMinus("piminus_tpc_eff_embedding.root");
+    TFile fTpcKPlus("kplus_tpc_eff_embedding.root");
+    TFile fTpcKMinus("kminus_tpc_eff_embedding.root");
 
-for (int iCent = 0; iCent < nmultEdge; ++iCent) {
-hTpcPiPlus[iCent] = (TH1D*)fTpcPiPlus.Get(Form("TrackEffMult%i", iCent));
-hTpcPiPlus[iCent]->SetDirectory(0);
-hTpcPiMinus[iCent] = (TH1D*)fTpcPiMinus.Get(Form("TrackEffMult%i", iCent));
-hTpcPiMinus[iCent] ->SetDirectory(0);
-hTpcKPlus[iCent] = (TH1D*)fTpcKPlus.Get(Form("TrackEffMult%i", iCent));
-hTpcKPlus[iCent]->SetDirectory(0);
-hTpcKMinus[iCent] = (TH1D*)fTpcKMinus.Get(Form("TrackEffMult%i", iCent));
-hTpcKMinus[iCent]->SetDirectory(0);
-}
+    for (int iCent = 0; iCent < nmultEdge; ++iCent) {
+        hTpcPiPlus[iCent] = (TH1D*)fTpcPiPlus.Get(Form("TrackEffMult%i", iCent));
+        hTpcPiPlus[iCent]->SetDirectory(0);
+        hTpcPiMinus[iCent] = (TH1D*)fTpcPiMinus.Get(Form("TrackEffMult%i", iCent));
+        hTpcPiMinus[iCent] ->SetDirectory(0);
+        hTpcKPlus[iCent] = (TH1D*)fTpcKPlus.Get(Form("TrackEffMult%i", iCent));
+        hTpcKPlus[iCent]->SetDirectory(0);
+        hTpcKMinus[iCent] = (TH1D*)fTpcKMinus.Get(Form("TrackEffMult%i", iCent));
+        hTpcKMinus[iCent]->SetDirectory(0);
+    }
 
-fTpcPiPlus.Close();
-fTpcPiMinus.Close();
-fTpcKPlus.Close();
-fTpcKMinus.Close();
+    fTpcPiPlus.Close();
+    fTpcPiMinus.Close();
+    fTpcKPlus.Close();
+    fTpcKMinus.Close();
 
 //   cout << "Done with loading all files ..." << endl;
 
-std::stringstream ss_indx; ss_indx << jobindx;
-result = new TFile((outFileName + "_c" + "_job" + ss_indx.str() + ".root").c_str(), "recreate");
-result->SetCompressionLevel(1);
-result->cd();
+    std::stringstream ss_indx; ss_indx << jobindx;
+    result = new TFile((outFileName + "_c" + "_job" + ss_indx.str() + ".root").c_str(), "recreate");
+    result->SetCompressionLevel(1);
+    result->cd();
 
-int BufSize = (int)pow(2., 16.);
+    int BufSize = (int)pow(2., 16.);
 // int Split = 1;
-nt = new TNtuple("nt", "", "cent:refMult:zdcxbin:vx:vy:vz:vzIdx:"
-                           "pid:w:m:pt:eta:y:phi:v0x:v0y:v0z:" // MC D0
-                           "rM:rPt:rEta:rY:rPhi:rV0x:rV0y:rV0z:" // Rc D0
-                           "dca12:decayLength:dcaD0ToPv:cosTheta:angle12:cosThetaStar:" // Rc pair
-                           "kM:kPt:kEta:kY:kPhi:kDca:" // MC Kaon
-                           "kRM:kRPt:kREta:kRY:kRPhi:kRVx:kRVy:kRVz:kRDca:kRSDca:kRDcaXY:kRDcaZ:kTpc:" // Rc Kaon
-                           "pM:pPt:pEta:pY:pPhi:pDca:" // MC Pion1
-                           "pRM:pRPt:pREta:pRY:pRPhi:pRVx:pRVy:pRVz:pRDca:pRSDca:pRDcaXY:pRDcaZ:pTpc:" // Rc Pion1
-                           "kPID:pPID:kHft:pHft", BufSize);
+    nt = new TNtuple("nt", "", "cent:refMult:zdcxbin:vx:vy:vz:vzIdx:"
+                               "pid:w:m:pt:eta:y:phi:v0x:v0y:v0z:" // MC D0
+                               "rM:rPt:rEta:rY:rPhi:rV0x:rV0y:rV0z:" // Rc D0
+                               "dca12:decayLength:dcaD0ToPv:cosTheta:angle12:cosThetaStar:" // Rc pair
+                               "kM:kPt:kEta:kY:kPhi:kDca:" // MC Kaon
+                               "kRM:kRPt:kREta:kRY:kRPhi:kRVx:kRVy:kRVz:kRDca:kRSDca:kRDcaXY:kRDcaZ:kTpc:" // Rc Kaon
+                               "pM:pPt:pEta:pY:pPhi:pDca:" // MC Pion1
+                               "pRM:pRPt:pREta:pRY:pRPhi:pRVx:pRVy:pRVz:pRDca:pRSDca:pRDcaXY:pRDcaZ:pTpc:" // Rc Pion1
+                               "kPID:pPID:kHft:pHft", BufSize);
 // nt->SetAutoSave(-500000); // autosave every 1 Mbytes
 }
 
