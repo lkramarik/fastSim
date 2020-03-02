@@ -586,7 +586,7 @@ TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLore
     double sigmaPosZ = 0;
     double sigmaPosXY = 0;
 
-    h2Dca[iParticleIndex][iEtaIndex][iVzIndex][zdcbinDCA][iPtIndex][centrality]->GetRandom2(sigmaPosXY,sigmaPosZ);
+    h2Dca[iParticleIndex][iEtaIndex][iVzIndex][iPtIndex][centrality]->GetRandom2(sigmaPosXY,sigmaPosZ);
     sigmaPosZ *= 1.e4;
     sigmaPosXY *= 1.e4;
 
