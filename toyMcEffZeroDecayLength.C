@@ -775,7 +775,7 @@ void bookObjects()
 
     char name[500];
     //getting VZ histogram for each multiplicity
-//   cout<<"Loading Vz and ZDCs..."<<endl;
+   cout<<"Loading Vz and ZDCs..."<<endl;
     TFile fEvent("inputs.event.root");
     TH3F* mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
     hRefMult = (TH1D*)fEvent.Get("hrefMult");
@@ -794,8 +794,7 @@ void bookObjects()
     }
     fEvent.Close();
 
-//   cout << "Loading input HFT ratios and DCA ..." << endl;
-
+   cout << "Loading input HFT ratios and DCA ..." << endl;
     for (int iParticle = 0; iParticle < nParticles; ++iParticle) {
         for (int iZdc = 0; iZdc < m_nZdc; ++iZdc) {
             for (int iEta = 0; iEta < nEtasHftRatio; ++iEta) {
