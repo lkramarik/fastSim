@@ -746,11 +746,7 @@ void bookObjects()
     f1PidPi = (TF1*)filePidPi.Get("fTotalGraphEffPid_pi")->Clone("f1PidPi");
     filePidPi.Close();
 
-    TFile fHftRatio1Pion("hftratio_vs_pt_dAu_pion.root");
-    TFile fHftRatio1Kaon("hftratio_vs_pt_dAu_kaon.root");
-//   TFile fDca1("Dca2D_AuAu2016_lumiprod.root");
-    TFile fDca1("dcaxy_vs_dcaz.root");
-
+    cout<<"Loading TOF eff."<<endl;
     TFile f_tof("eff_tof.root");
     h_pi_tof_eff = (TH1D*)f_tof.Get("eff_TOF_p0_nsigma1");
     h_pi_tof_eff->SetDirectory(0);
@@ -780,6 +776,9 @@ void bookObjects()
     fEvent.Close();
 
    cout << "Loading input HFT ratios and DCA ..." << endl;
+    TFile fDca1("dcaxy_vs_dcaz.root");
+    TFile fHftRatio1Pion("hftratio_vs_pt_dAu_pion.root");
+    TFile fHftRatio1Kaon("hftratio_vs_pt_dAu_kaon.root");
     for (int iParticle = 0; iParticle < nParticles; ++iParticle) {
         for (int iZdc = 0; iZdc < m_nZdc; ++iZdc) {
             for (int iEta = 0; iEta < nEtasHftRatio; ++iEta) {
@@ -792,7 +791,7 @@ void bookObjects()
                 }
             }
         }
-      cout << "Finished loading HFT Ratio, going to DCAs. " <<  endl;
+
         //DCA
         int iZdc=0;
 //        for(int iZdc = 0; iZdc < nZdcDCA; ++iZdc) {
