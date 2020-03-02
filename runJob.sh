@@ -10,12 +10,8 @@ cp ../../toyMcEffZeroDecayLength.C ./
 cp ../../Momentum_resolution_SL16d.root ./
 cp ../../pp200_spectra.root ./
 cp ../../Run14_D0_MyRaa_pT1.0.root ./
-cp ../../HftRatio_AuAu2016_lumiprod.root ./
-cp ../../Dca2D_AuAu2016_lumiprod.root ./
 
 cp ../../dcaxy_vs_dcaz.root ./
-
-cp ../../Vz_Cent.root ./
 
 cp ../../totalEff_pi.root ./
 cp ../../totalEff_K.root ./
@@ -52,6 +48,3 @@ mkdir ./jobs/csh
 echo "Directories created. Let's submit some jobs..."
 
 star-submit-template -template submitToyMcZeroVtx.xml -entities productionId=${productionId},codePath=$codePath
-
-
-
