@@ -1,18 +1,3 @@
-/* *********************************************************************
- *  ROOT macro - Toy Monte Carlo Simulation for D0 decay
- *  Includes Momentum Resolution, DCA, hft ration, TPC efficiency ...
- *  Example for D0 --> Kpi
- *
- *  Authors:
- *            Guannan Xie (guannanxie@lbl.gov)
- *            **Mustafa Mustafa (mmustafa@lbl.gov)
- *            Hao Qiu (hqiu@lbl.gov)
- *
- *  ** Code Maintainer
- *
- * *********************************************************************
-*/
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -165,9 +150,9 @@ TH1D* hTpcPiPlus[nmultEdge]; //embedding
 TH1D* hTpcPiMinus[nmultEdge]; //embedding
 TH1D* hTpcKPlus[nmultEdge]; //embedding
 TH1D* hTpcKMinus[nmultEdge]; //embedding
-TH1D* h_pi_tof_eff;//embedding
-TH1D* hRefMult;//embedding
+TH1D* hRefMult;
 TH1D* h_k_tof_eff;//embedding
+TH1D* h_pi_tof_eff;//embedding
 
 string outFileName = "D0.toyMc";
 std::pair<int, int> const decayChannels(747, 807);
@@ -733,7 +718,7 @@ TVector3 const smearVertex(TVector3 vertex){
 //_______________________________________________________________________________________________________________
 void bookObjects()
 {
-//   cout << "Loading input momentum resolution ..." << endl;
+   cout << "Loading input momentum resolution ..." << endl;
     TFile fPionMom("pion_momentum_resolution.root");
     TFile fKaonMom("kaon_momentum_resolution.root");
     fPionMomResolution = (TF1*)fPionMom.Get("pion_MomResFit")->Clone("pion_MomResFit");
@@ -741,7 +726,7 @@ void bookObjects()
     fPionMom.Close();
     fKaonMom.Close();
 
-//   cout << "Loading input spectra ..." << endl;
+   cout << "Loading input spectra ..." << endl;
 //   TFile fPP("pp200_spectra.root");
 //   fWeightFunction = (TF1*)fPP.Get("run12/f1Levy")->Clone("f1Levy");
     TFile fPP("published_run10_D0_AuAu_data.root");
@@ -807,8 +792,7 @@ void bookObjects()
                 }
             }
         }
-//      cout << "Finished loading HFT Ratio: " <<  endl;
-
+      cout << "Finished loading HFT Ratio, going to DCAs. " <<  endl;
         //DCA
         int iZdc=0;
 //        for(int iZdc = 0; iZdc < nZdcDCA; ++iZdc) {
@@ -833,8 +817,7 @@ void bookObjects()
     fHftRatio1Kaon.Close();
     fDca1.Close();
 
-//   cout << " Loading TPC tracking efficiencies " << endl;
-
+   cout << " Loading TPC tracking efficiencies " << endl;
     TFile fTpcPiPlus("piplus_tpc_eff_embedding.root");
     TFile fTpcPiMinus("piminus_tpc_eff_embedding.root");
     TFile fTpcKPlus("kplus_tpc_eff_embedding.root");
