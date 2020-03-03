@@ -765,14 +765,14 @@ void bookObjects()
     TFile fEvent("inputs.event.root");
     TH3F* mh3VzZdcMult = new TH3F();
     mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
-    hRefMult = (TH1D*)fEvent.Get("hrefMult");
-    hRefMult->Draw();
+//    hRefMult = (TH1D*)fEvent.Get("hrefMult");
+
+    int binVzmin = 1;
+    int binVzup = mh3VzZdcMult->GetXaxis()->GetNbins();
+    int binZDCmin = 1;
+    int binZDCmax = mh3VzZdcMult->GetYaxis()->GetNbins();
 
     for (int ii = 0; ii < nmultEdge; ++ii)   {
-        int binVzmin = 1;
-        int binVzup = mh3VzZdcMult->GetXaxis()->GetNbins();
-        int binZDCmin = 1;
-        int binZDCmax = mh3VzZdcMult->GetYaxis()->GetNbins();
         int binMultmin = mh3VzZdcMult->GetZaxis()->FindBin(multEdge[ii]);
         int binMultmax = mh3VzZdcMult->GetZaxis()->FindBin(multEdge[ii+1]);
         h1Vz[ii] = mh3VzZdcMult -> ProjectionX("_px",binZDCmin, binZDCmax, binMultmin, binMultmax, ""); //vz zdc
@@ -780,6 +780,8 @@ void bookObjects()
         h1ZdcX[ii] = mh3VzZdcMult -> ProjectionY("_py",binVzmin, binVzup, binMultmin, binMultmax, ""); //vz zdc
         h1ZdcX[ii]->SetDirectory(0);
     }
+    hRefMult = mh3VzZdcMult -> ProjectionZ("_pz",binVzmin, binVzup, binZDCmin, binZDCmax, "");
+
     fEvent.Close();
 
    cout << "Loading input HFT ratios and DCA ..." << endl;
