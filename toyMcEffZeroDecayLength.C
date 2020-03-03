@@ -156,7 +156,7 @@ TH1D* h_pi_tof_eff;//embedding
 
 string outFileName = "D0.toyMc";
 std::pair<int, int> const decayChannels(747, 807);
-std::pair<float, float> const momentumRange(0, 12);
+std::pair<float, float> const momentumRange(0, 10);
 
 float const gVzCut = 6.0e4;
 float const acceptanceRapidity = 1.0;
@@ -244,7 +244,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 //    int const centrality = floor(nmultEdge * gRandom->Rndm());
 
     TVector3 const vertex = getVertex(centrality); //from hVz,  converted to um
-    TVector3 const vertexR = smearVertex(vertex);
+//    TVector3 const vertexR = smearVertex(vertex); not implemented yet
     int zdcb = getZdcBin(centrality); //from data
 
     // smear primary vertex
