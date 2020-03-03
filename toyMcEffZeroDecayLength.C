@@ -766,6 +766,7 @@ void bookObjects()
     TH3F* mh3VzZdcMult = new TH3F();
     mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
     hRefMult = (TH1D*)fEvent.Get("hrefMult");
+    hRefMult->Draw();
 
     for (int ii = 0; ii < nmultEdge; ++ii)   {
         int binVzmin = 1;
