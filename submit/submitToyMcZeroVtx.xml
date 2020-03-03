@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<job nProcesses="800" simulateSubmission="false">
+<job nProcesses="2000" simulateSubmission="false">
 
         <stdout URL="file:&codePath;/jobs/log/$JOBID.log" />
         <stderr URL="file:&codePath;/jobs/err/$JOBID.err" />
@@ -35,7 +35,6 @@
       <!--<File>file:./toyMcDpm.C</File>-->
       <!--<File>file:./input/</File>-->
       <File>file:&codePath;/toyMcEffZeroDecayLength.C</File>
-      <File>file:&codePath;/Momentum_resolution_SL16d.root</File>
       <File>file:&codePath;/pp200_spectra.root</File>
       <File>file:&codePath;/Run14_D0_MyRaa_pT1.0.root</File>
       <File>file:&codePath;/HftRatio_AuAu2016_lumiprod.root</File>
