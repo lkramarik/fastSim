@@ -61,6 +61,7 @@ int getPhiIndexHftRatio(double);
 int getZdcBinDca(float);
 int getZdcBinRatio(float);
 int getMultiplicityBin(double);
+int getMultiplicityBinTPC(double);
 
 TVector3 const smearVertex(TVector3);
 
@@ -82,6 +83,9 @@ const Int_t nCentHftRatio = 9;
 
 const int nmultEdge = 7;
 float const multEdge[nmultEdge+1] = {0, 4, 8, 12, 16, 20, 24, 200};
+
+const int nmultEdgeTPC = 1;
+float const multEdgeTPC[nmultEdgeTPC+1] = {0, 200};
 
 //const int m_nmultEdge = 1; //7
 //float const m_multEdge[m_nmultEdge+1] = {0, 200}; //currently not used in dca
@@ -207,7 +211,7 @@ void setDecayChannels(int const mdme)
 
 void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesArray& daughters)
 {
-    cout<<"decayAndFill start"<<endl;
+//    cout<<"decayAndFill start"<<endl;
     pydecay->Decay(kf, b);
     pydecay->ImportParticles(&daughters);
 
@@ -240,11 +244,10 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
 
 void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& kMom, TLorentzVector const& pMom, TVector3 v00)
 {
-    cout<<"Fill() start"<<endl;
+//    cout<<"Fill() start"<<endl;
     Double_t refMult = hRefMult->GetRandom();
-    cout<<refMult<<endl;
     int centrality = getMultiplicityBin(refMult);
-    cout<<refMult<<" "<<centrality<<endl;
+    int centralityTPC = getMultiplicityBinTPC(refMult);
 
 //    int const centrality = floor(nmultEdge * gRandom->Rndm());
 
@@ -354,7 +357,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     arr[iArr++] = kRSDca;
     arr[iArr++] = kRDcaXY;
     arr[iArr++] = kRDcaZ;
-    arr[iArr++] = tpcReconstructed(1, -1 * charge, centrality, kRMom);
+    arr[iArr++] = tpcReconstructed(1, -1 * charge, centralityTPC, kRMom);
 
     arr[iArr++] = pMom.M();
     arr[iArr++] = pMom.Perp();
@@ -375,7 +378,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     arr[iArr++] = pRSDca;
     arr[iArr++] = pRDcaXY;
     arr[iArr++] = pRDcaZ;
-    arr[iArr++] = tpcReconstructed(0, charge, centrality, pRMom);
+    arr[iArr++] = tpcReconstructed(0, charge, centralityTPC, pRMom);
 
     arr[iArr++] = goodPID(1, kRMom);
     arr[iArr++] = goodPID(0, pRMom);
@@ -566,6 +569,15 @@ int getMultiplicityBin(double mult)
     return -1 ;
 }
 
+int getMultiplicityBinTPC(double mult)
+{
+    for (int i = 0; i < nmultEdgeTPC; i++) {
+        if ((mult >= multEdgeTPC[i]) && (mult < multEdgeTPC[i+1]))
+            return i;
+    }
+    return -1 ;
+}
+
 TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLorentzVector const& rMom, TVector3 const& pos, int const centrality) //pos is SV
 {
     int const iEtaIndex = getEtaIndexDca(rMom.PseudoRapidity());
@@ -726,8 +738,10 @@ void bookObjects()
    cout << "Loading input momentum resolution ..." << endl;
     TFile fPionMom("pion_momentum_resolution.root");
     TFile fKaonMom("kaon_momentum_resolution.root");
-    fPionMomResolution = (TF1*)fPionMom.Get("pion_MomResFit")->Clone("pion_MomResFit");
-    fKaonMomResolution = (TF1*)fKaonMom.Get("kaon_MomResFit")->Clone("kaon_MomResFit");
+    fPionMomResolution = (TF1*)fPionMom.Get("fct_gaus_HFT")->Clone();
+    fKaonMomResolution = (TF1*)fKaonMom.Get("fct_gaus_HFT")->Clone();
+//    fPionMomResolution = (TF1*)fPionMom.Get("pion_MomResFit")->Clone("pion_MomResFit");
+//    fKaonMomResolution = (TF1*)fKaonMom.Get("kaon_MomResFit")->Clone("kaon_MomResFit");
     fPionMom.Close();
     fKaonMom.Close();
 
@@ -831,7 +845,7 @@ void bookObjects()
     TFile fTpcKPlus("kplus_tpc_eff_embedding.root");
     TFile fTpcKMinus("kminus_tpc_eff_embedding.root");
 
-    for (int iCent = 0; iCent < nmultEdge; ++iCent) {
+    for (int iCent = 0; iCent < nmultEdgeTPC; ++iCent) {
         hTpcPiPlus[iCent] = (TH1D*)fTpcPiPlus.Get(Form("TrackEffMult%i", iCent));
         hTpcPiPlus[iCent]->SetDirectory(0);
         hTpcPiMinus[iCent] = (TH1D*)fTpcPiMinus.Get(Form("TrackEffMult%i", iCent));
