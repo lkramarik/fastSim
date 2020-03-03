@@ -144,7 +144,7 @@ TH1D* h1ZdcX[nmultEdge+1];
 
 TH1D* hHftRatio1[nParticles][nEtasHftRatio][nVzsHftRatio][nPhisHftRatio][m_nZdc];
 int const nCentDca = 9;
-TH2F* h2Dca[nParticles][nEtasDca][nVzsDca][nPtBinsDca][nmultEdge];
+TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nPtBinsDca][nmultEdge];
 
 TH1D* hTpcPiPlus[nmultEdge]; //embedding
 TH1D* hTpcPiMinus[nmultEdge]; //embedding
@@ -801,7 +801,7 @@ void bookObjects()
                         for (int iPt = 0; iPt < nPtBinsDca; ++iPt) {
                             const char *h2dName = Form("mh2DcaPtCentPartEtaVzPhi_p%i_eta%i_vz%i_m%i_pt%i_zdc%i", iParticle, iEta, iVz, iCent, iPt, iZdc);
 
-                            h2Dca[iParticle][iEta][iVz][iPt][iCent] = (TH2F * )((fDca1.Get(h2dName)));
+                            h2Dca[iParticle][iEta][iVz][iPt][iCent] = (TH2D * )((fDca1.Get(h2dName)));
                             h2Dca[iParticle][iEta][iVz][iPt][iCent]->SetDirectory(0);
                         }
                     }
