@@ -758,7 +758,8 @@ void bookObjects()
     //getting VZ histogram for each multiplicity
    cout<<"Loading Vz and ZDCs..."<<endl;
     TFile fEvent("inputs.event.root");
-    TH3F* mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
+    TH3F* mh3VzZdcMult = new TH3F();
+    mh3VzZdcMult = fEvent.Get("mh3VzZdcMult");
     hRefMult = (TH1D*)fEvent.Get("hrefMult");
 
     for (int ii = 0; ii < nmultEdge; ++ii)   {
