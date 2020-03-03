@@ -166,6 +166,7 @@ float const sigmaVertexCent[nCentHftRatio] = {31., 18.1, 12.8, 9.3, 7.2, 5.9, 5.
 
 //============== main  program ==================
 int jobindx;
+
 void toyMcEffZeroDecayLength(int npart = 1e5, int jobId=0)
 //void toyMcEffZeroDecayLength(int npart = 500)
 {
@@ -239,7 +240,8 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
 void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& kMom, TLorentzVector const& pMom, TVector3 v00)
 {
     double refMult = hRefMult->GetRandom();
-    int const centrality = getMultiplicityBin(refMult);
+    cout<<refMult<<endl;
+    int centrality = getMultiplicityBin(refMult);
     cout<<refMult<<" "<<centrality<<endl;
 
 //    int const centrality = floor(nmultEdge * gRandom->Rndm());
