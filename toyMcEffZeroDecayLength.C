@@ -741,11 +741,11 @@ void bookObjects()
 //    fPionMom/Resolution = (TF1*)fPionMom.Get("fct_gaus_HFT_1.00")->Clone();
 //    fKaonMomResolution = (TF1*)fKaonMom.Get("fct_gaus_HFT_1.00")->Clone();
 
-    fPionMomResolution = (TF1*)fPionMom.Get("fct_gaus_HFT_1.05")->Clone();
-    fKaonMomResolution = (TF1*)fKaonMom.Get("fct_gaus_HFT_1.05")->Clone();
+//    fPionMomResolution = (TF1*)fPionMom.Get("fct_gaus_HFT_1.05")->Clone();
+//    fKaonMomResolution = (TF1*)fKaonMom.Get("fct_gaus_HFT_1.05")->Clone();
 
-//    fPionMomResolution = (TF1*)fPionMom.Get("fct_gaus_HFT_0.95")->Clone();
-//    fKaonMomResolution = (TF1*)fKaonMom.Get("fct_gaus_HFT_0.95")->Clone();
+    fPionMomResolution = (TF1*)fPionMom.Get("fct_gaus_HFT_0.95")->Clone();
+    fKaonMomResolution = (TF1*)fKaonMom.Get("fct_gaus_HFT_0.95")->Clone();
 //    fPionMomResolution = (TF1*)fPionMom.Get("pion_MomResFit")->Clone("pion_MomResFit");
 //    fKaonMomResolution = (TF1*)fKaonMom.Get("kaon_MomResFit")->Clone("kaon_MomResFit");
     fPionMom.Close();
