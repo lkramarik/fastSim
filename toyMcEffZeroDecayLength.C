@@ -240,6 +240,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 {
     double refMult = hRefMult->GetRandom();
     int const centrality = getMultiplicityBin(refMult);
+    cout<<refMult<<" "<<centrality<<endl;
 
 //    int const centrality = floor(nmultEdge * gRandom->Rndm());
 
