@@ -780,8 +780,8 @@ void bookObjects()
         h1ZdcX[ii] = mh3VzZdcMult -> ProjectionY("_py",binVzmin, binVzup, binMultmin, binMultmax, ""); //vz zdc
         h1ZdcX[ii]->SetDirectory(0);
     }
-    hRefMult = mh3VzZdcMult -> ProjectionZ("_pz",binVzmin, binVzup, binZDCmin, binZDCmax, "");
-
+    hRefMult = (TH1D*) mh3VzZdcMult -> ProjectionZ("_pz",binVzmin, binVzup, binZDCmin, binZDCmax, "");
+    hRefMult->SetDirectory(0);
     fEvent.Close();
 
    cout << "Loading input HFT ratios and DCA ..." << endl;
