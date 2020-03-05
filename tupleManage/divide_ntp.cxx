@@ -24,10 +24,10 @@ void divide_ntp(TString input="D0.toyMc.1605.root") {
 //    input="D0.toyMC.0910.root";
 
     TString folder = "";
-    input="";
+//    input="D0.toyMc.0303.95perc.root";
 
     TFile* data = new TFile(folder+input ,"r");
-    TFile *fileOut = new TFile("ntpTMVA_full_"+input, "RECREATE");  // output root file
+    TFile *fileOut = new TFile("ntp_full_"+input, "RECREATE");  // output root file
 
     TNtuple *ntpOut= new TNtuple("ntp_signal","D Meson Tree","D_mass:D_decayL:D_cosThetaStar:cosTheta:D_pt:D_ptSIM:pi1_pt:k_pt:pi1_dca:k_dca:dcaDaughters:dcaD0ToPv:hft:pid:etas:tpc");
     //    TNtuple *ntpOut= new TNtuple("ntp_sideband","D Meson Tree","D_mass:D_decayL:D_theta:D_cosThetaStar:cosTheta:D_pt:pi1_pt:k_pt:pi1_dca:k_dca:dcaDaughters:dcaD0ToPv");
@@ -88,6 +88,7 @@ void divide_ntp(TString input="D0.toyMc.1605.root") {
 
     float pid, hft, etas, tpc, arr[100];
     cout<<"lets do this"<<endl;
+    cout<<ntp->GetEntries()<<endl;
     for (long int i = 0; i < ntp->GetEntries(); i++) {
         ntp->GetEntry(i);
 

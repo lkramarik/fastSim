@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<job nProcesses="800" simulateSubmission="false">
+<job nProcesses="1" simulateSubmission="false">
 
         <stdout URL="file:&codePath;/jobs/log/$JOBID.log" />
         <stderr URL="file:&codePath;/jobs/err/$JOBID.err" />
@@ -19,7 +19,7 @@
 <command>
     starver SL16d
     root -q -b -l toyMcEffZeroDecayLength.C+\(1e5,$JOBINDEX\)
-    root -q -b -l divide_ntp.cxx++\(D0.toyMc_c_job$JOBINDEX.root\)
+    root -q -b -l divide_ntp.cxx++\(\"D0.toyMc_c_job$JOBINDEX.root\"\)
     <!--root -l -b &lt;&lt;EOF-->
     <!--.X toyMcEffZeroDecayLength.C+(10e2,$JOBINDEX)-->
     <!--.q-->
