@@ -1,7 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
+#include <stdio.h>
+#include <math.h>
 #include "TFile.h"
 #include "TH1F.h"
 #include "TH1D.h"
@@ -145,6 +146,8 @@ int centralitySelect=0;
 
 TH1D* h1Vz[nmultEdge+1];
 TH1D* h1ZdcX[nmultEdge+1];
+TH1D* h1VxError[nmultEdge+1];
+TH1D* h1VzError[nmultEdge+1];
 
 TH1D* hHftRatio1[nParticles][nEtasHftRatio][nVzsHftRatio][nPhisHftRatio][m_nZdc];
 int const nCentDca = 9;
@@ -178,7 +181,8 @@ void toyMcEffZeroDecayLength(int npart = 1e5, int jobId=0)
 
     TStopwatch*   stopWatch = new TStopwatch();
     stopWatch->Start();
-    gRandom->SetSeed();
+
+    gRandom->SetSeed(jobId);
     bookObjects();
 
     pydecay = TPythia6Decayer::Instance();
@@ -608,12 +612,23 @@ TVector3 getVertex(int const centrality)
     else
     {
         do {
-            rdmVz = h1Vz[centrality]->GetRandom() * 1e4;
+            rdmVz = h1Vz[centrality]->GetRandom() * 1e4; //um
         }
         while (fabs(rdmVz) > gVzCut);
     }
 
-    return TVector3(0., 0., rdmVz);
+    double xError = h1VxError[centrality]->GetRandom() * 1e4; //um
+    double yError = h1VxError[centrality]->GetRandom() * 1e4; //um
+    double zError = h1VzError[centrality]->GetRandom() * 1e4; //um from 0 to 1
+
+    float rand;
+    do {
+        rand = gRandom->Uniform(-1, 1);
+    } while ( rand==0 );
+    if (rand<0) rand=-1;
+    if (rand>0) rand=1;
+    cout<<rand<<endl;
+    return TVector3(0.+rand*xError, 0.+rand*yError, rdmVz+rand*zError);
 }
 
 int getZdcBin(int const centrality)
@@ -787,6 +802,13 @@ void bookObjects()
     mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
 //    hRefMult = (TH1D*)fEvent.Get("hrefMult");
 
+    TFile fVertexReso("inputs.event.root");
+    TH2F* mh2VxRefMult = new TH2F();
+    mh2VxRefMult = (TH2F*)fVertexReso.Get("picoDstVErrX_vs_refMult");
+
+    TH2F* mh2VzRefMult = new TH2F();
+    mh2VzRefMult = (TH2F*)fVertexReso.Get("picoDstVErrZ_vs_refMult");
+
     int binVzmin = 1;
     int binVzup = mh3VzZdcMult->GetXaxis()->GetNbins();
     int binZDCmin = 1;
@@ -799,10 +821,17 @@ void bookObjects()
         h1Vz[ii]->SetDirectory(0);
         h1ZdcX[ii] = mh3VzZdcMult -> ProjectionY("_py",binVzmin, binVzup, binMultmin, binMultmax, ""); //vz zdc
         h1ZdcX[ii]->SetDirectory(0);
+
+        h1VzError[ii] = mh2VzRefMult-> ProjectionY("_py", mh2VzRefMult->GetXaxis()->FindBin(multEdge[ii]), mh2VzRefMult->GetXaxis()->FindBin(multEdge[ii+1]), "");
+        h1VzError[ii]->SetDirectory(0);
+        h1VxError[ii] = mh2VxRefMult-> ProjectionY("_py", mh2VxRefMult->GetXaxis()->FindBin(multEdge[ii]), mh2VxRefMult->GetXaxis()->FindBin(multEdge[ii+1]), "");
+        h1VxError[ii]->SetDirectory(0);
+
     }
     hRefMult = (TH1D*) mh3VzZdcMult -> ProjectionZ("_pz",binVzmin, binVzup, binZDCmin, binZDCmax, "");
     hRefMult->SetDirectory(0);
     fEvent.Close();
+    fVertexReso.Close();
 
    cout << "Loading input HFT ratios and DCA ..." << endl;
     TFile fDca1("dcaxy_vs_dcaz.root");
