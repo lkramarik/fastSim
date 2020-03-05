@@ -802,7 +802,7 @@ void bookObjects()
     mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
 //    hRefMult = (TH1D*)fEvent.Get("hrefMult");
 
-    TFile fVertexReso("inputs.event.root");
+    TFile fVertexReso("vertexReso.root");
     TH2F* mh2VxRefMult = new TH2F();
     mh2VxRefMult = (TH2F*)fVertexReso.Get("picoDstVErrX_vs_refMult");
 
