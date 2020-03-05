@@ -752,7 +752,7 @@ void bookObjects()
    cout << "Loading input momentum resolution ..." << endl;
     TFile fPionMom("pion_momentum_resolution.root");
     TFile fKaonMom("kaon_momentum_resolution.root");
-    fPionMom/Resolution = (TF1*)fPionMom.Get("fct_gaus_HFT_1.00")->Clone();
+    fPionMomResolution = (TF1*)fPionMom.Get("fct_gaus_HFT_1.00")->Clone();
     fKaonMomResolution = (TF1*)fKaonMom.Get("fct_gaus_HFT_1.00")->Clone();
 
 //    fPionMomResolution = (TF1*)fPionMom.Get("fct_gaus_HFT_1.05")->Clone();
