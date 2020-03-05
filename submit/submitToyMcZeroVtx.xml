@@ -19,7 +19,7 @@
 <command>
     starver SL16d
     root -q -b -l toyMcEffZeroDecayLength.C+\(1e5,$JOBINDEX\)
-
+    root -q -b -l divide_ntp.cxx++\(D0.toyMc_c_job$JOBINDEX.root\)
     <!--root -l -b &lt;&lt;EOF-->
     <!--.X toyMcEffZeroDecayLength.C+(10e2,$JOBINDEX)-->
     <!--.q-->
@@ -28,12 +28,14 @@
 </command>
 
 <output fromScratch="D0.toy*.root" toURL="&codePath;/out/" />
+<output fromScratch="ntp_full_*.root" toURL="&codePath;/out/" />
 
 
 <SandBox installer="ZIP">
   <Package name="LocalLibraries">
       <!--<File>file:./toyMcDpm.C</File>-->
       <!--<File>file:./input/</File>-->
+      <File>file:&codePath;/divide_ntp.cxx</File>
       <File>file:&codePath;/toyMcEffZeroDecayLength.C</File>
       <File>file:&codePath;/pp200_spectra.root</File>
       <File>file:&codePath;/Run14_D0_MyRaa_pT1.0.root</File>

@@ -11,6 +11,7 @@ cp ../../pp200_spectra.root ./
 cp ../../Run14_D0_MyRaa_pT1.0.root ./
 
 cp ../../dcaxy_vs_dcaz.root ./
+cp ../../tupleManage/divide_ntp.cxx ./
 
 cp ../../totalEff_pi.root ./
 cp ../../totalEff_K.root ./
