@@ -42,6 +42,7 @@ float dcaXY(TVector3 const& p, TVector3 const& pos, TVector3 const& vertex);
 float dcaZ(TVector3 const& p, TVector3 const& pos, TVector3 const& vertex);
 float dca1To2(TVector3 const& p1, TVector3 const& pos1, TVector3 const& p2, TVector3 const& pos2, TVector3& v0);
 TVector3 getVertex(int centrality);
+TVector3 getVertexWithError(int centrality);
 int getZdcBin(int const centrality);
 bool matchHft(int iParticleIndex, double vz, int zdcb, TLorentzVector const& mom);
 bool tpcReconstructed(int iParticleIndex, float charge, int cent, TLorentzVector const& mom);
@@ -256,6 +257,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 //    int const centrality = floor(nmultEdge * gRandom->Rndm());
 
     TVector3 const vertex = getVertex(centrality); //from hVz,  converted to um
+//    TVector3 const vertex = getVertexWithError(centrality); //from hVz,  converted to um
 //    TVector3 const vertexR = smearVertex(vertex); not implemented yet
     int zdcb = getZdcBin(centrality); //from data
 
@@ -617,6 +619,22 @@ TVector3 getVertex(int const centrality)
         while (fabs(rdmVz) > gVzCut);
     }
 
+    return TVector3(0., 0., rdmVz);
+}
+
+TVector3 getVertexWithError(int const centrality)
+{
+    double rdmVz;
+
+    if (h1Vz[centrality]->GetEntries() == 0) rdmVz = 0.;
+    else
+    {
+        do {
+            rdmVz = h1Vz[centrality]->GetRandom() * 1e4; //um
+        }
+        while (fabs(rdmVz) > gVzCut);
+    }
+
     double xError = h1VxError[centrality]->GetRandom() * 1e4; //um
     double yError = h1VxError[centrality]->GetRandom() * 1e4; //um
     double zError = h1VzError[centrality]->GetRandom() * 1e4; //um from 0 to 1
@@ -752,11 +770,11 @@ void bookObjects()
    cout << "Loading input momentum resolution ..." << endl;
     TFile fPionMom("pion_momentum_resolution.root");
     TFile fKaonMom("kaon_momentum_resolution.root");
-    fPionMomResolution = (TF1*)fPionMom.Get("fct_gaus_HFT_1.00")->Clone();
-    fKaonMomResolution = (TF1*)fKaonMom.Get("fct_gaus_HFT_1.00")->Clone();
+//    fPionMomResolution = (TF1*)fPionMom.Get("fct_gaus_HFT_1.00")->Clone();
+//    fKaonMomResolution = (TF1*)fKaonMom.Get("fct_gaus_HFT_1.00")->Clone();
 
-//    fPionMomResolution = (TF1*)fPionMom.Get("fct_gaus_HFT_1.05")->Clone();
-//    fKaonMomResolution = (TF1*)fKaonMom.Get("fct_gaus_HFT_1.05")->Clone();
+    fPionMomResolution = (TF1*)fPionMom.Get("fct_gaus_HFT_1.05")->Clone();
+    fKaonMomResolution = (TF1*)fKaonMom.Get("fct_gaus_HFT_1.05")->Clone();
 
 //    fPionMomResolution = (TF1*)fPionMom.Get("fct_gaus_HFT_0.95")->Clone();
 //    fKaonMomResolution = (TF1*)fKaonMom.Get("fct_gaus_HFT_0.95")->Clone();
