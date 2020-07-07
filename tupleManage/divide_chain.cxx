@@ -39,11 +39,11 @@ void divide_chain(TString folder) {
     TFile* data = new TFile(folder+input ,"r");
     TFile *fileOut = new TFile("ntpTMVA_full_"+input, "RECREATE");  // output root file
 
-    TNtuple *ntpOut= new TNtuple("ntp_signal","D Meson Tree","D_mass:D_decayL:D_cosThetaStar:cosTheta:D_pt:D_ptSIM:pi1_pt:k_pt:pi1_dca:k_dca:dcaDaughters:dcaD0ToPv:hft:pid:etas:tpc");
+    TNtuple *ntpOut= new TNtuple("ntp_signal","D Meson Tree","D_mass:D_decayL:D_cosThetaStar:cosTheta:D_pt:D_ptSIM:pi1_pt:k_pt:pi1_dca:k_dca:dcaDaughters:dcaD0ToPv:hft:pid:etas:mcEtas:tpc");
     //    TNtuple *ntpOut= new TNtuple("ntp_sideband","D Meson Tree","D_mass:D_decayL:D_theta:D_cosThetaStar:cosTheta:D_pt:pi1_pt:k_pt:pi1_dca:k_dca:dcaDaughters:dcaD0ToPv");
 
     Float_t w, flag, D_theta, D_mass, D_pt, D_decayL, k_pt, pi1_pt, pi1_dca, k_dca, k_nSigma, pi1_nSigma, pi1_TOFinvbeta, k_TOFinvbeta, dcaDaughters, pi1_eventId, k_eventId, dca_d0, dcaD0ToPv, cosTheta, D_cosThetaStar, D_ptSIM;
-    Float_t pPID, kPID, kHft, pHft, pTpc, kTpc, kREta, pREta, dReta;
+    Float_t pPID, kPID, kHft, pHft, pTpc, kTpc, kREta, pREta, dReta, eta, kEta, pEta;
 
     ntp->SetBranchAddress("rM", &D_mass);
     ntp->SetBranchAddress("decayLength", &D_decayL);
@@ -56,11 +56,17 @@ void divide_chain(TString folder) {
     ntp->SetBranchAddress("kREta", &kREta);
     ntp->SetBranchAddress("pREta", &pREta);
     ntp->SetBranchAddress("rEta", &dReta);
+
+    ntp->SetBranchAddress("kEta", &kEta);
+    ntp->SetBranchAddress("pEta", &pEta);
+    ntp->SetBranchAddress("eta", &eta);
+
     ntp->SetBranchAddress("kRPt", &k_pt);
     ntp->SetBranchAddress("pRDca", &pi1_dca);
     ntp->SetBranchAddress("kRDca", &k_dca);
     ntp->SetBranchAddress("dca12", &dcaDaughters);
     ntp->SetBranchAddress("dcaD0ToPv", &dcaD0ToPv);
+
 
     ntp->SetBranchAddress("kPID", &kPID);
     ntp->SetBranchAddress("pPID", &pPID);
@@ -82,7 +88,7 @@ void divide_chain(TString folder) {
     const int nNtVars = ntpOut->GetNvar();
     float ntVar[nNtVars];
 
-    float pid, hft, etas, tpc, arr[100];
+    float pid, hft, etas, mcEtas, tpc, arr[100];
     cout<<"lets do this"<<endl;
     for (long int i = 0; i < ntp->GetEntries(); i++) {
         ntp->GetEntry(i);
@@ -98,6 +104,9 @@ void divide_chain(TString folder) {
 
         etas=0;
         if ((abs(kREta)<1) && (abs(pREta)<1) && (abs(dReta)<1)) etas =1;
+
+        mcEtas=0;
+        if ((abs(kEta)<1) && (abs(pEta)<1) && (abs(eta)<1)) mcEtas =1;
 
 //        if ((pi1_pt>0.15) && (k_pt>0.15) && (cosTheta>0.5) && (pi1_dca>0.001) && (k_dca>0.001) && (D_pt>0.5) && (D_pt<6)){
         int ii = 0;
@@ -116,6 +125,7 @@ void divide_chain(TString folder) {
         ntVar[ii++]=hft;
         ntVar[ii++]=pid;
         ntVar[ii++]=etas;
+        ntVar[ii++]=mcEtas;
         ntVar[ii++]=tpc;
 
         ntpOut->Fill(ntVar);
