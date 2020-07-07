@@ -1,7 +1,5 @@
 // Divide NTP to signalLike and backgroundLike
-
-#include <iostream>
-#include <string>
+#include <fstream>
 #include <sstream>
 #include <iomanip>
 #include "TFile.h"
@@ -10,11 +8,19 @@
 #include "TGraphErrors.h"
 #include "TH2.h"
 #include "TCanvas.h"
+#include "TSystem.h"
+
 #include "TString.h"
 #include "TROOT.h"
 #include "TChain.h"
 #include "TFile.h"
 #include "TNtuple.h"
+
+#include <cstdlib>
+#include <vector>
+#include <iostream>
+#include <map>
+#include <string>
 
 using namespace std;
 
@@ -23,12 +29,12 @@ void divide_chain(TString folder) {
 //    TString folder = "/media/lukas/376AD6A434B7392F/work/sim/";
 //    input="D0.toyMC.0910.root";
 
-    gSystem->Exec(Form("ls %s/D0.toyMc* > filesToChain.list", folder.Data()));
-
+    gSystem->Exec(Form("ls %s/D0.toyMc_* > filesToChain.list", folder.Data()));
+    const char* file="filesToChain.list";
 //    /* input file from input list
     TChain *ntp = new TChain("nt","nt");
     std::string line;
-    std::ifstream infile("filesToChain.list");
+    std::ifstream infile(file);
     TString lineS;
     while (std::getline(infile, line)) {
         cout<<line<<endl;
@@ -135,7 +141,7 @@ void divide_chain(TString folder) {
     hpt->Write("hMcPt");
     fileOut->Close();
 
-    data->Close();
+    
     cout<<"Done."<<endl;
 }
 
