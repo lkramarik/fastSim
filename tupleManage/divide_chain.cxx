@@ -90,7 +90,7 @@ void divide_chain(TString folder) {
     ntp -> Project("hMcPt", "pt","");
 
     const int nNtVars = ntpOut->GetNvar();
-    float ntVar[nNtVars];
+    float ntVar[40];
 
     float pid, hft, etas, mcEtas, tpc;
     cout<<"lets do this"<<endl;
