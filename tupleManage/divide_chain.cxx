@@ -36,8 +36,7 @@ void divide_chain(TString folder) {
         ntp -> Add(lineS);
     }
 
-    TFile* data = new TFile(folder+input ,"r");
-    TFile *fileOut = new TFile("ntpTMVA_full_"+input, "RECREATE");  // output root file
+    TFile *fileOut = new TFile("ntpTMVA_full.root", "RECREATE");  // output root file
 
     TNtuple *ntpOut= new TNtuple("ntp_signal","D Meson Tree","D_mass:D_decayL:D_cosThetaStar:cosTheta:D_pt:D_ptSIM:pi1_pt:k_pt:pi1_dca:k_dca:dcaDaughters:dcaD0ToPv:hft:pid:etas:mcEtas:tpc");
     //    TNtuple *ntpOut= new TNtuple("ntp_sideband","D Meson Tree","D_mass:D_decayL:D_theta:D_cosThetaStar:cosTheta:D_pt:pi1_pt:k_pt:pi1_dca:k_dca:dcaDaughters:dcaD0ToPv");
@@ -88,7 +87,7 @@ void divide_chain(TString folder) {
     const int nNtVars = ntpOut->GetNvar();
     float ntVar[nNtVars];
 
-    float pid, hft, etas, mcEtas, tpc, arr[100];
+    float pid, hft, etas, mcEtas, tpc;
     cout<<"lets do this"<<endl;
     for (long int i = 0; i < ntp->GetEntries(); i++) {
         ntp->GetEntry(i);
