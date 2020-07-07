@@ -76,7 +76,7 @@ void divide_ntp(TString input="D0.toyMc.1605.root") {
     ntp -> Project("hMcPt", "pt","");
 
     const int nNtVars = ntpOut->GetNvar();
-    float ntVar[nNtVars];
+    float ntVar[30];
 
     float pid, hft, etas, tpc, mcEtas;
     cout<<"lets do this"<<endl;
