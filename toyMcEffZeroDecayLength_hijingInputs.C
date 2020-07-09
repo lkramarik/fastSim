@@ -617,7 +617,9 @@ TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLore
     double sigmaPosZ = 0;
     double sigmaPosXY = 0;
 
+    cout<<"h2DCA"<<endl;
     h2Dca[iParticleIndex][iEtaIndex][iVzIndex][iPtIndex][centrality]->GetRandom2(sigmaPosXY,sigmaPosZ);
+    cout<<"h2DCA1"<<endl;
     sigmaPosZ *= 1.e4;
     sigmaPosXY *= 1.e4;
 
