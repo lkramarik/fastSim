@@ -176,7 +176,7 @@ float const sigmaVertexCent[nCentHftRatio] = {31., 18.1, 12.8, 9.3, 7.2, 5.9, 5.
 int jobindx;
 
 //_______________________________________________________________________________________________________________
-void toyMcEffZeroDecayLength(int npart = 1e5, int jobId=0)
+void toyMcEffZeroDecayLength_hijingInputs(int npart = 1e5, int jobId=0)
 //void toyMcEffZeroDecayLength(int npart = 500)
 {
     jobindx = jobId;

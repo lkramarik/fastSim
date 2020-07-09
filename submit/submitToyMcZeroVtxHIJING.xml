@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<job nProcesses="80" simulateSubmission="false">
+
+        <stdout URL="file:&codePath;/jobs/log/$JOBID.log" />
+        <stderr URL="file:&codePath;/jobs/err/$JOBID.err" />
+                
+        <Generator>
+          <Location>./jobs/report/</Location>
+          <ScriptLocation>./jobs/csh/</ScriptLocation>
+          <ListLocation>./jobs/list/</ListLocation>
+        </Generator>
+                                                
+	<!--<ResourceUsage>-->
+		<!--<Memory>-->
+			<!--<MinMemory>4000</MinMemory>-->
+		<!--</Memory>-->
+	<!--</ResourceUsage>-->
+
+<command>
+    starver SL16d
+<!--    root -q -b -l toyMcEffZeroDecayLength.C+\(1e5,$JOBINDEX\)-->
+    root -q -b -l toyMcEffZeroDecayLength_hijingInputs.C+\(1e5,$JOBINDEX\)
+    root -q -b -l divide_ntp.cxx++\(\"D0.toyMc_c_job$JOBINDEX.root\"\)
+    <!--root -l -b &lt;&lt;EOF-->
+    <!--.X toyMcEffZeroDecayLength.C+(10e2,$JOBINDEX)-->
+    <!--.q-->
+    <!--EOF-->
+
+</command>
+
+<output fromScratch="D0.toy*.root" toURL="&codePath;/out/" />
+<output fromScratch="ntp_full_*.root" toURL="&codePath;/out/" />
+
+
+<SandBox installer="ZIP">
+  <Package name="LocalLibraries">
+      <!--<File>file:./toyMcDpm.C</File>-->
+      <!--<File>file:./input/</File>-->
+      <File>file:&codePath;/divide_ntp.cxx</File>
+      <File>file:&codePath;/toyMcEffZeroDecayLength_hijingInputs.C</File>
+      <File>file:&codePath;/pp200_spectra.root</File>
+      <File>file:&codePath;/Run14_D0_MyRaa_pT1.0.root</File>
+      <File>file:&codePath;/HftRatio_AuAu2016_lumiprod.root</File>
+      <File>file:&codePath;/dcaxy_vs_dcaz_hijing.root</File>
+      <File>file:&codePath;/Vz_Cent.root</File>
+      <File>file:&codePath;/piplus_tpc_eff_embedding.root</File>
+      <File>file:&codePath;/piminus_tpc_eff_embedding.root</File>
+      <File>file:&codePath;/kplus_tpc_eff_embedding.root</File>
+      <File>file:&codePath;/kminus_tpc_eff_embedding.root</File>
+      <File>file:&codePath;/pion_momentum_resolution.root</File>
+      <File>file:&codePath;/kaon_momentum_resolution.root</File>
+      <File>file:&codePath;/eff_tof.root</File>
+      <File>file:&codePath;/hftratio_vs_pt_dAu_pion_hijing.root</File>
+      <File>file:&codePath;/hftratio_vs_pt_dAu_kaon_hijing.root</File>
+      <File>file:&codePath;/inputs.event.root</File>
+      <File>file:&codePath;/vertexReso.root</File>
+      <File>file:&codePath;/published_run10_D0_AuAu_data.root</File>
+      <File>file:&codePath;/totalEff_K.root</File>
+      <File>file:&codePath;/totalEff_pi.root</File>
+	</Package>
+</SandBox>
+
+</job>
+
+
+
