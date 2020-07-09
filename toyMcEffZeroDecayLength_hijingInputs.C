@@ -883,10 +883,10 @@ void bookObjects()
     fEvent.Close();
     fVertexReso.Close();
 
-   cout << "Loading input HFT ratios and DCA ..." << endl;
-    TFile fDca1("dcaxy_vs_dcaz.root");
-    TFile fHftRatio1Pion("hftratio_vs_pt_dAu_pion.root");
-    TFile fHftRatio1Kaon("hftratio_vs_pt_dAu_kaon.root");
+   cout << "Loading input HFT ratios and DCA ...HIJING..." << endl;
+    TFile fDca1("dcaxy_vs_dcaz_hijing.root");
+    TFile fHftRatio1Pion("hftratio_vs_pt_dAu_pion_hijing.root");
+    TFile fHftRatio1Kaon("hftratio_vs_pt_dAu_kaon_hijing.root");
     for (int iParticle = 0; iParticle < nParticles; ++iParticle) {
         for (int iZdc = 0; iZdc < m_nZdc; ++iZdc) {
             for (int iEta = 0; iEta < nEtasHftRatio; ++iEta) {
