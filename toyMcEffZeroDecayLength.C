@@ -140,7 +140,7 @@ const Double_t PhiEdgeDca[nPhisDca + 1] =
         };
 const Double_t ptEdgeDca[nPtBinsDca + 1] =
         {
-                0.2,0.3,0.4,0.5,0.6,0.8,1.,1.25,1.5,2.,3.0,5.,12.
+                0.15, 0.3, 0.4, 0.5, 0.6, 0.8, 1., 1.25, 1.5, 2., 3., 5., 12.
         };
 
 int centralitySelect=0;
