@@ -6,7 +6,7 @@ mkdir -p workDir/${productionId}
 cd workDir/${productionId}
 echo "Start of cps."
 cp -Lr /gpfs01/star/pwg/lkramarik/sim/fastsimD0_2016/submit/* ./
-cp ../../toyMcEffZeroDecayLength.C ./
+cp ../../toyMcEffZeroDecayLength_hijingInputs.C ./
 cp ../../pp200_spectra.root ./
 cp ../../Run14_D0_MyRaa_pT1.0.root ./
 
