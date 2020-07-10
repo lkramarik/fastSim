@@ -135,7 +135,7 @@ const Double_t PhiEdgeHftRatio[nPhisHftRatio + 1] = //ok
 int const nVzsDca = 4;
 const Int_t nPhisDca = 11;
 int const nEtasDca = 3;
-const Int_t nPtBinsDca = 12;
+const Int_t nPtBinsDca = 7;
 float const VzEdgeDca[nVzsDca + 1] = {   -6.e4, -3.e4, 0, 3.e4, 6.e4};
 float const EtaEdgeDca[nEtasDca + 1] = {0, 0.4, 0.8, 1};
 const Double_t PhiEdgeDca[nPhisDca + 1] =
@@ -144,7 +144,7 @@ const Double_t PhiEdgeDca[nPhisDca + 1] =
         };
 const Double_t ptEdgeDca[nPtBinsDca + 1] =
         {
-                0.2,0.3,0.4,0.5,0.6,0.8,1.,1.25,1.5,2.,3.0,5.,12.
+                0.15, 0.4, 0.8, 1., 1.5, 2., 4., 12.
         };
 
 int centralitySelect=0;
@@ -923,7 +923,6 @@ void bookObjects()
                     for (int iCent = 0; iCent < nmultEdgeDCA; ++iCent) {
                         for (int iPt = 0; iPt < nPtBinsDca; ++iPt) {
                             const char *h2dName = Form("mh2DcaPtCentPartEtaVzPhi_p%i_eta%i_vz%i_m%i_pt%i_zdc%i", iParticle, iEta, iVz, iCent, iPt, iZdc);
-
                             h2Dca[iParticle][iEta][iVz][iPt][iCent] = (TH2D * )((fDca1.Get(h2dName)));
                             h2Dca[iParticle][iEta][iVz][iPt][iCent]->SetDirectory(0);
                         }
