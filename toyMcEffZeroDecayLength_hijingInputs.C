@@ -64,6 +64,7 @@ int getZdcBinDca(float);
 int getZdcBinRatio(float);
 int getMultiplicityBin(double);
 int getMultiplicityBinTPC(double);
+int getMultiplicityBinDCA(double);
 
 TVector3 const smearVertex(TVector3);
 
@@ -88,6 +89,9 @@ float const multEdge[nmultEdge+1] = {0, 4, 8, 12, 16, 20, 24, 200};
 
 const int nmultEdgeTPC = 1;
 float const multEdgeTPC[nmultEdgeTPC+1] = {0, 200};
+
+const int nmultEdgeDCA = 1;
+float const multEdgeDCA[nmultEdgeDCA+1] = {0, 200};
 
 //const int m_nmultEdge = 1; //7
 //float const m_multEdge[m_nmultEdge+1] = {0, 200}; //currently not used in dca
@@ -152,12 +156,12 @@ TH1D* h1VzError[nmultEdge+1];
 
 TH1D* hHftRatio1[nParticles][nEtasHftRatio][nVzsHftRatio][nPhisHftRatio][m_nZdc];
 int const nCentDca = 9;
-TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nPtBinsDca][nmultEdge];
+TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nPtBinsDca][nmultEdgeDCA];
 
-TH1D* hTpcPiPlus[nmultEdge]; //embedding
-TH1D* hTpcPiMinus[nmultEdge]; //embedding
-TH1D* hTpcKPlus[nmultEdge]; //embedding
-TH1D* hTpcKMinus[nmultEdge]; //embedding
+TH1D* hTpcPiPlus[nmultEdgeTPC]; //embedding
+TH1D* hTpcPiMinus[nmultEdgeTPC]; //embedding
+TH1D* hTpcKPlus[nmultEdgeTPC]; //embedding
+TH1D* hTpcKMinus[nmultEdgeTPC]; //embedding
 TH1D* hRefMult;
 TH1D* h_k_tof_eff;//embedding
 TH1D* h_pi_tof_eff;//embedding
@@ -257,6 +261,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     Double_t refMult = hRefMult->GetRandom();
     int centrality = getMultiplicityBin(refMult);
     int centralityTPC = getMultiplicityBinTPC(refMult);
+    int centralityDCA = getMultiplicityBinDCA(refMult);
 
 //    int const centrality = floor(nmultEdge * gRandom->Rndm());
 
@@ -276,8 +281,8 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     TLorentzVector const pRMom = smearMom(pMom, fPionMomResolution);
 
     // smear position
-    TVector3 const kRPos = smearPosData(1, vertex.z(), zdcb, kRMom, v00, centrality); //particle dca smearing , transverse to its vector (why not to just change xy and z according to the dcaxy and dcaz from data without transverse position)
-    TVector3 const pRPos = smearPosData(0, vertex.z(), zdcb, pRMom, v00, centrality);
+    TVector3 const kRPos = smearPosData(1, vertex.z(), zdcb, kRMom, v00, centralityDCA); //particle dca smearing , transverse to its vector (why not to just change xy and z according to the dcaxy and dcaz from data without transverse position)
+    TVector3 const pRPos = smearPosData(0, vertex.z(), zdcb, pRMom, v00, centralityDCA);
 
     // reconstruct
     TLorentzVector const rMom = kRMom + pRMom;
@@ -607,6 +612,16 @@ int getMultiplicityBinTPC(double mult)
 }
 
 //_______________________________________________________________________________________________________________
+int getMultiplicityBinDCA(double mult)
+{
+    for (int i = 0; i < nmultEdgeDCA; i++) {
+        if ((mult >= multEdgeDCA[i]) && (mult < multEdgeDCA[i+1]))
+            return i;
+    }
+    return -1 ;
+}
+
+//_______________________________________________________________________________________________________________
 TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLorentzVector const& rMom, TVector3 const& pos, int const centrality) //pos is SV
 {
     int const iEtaIndex = getEtaIndexDca(rMom.PseudoRapidity());
@@ -617,9 +632,7 @@ TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLore
     double sigmaPosZ = 0;
     double sigmaPosXY = 0;
 
-    cout<<"h2DCA"<<endl;
-    h2Dca[iParticleIndex][iEtaIndex][iVzIndex][iPtIndex][centrality]->GetRandom2(sigmaPosXY,sigmaPosZ);
-    cout<<"h2DCA1"<<endl;
+    if (h2Dca[iParticleIndex][iEtaIndex][iVzIndex][iPtIndex][centrality]->GetEntries()>0) h2Dca[iParticleIndex][iEtaIndex][iVzIndex][iPtIndex][centrality]->GetRandom2(sigmaPosXY,sigmaPosZ);
     sigmaPosZ *= 1.e4;
     sigmaPosXY *= 1.e4;
 
@@ -757,7 +770,7 @@ bool matchHft(int const iParticleIndex, double const vz, int const zdcb, TLorent
     if (mom.Perp()>12) return false;
     if (mom.Perp()<0.15) return false;
     int bin = -1;
-    if (hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]) bin = hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->FindBin(mom.Perp());
+    if (hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->GetEntries()>0) bin = hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->FindBin(mom.Perp());
     else return false;
     if (bin<1) return false;
     return gRandom->Rndm() < hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->GetBinContent(bin);
@@ -907,7 +920,7 @@ void bookObjects()
 //        for(int iZdc = 0; iZdc < nZdcDCA; ++iZdc) {
             for (int iEta = 0; iEta < nEtasDca; ++iEta) {
                 for (int iVz = 0; iVz < nVzsDca; ++iVz) {
-                    for (int iCent = 0; iCent < nmultEdge; ++iCent) {
+                    for (int iCent = 0; iCent < nmultEdgeDCA; ++iCent) {
                         for (int iPt = 0; iPt < nPtBinsDca; ++iPt) {
                             const char *h2dName = Form("mh2DcaPtCentPartEtaVzPhi_p%i_eta%i_vz%i_m%i_pt%i_zdc%i", iParticle, iEta, iVz, iCent, iPt, iZdc);
 
