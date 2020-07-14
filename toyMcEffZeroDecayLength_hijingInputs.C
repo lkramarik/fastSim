@@ -102,8 +102,8 @@ float const multEdgeDCA[nmultEdgeDCA+1] = {0, 200};
 const int nZdcDCA = 1;
 float const zdcxBinsDCA[nZdcDCA+1] = {0,210};
 
-const int m_nZdc = 2;
-float const m_zdcEdge[m_nZdc+1] = {0,150,210};
+const int m_nZdc = 1;
+float const m_zdcEdge[m_nZdc+1] = {0,210};
 
 //const int m_nZdcDCA = 2;
 //float const m_zdcEdgeDCA[m_nZdcDCA+1] = {0,150,210};
@@ -112,17 +112,17 @@ float const m_zdcEdge[m_nZdc+1] = {0,150,210};
 //float const m_zdcEdge[m_nZdc+1] = {0,50,70,90,110,130,150,170,190,210,250};
 
 // HFT ratio binning
-const Int_t nEtasHftRatio = 10;
-const Int_t nVzsHftRatio = 6;
+const Int_t nEtasHftRatio = 6;
+const Int_t nVzsHftRatio = 3;
 const Int_t nPtBinsHftRatio = 15;
 const Int_t nPhisHftRatio = 11;
 const Double_t EtaEdgeHftRatio[nEtasHftRatio + 1] = //ok
         {
-                -1.0, -0.8, -0.6, -0.4, -0.2, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0
+                -1.0, -0.6, -0.2, 0.0, 0.2, 0.6, 1.0
         };
 const Double_t VzEdgeHftRatio[nVzsHftRatio + 1] = //ok
         {
-                -6.0e4, -4.0e4, -2.0e4, 0.0, 2.0e4, 4.0e4, 6.0e4
+                -6.0e4, -2.0e4, 2.0e4, 6.0e4
         };
 const Double_t ptEdgeHftRatio[nPtBinsHftRatio + 1] = { //ok
         0.2,0.3,0.4,0.5,0.6,0.8,1.0,1.2,1.4,1.6,2.0,2.5,3.0,4.0,6.0,12.0
