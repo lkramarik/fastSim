@@ -94,10 +94,10 @@ void divide_ntp(TString input="D0.toyMc.1605.root") {
         if ((kHft>0) && (pHft>0)) hft =1;
 
         etas=0;
-        if ((abs(kREta)<1) && (abs(pREta)<1) etas =1;
+        if ((abs(kREta)<1) && (abs(pREta)<1)) etas =1;
 
         mcEtas=0;
-        if ((abs(kEta)<1) && (abs(pEta)<1) mcEtas =1;
+        if ((abs(kEta)<1) && (abs(pEta)<1)) mcEtas =1;
 
 //        if ((pi1_pt>0.15) && (k_pt>0.15) && (cosTheta>0.5) && (pi1_dca>0.001) && (k_dca>0.001) && (D_pt>0.5) && (D_pt<6)){
         int ii = 0;
