@@ -400,11 +400,6 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     arr[iArr++] = matchHft(1, vertex.z(), zdcb, kRMom); //kaon = 1, pion = 0
     arr[iArr++] = matchHft(0, vertex.z(), zdcb, pRMom);
 
-//   arr[iArr++] = 1;
-//   arr[iArr++] = 1;
-//   arr[iArr++] = 1; //kaon = 1, pion = 0
-//   arr[iArr++] = 1;
-
     nt->Fill(arr);
 }
 
