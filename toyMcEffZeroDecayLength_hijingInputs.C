@@ -34,7 +34,6 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
 void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& kMom, TLorentzVector const& piMom, TVector3 v00);
 void getKinematics(TLorentzVector& b, double const mass);
 TLorentzVector smearMom(TLorentzVector const& b, TF1 const * const fMomResolution);
-TVector3 smearPos(TLorentzVector const& mom, TLorentzVector const& rMom, TVector3 const& pos);
 TVector3 smearPosData(int iParticleIndex, double vz, int zdcb, TLorentzVector const& rMom, TVector3 const& pos, int const centrality);
 float dca(TVector3 const& p, TVector3 const& pos, TVector3 const& vertex);
 float dcaSigned(TVector3 const& p, TVector3 const& pos, TVector3 const& vertex);
@@ -172,8 +171,6 @@ std::pair<float, float> const momentumRange(0, 10);
 
 float const gVzCut = 6.0e4;
 float const acceptanceRapidity = 1.0;
-float const sigmaPos0 = 15.2;
-float const pxlLayer1Thickness = 0.00486;
 float const sigmaVertexCent[nCentHftRatio] = {31., 18.1, 12.8, 9.3, 7.2, 5.9, 5., 4.6, 4.}; //not using
 
 //============== main  program ==================
@@ -241,7 +238,8 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
             case 321: //kaonplus kaon minus
                 ptl0->Momentum(kMom); //seting momentum to kMom
                 // v00.SetXYZ(0,0,0);
-                v00.SetXYZ(ptl0->Vx() * 1000., ptl0->Vy() * 1000., ptl0->Vz() * 1000.); // converted to μm, production vertex
+//                v00.SetXYZ(ptl0->Vx() * 1000., ptl0->Vy() * 1000., ptl0->Vz() * 1000.); // converted to μm, production vertex ?? this is orig, but cm to um is 1e4?
+                v00.SetXYZ(ptl0->Vx() * 1e4, ptl0->Vy() * 1e4, ptl0->Vz() * 1e4); // converted to μm, production vertex ?? this is orig, but cm to um is 1e4
                 break;
             case 211:   // pionplus
                 ptl0->Momentum(pMom);
@@ -484,16 +482,6 @@ TLorentzVector smearMom(TLorentzVector const& b, TF1 const * const fMomResolutio
     TLorentzVector sMom;
     sMom.SetXYZM(sPt * cos(b.Phi()), sPt * sin(b.Phi()), sPt * sinh(b.PseudoRapidity()), b.M());
     return sMom;
-}
-
-//_______________________________________________________________________________________________________________
-TVector3 smearPos(TLorentzVector const& mom, TLorentzVector const& rMom, TVector3 const& pos)
-{
-    float thetaMCS = 13.6 / mom.Beta() / rMom.P() / 1000 * sqrt(pxlLayer1Thickness / fabs(sin(mom.Theta())));
-    float sigmaMCS = thetaMCS * 28000 / fabs(sin(mom.Theta()));
-    float sigmaPos = sqrt(pow(sigmaMCS, 2) + pow(sigmaPos0, 2));
-
-    return TVector3(gRandom->Gaus(pos.X(), sigmaPos), gRandom->Gaus(pos.Y(), sigmaPos), gRandom->Gaus(pos.Z(), sigmaPos));
 }
 
 //_______________________________________________________________________________________________________________
