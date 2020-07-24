@@ -133,10 +133,11 @@ const Double_t PhiEdgeHftRatio[nPhisHftRatio + 1] = //ok
 
 int const nVzsDca = 4;
 const Int_t nPhisDca = 11;
-int const nEtasDca = 3;
+int const nEtasDca = 4;
 const Int_t nPtBinsDca = 7;
 float const VzEdgeDca[nVzsDca + 1] = {   -6.e4, -3.e4, 0, 3.e4, 6.e4};
-float const EtaEdgeDca[nEtasDca + 1] = {0, 0.4, 0.8, 1};
+float const EtaEdgeDca[nEtasDca + 1] = {0, 0.2, 0.4, 0.8, 1};
+
 const Double_t PhiEdgeDca[nPhisDca + 1] =
         {
                 -3.14159 , -2.80359 , -2.17527 , -1.54696 , -0.918637 , -0.290319 , 0.338 , 0.966319 , 1.59464 , 2.22296 , 2.85127 , 3.14159 //Sector by Sector  // sector number 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3
@@ -238,8 +239,7 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
             case 321: //kaonplus kaon minus
                 ptl0->Momentum(kMom); //seting momentum to kMom
                 // v00.SetXYZ(0,0,0);
-//                v00.SetXYZ(ptl0->Vx() * 1000., ptl0->Vy() * 1000., ptl0->Vz() * 1000.); // converted to μm, production vertex ?? this is orig, but cm to um is 1e4?
-                v00.SetXYZ(ptl0->Vx() * 1e4, ptl0->Vy() * 1e4, ptl0->Vz() * 1e4); // converted to μm, production vertex ?? this is orig, but cm to um is 1e4
+                v00.SetXYZ(ptl0->Vx() * 1000., ptl0->Vy() * 1000., ptl0->Vz() * 1000.); // converted to μm, production vertex
                 break;
             case 211:   // pionplus
                 ptl0->Momentum(pMom);
