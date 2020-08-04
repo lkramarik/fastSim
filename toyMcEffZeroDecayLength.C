@@ -98,8 +98,8 @@ float const multEdgeTPC[nmultEdgeTPC+1] = {0, 200};
 const int nZdcDCA = 1;
 float const zdcxBinsDCA[nZdcDCA+1] = {0,210};
 
-const int m_nZdc = 2;
-float const m_zdcEdge[m_nZdc+1] = {0,150,210};
+const int m_nZdc = 1;
+float const m_zdcEdge[m_nZdc+1] = {0,210};
 
 //const int m_nZdcDCA = 2;
 //float const m_zdcEdgeDCA[m_nZdcDCA+1] = {0,150,210};
