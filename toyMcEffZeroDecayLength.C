@@ -110,7 +110,7 @@ float const m_zdcEdge[m_nZdc+1] = {0,150,210};
 // HFT ratio binning
 const Int_t nEtasHftRatio = 10;
 const Int_t nVzsHftRatio = 6;
-const Int_t nPtBinsHftRatio = 15;
+const Int_t nPtBinsHftRatio = 15; //not using now
 const Int_t nPhisHftRatio = 11;
 const Double_t EtaEdgeHftRatio[nEtasHftRatio + 1] = //ok
         {
@@ -129,7 +129,7 @@ const Double_t PhiEdgeHftRatio[nPhisHftRatio + 1] = //ok
         };
 
 int const nVzsDca = 4;
-const Int_t nPhisDca = 11;
+const Int_t nPhisDca = 11; //not used now
 int const nEtasDca = 3;
 const Int_t nPtBinsDca = 12;
 float const VzEdgeDca[nVzsDca + 1] = {   -6.e4, -3.e4, 0, 3.e4, 6.e4};
@@ -151,7 +151,6 @@ TH1D* h1VxError[nmultEdge+1];
 TH1D* h1VzError[nmultEdge+1];
 
 TH1D* hHftRatio1[nParticles][nEtasHftRatio][nVzsHftRatio][nPhisHftRatio][m_nZdc];
-int const nCentDca = 9;
 TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nPtBinsDca][nmultEdge];
 
 TH1D* hTpcPiPlus[nmultEdge]; //embedding
