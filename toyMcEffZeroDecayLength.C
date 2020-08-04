@@ -882,7 +882,7 @@ void bookObjects()
     fEvent.Close();
     fVertexReso.Close();
 
-   cout << "Loading input HFT ratios and DCA ..." << endl;
+   cout << "Loading input HFT ratios ..." << endl;
     TFile fDca1("dcaxy_vs_dcaz.root");
     TFile fHftRatio1Pion("hftratio_vs_pt_dAu_pion.root");
     TFile fHftRatio1Kaon("hftratio_vs_pt_dAu_kaon.root");
@@ -898,6 +898,7 @@ void bookObjects()
                 }
             }
         }
+        cout << "Loading input DCA ..." << endl;
 
         //DCA
         int iZdc=0;
