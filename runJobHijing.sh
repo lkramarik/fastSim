@@ -23,7 +23,7 @@ cp ../../piplus_tpc_eff_embedding.root ./
 
 cp ../../kaon_momentum_resolution.root ./
 cp ../../pion_momentum_resolution.root ./
-cp ../../inputs.event.root ./
+cp ../../inputs.event.hijing.root ./
 cp ../../vertexReso.root ./
 cp ../../eff_tof.root ./
 cp ../../hftratio_vs_pt_dAu_kaon_hijing.root ./

@@ -825,7 +825,6 @@ void bookObjects()
     fWeightFunctionAuAu = (TF1*)fAuAu.Get("myLevyFcn_9")->Clone("f1LevyAuAu");
     fAuAu.Close();
 
-
     TFile filePidK("totalEff_K.root");
     f1PidK = (TF1*)filePidK.Get("fTotalGraphEffPid_K")->Clone("f1PidK");
     filePidK.Close();
@@ -845,7 +844,7 @@ void bookObjects()
     char name[500];
     //getting VZ histogram for each multiplicity
    cout<<"Loading Vz and ZDCs..."<<endl;
-    TFile fEvent("inputs.event.root");
+    TFile fEvent("inputs.event.hijing.root");
     TH3F* mh3VzZdcMult = new TH3F();
     mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
 //    hRefMult = (TH1D*)fEvent.Get("hrefMult");
