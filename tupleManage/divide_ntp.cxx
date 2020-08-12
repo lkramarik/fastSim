@@ -34,7 +34,7 @@ void divide_ntp(TString input="D0.toyMc.1605.root") {
 
     TNtuple *ntp = (TNtuple*) data->Get("nt");
     Float_t w, flag, D_theta, D_mass, D_pt, D_decayL, k_pt, pi1_pt, pi1_dca, k_dca, k_nSigma, pi1_nSigma, pi1_TOFinvbeta, k_TOFinvbeta, dcaDaughters, pi1_eventId, k_eventId, dca_d0, dcaD0ToPv, cosTheta, D_cosThetaStar, D_ptSIM, y, rY, kY, kRY, pY, pRY;
-    Float_t pPID, kPID, kHft, pHft, pTpc, kTpc, kREta, pREta, dReta, eta, kEta, pEta, rapidities, MCrapidities;
+    Float_t pPID, kPID, kHft, pHft, pTpc, kTpc, kREta, pREta, dReta, eta, kEta, pEta, rapidities, MCrapidities,refMult;
 
     ntp->SetBranchAddress("rM", &D_mass);
     ntp->SetBranchAddress("decayLength", &D_decayL);
