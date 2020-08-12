@@ -121,7 +121,7 @@ const Double_t EtaEdgeHftRatio[nEtasHftRatio + 1] = //ok
         };
 const Double_t VzEdgeHftRatio[nVzsHftRatio + 1] = //ok
         {
-                -6.0e4, -2.0e4, 2.0e4, 6.0e4
+                -6.0, -2.0, 2.0, 6.0
         };
 const Double_t ptEdgeHftRatio[nPtBinsHftRatio + 1] = { //ok
         0.2,0.3,0.4,0.5,0.6,0.8,1.0,1.2,1.4,1.6,2.0,2.5,3.0,4.0,6.0,12.0
@@ -135,7 +135,7 @@ int const nVzsDca = 4;
 const Int_t nPhisDca = 11;
 int const nEtasDca = 4;
 const Int_t nPtBinsDca = 7;
-float const VzEdgeDca[nVzsDca + 1] = {   -6.e4, -3.e4, 0, 3.e4, 6.e4};
+float const VzEdgeDca[nVzsDca + 1] = {   -6., -3., 0, 3., 6.};
 float const EtaEdgeDca[nEtasDca + 1] = {0, 0.2, 0.4, 0.8, 1};
 
 const Double_t PhiEdgeDca[nPhisDca + 1] =
@@ -170,7 +170,7 @@ string outFileName = "D0.toyMc";
 std::pair<int, int> const decayChannels(747, 807);
 std::pair<float, float> const momentumRange(0, 10);
 
-float const gVzCut = 6.0e4;
+float const gVzCut = 6.0;
 float const acceptanceRapidity = 1.0;
 float const sigmaVertexCent[nCentHftRatio] = {31., 18.1, 12.8, 9.3, 7.2, 5.9, 5., 4.6, 4.}; //not using
 
@@ -239,7 +239,7 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
             case 321: //kaonplus kaon minus
                 ptl0->Momentum(kMom); //seting momentum to kMom
                 // v00.SetXYZ(0,0,0);
-                v00.SetXYZ(ptl0->Vx() * 1000., ptl0->Vy() * 1000., ptl0->Vz() * 1000.); // converted to μm, production vertex
+                v00.SetXYZ(ptl0->Vx() * 0.1, ptl0->Vy() * 0.1, ptl0->Vz() * 0.1); // converted to μm, production vertex
                 break;
             case 211:   // pionplus
                 ptl0->Momentum(pMom);
@@ -307,11 +307,11 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     int const charge = kf > 0 ? 1 : -1;
 
     // save; change units from um to cm
-    dca12 /= 1e4;
-    decayLength /= 1e4;
-    dcaD0ToPv /= 1e4;
-    pRDca /= 1e4;
-    kRDca /= 1e4;
+//    dca12 /= 1e4;
+//    decayLength /= 1e4;
+//    dcaD0ToPv /= 1e4;
+//    pRDca /= 1e4;
+//    kRDca /= 1e4;
 
     const int nNtVars = nt->GetNvar();
     float arr[nNtVars];
@@ -404,7 +404,8 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 //_______________________________________________________________________________________________________________
 void getKinematics(TLorentzVector& b, double const mass)
 {
-    float const pt = gRandom->Uniform(momentumRange.first, momentumRange.second);
+//    float const pt = gRandom->Uniform(momentumRange.first, momentumRange.second);
+    float const pt = fWeightFunction->GetRandom();
     float const y = gRandom->Uniform(-acceptanceRapidity, acceptanceRapidity);
     float const phi = TMath::TwoPi() * gRandom->Rndm();
 
@@ -616,8 +617,6 @@ TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLore
     double sigmaPosXY = 0;
 
     if (h2Dca[iParticleIndex][iEtaIndex][iVzIndex][iPtIndex][centrality]->GetEntries()>0) h2Dca[iParticleIndex][iEtaIndex][iVzIndex][iPtIndex][centrality]->GetRandom2(sigmaPosXY,sigmaPosZ);
-    sigmaPosZ *= 1.e4;
-    sigmaPosXY *= 1.e4;
 
     TVector3 newPos(pos);
     newPos.SetZ(0);
@@ -636,7 +635,7 @@ TVector3 getVertex(int const centrality)
     else
     {
         do {
-            rdmVz = h1Vz[centrality]->GetRandom() * 1e4; //um
+            rdmVz = h1Vz[centrality]->GetRandom(); //um
         }
         while (fabs(rdmVz) > gVzCut);
     }
@@ -653,14 +652,14 @@ TVector3 getVertexWithError(int const centrality)
     else
     {
         do {
-            rdmVz = h1Vz[centrality]->GetRandom() * 1e4; //um
+            rdmVz = h1Vz[centrality]->GetRandom();
         }
         while (fabs(rdmVz) > gVzCut);
     }
 
-    double xError = h1VxError[centrality]->GetRandom() * 1e4; //um
-    double yError = h1VxError[centrality]->GetRandom() * 1e4; //um
-    double zError = h1VzError[centrality]->GetRandom() * 1e4; //um from 0 to 1
+    double xError = h1VxError[centrality]->GetRandom();
+    double yError = h1VxError[centrality]->GetRandom();
+    double zError = h1VzError[centrality]->GetRandom();
 
     float rand;
     do {
