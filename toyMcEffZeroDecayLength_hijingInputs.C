@@ -50,16 +50,17 @@ bool matchTOF(int const iParticleIndex, TLorentzVector const& mom);
 bool goodPID(int const iParticleIndex, TLorentzVector const& mom);
 void bookObjects();
 void write();
+
 int getPtIndexDca(double);
 int getEtaIndexDca(double);
 int getVzIndexDca(double);
 int getPhiIndexDca(double);
+int getZdcBinDca(float);
 
 int getPtIndexHftRatio(double);
 int getEtaIndexHftRatio(double);
 int getVzIndexHftRatio(double);
 int getPhiIndexHftRatio(double);
-int getZdcBinDca(float);
 int getZdcBinRatio(float);
 int getMultiplicityBin(double);
 int getMultiplicityBinTPC(double);
@@ -86,6 +87,7 @@ const Int_t nCentHftRatio = 9;
 const int nmultEdge = 7;
 float const multEdge[nmultEdge+1] = {0, 4, 8, 12, 16, 20, 24, 200};
 
+//tpc Eff.
 const int nmultEdgeTPC = 1;
 float const multEdgeTPC[nmultEdgeTPC+1] = {0, 200};
 
@@ -140,14 +142,13 @@ float const EtaEdgeDca[nEtasDca + 1] = {0, 0.2, 0.4, 0.8, 1};
 
 const Double_t PhiEdgeDca[nPhisDca + 1] =
         {
-                -3.14159 , -2.80359 , -2.17527 , -1.54696 , -0.918637 , -0.290319 , 0.338 , 0.966319 , 1.59464 , 2.22296 , 2.85127 , 3.14159 //Sector by Sector  // sector number 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3
+                -3.14159 , -2.80359 , -2.17527 , -1.54696 , -0.918637 , -0.290319 , 0.338 , 0.966319 , 1.59464 , 2.22296 , 2.85127 , 3.14159 //Sector by Sector
+                // sector number 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3
         };
 const Double_t ptEdgeDca[nPtBinsDca + 1] =
         {
                 0.15, 0.4, 0.8, 1., 1.5, 2., 4., 12.
         };
-
-int centralitySelect=0;
 
 TH1D* h1Vz[nmultEdge+1];
 TH1D* h1ZdcX[nmultEdge+1];
