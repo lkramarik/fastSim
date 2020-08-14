@@ -51,6 +51,7 @@
       <File>file:&codePath;/eff_tof.root</File>
       <File>file:&codePath;/hftratio_vs_pt_dAu_pion_hijing.root</File>
       <File>file:&codePath;/hftratio_vs_pt_dAu_kaon_hijing.root</File>
+      <File>file:&codePath;/inputs.event_hijing.root</File>
       <File>file:&codePath;/inputs.event.hijing.root</File>
       <File>file:&codePath;/vertexReso.root</File>
       <File>file:&codePath;/published_run10_D0_AuAu_data.root</File>
