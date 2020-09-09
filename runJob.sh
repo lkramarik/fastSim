@@ -20,6 +20,7 @@ cp ../../kplus_tpc_eff_embedding.root ./
 cp ../../kminus_tpc_eff_embedding.root  ./
 cp ../../piminus_tpc_eff_embedding.root ./
 cp ../../piplus_tpc_eff_embedding.root ./
+cp ../../HIJING_D0_pt_y.root ./
 
 cp ../../kaon_momentum_resolution.root ./
 cp ../../pion_momentum_resolution.root ./

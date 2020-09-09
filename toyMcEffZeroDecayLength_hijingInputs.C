@@ -845,7 +845,9 @@ void bookObjects()
 
     TFile fileHijing("HIJING_D0_pt_y.root");
     hD0ptHIJING = (TH1F*)fileHijing.Get("hMcD0Pt")->Clone("hD0ptHIJING");
+    hD0ptHIJING->SetDirectory(0);
     hD0yHIJING = (TH1F*)fileHijing.Get("hMcD0Y")->Clone("hD0yHIJING");
+    hD0yHIJING->SetDirectory(0);
     fileHijing.Close();
 
     cout<<"Loading TOF eff."<<endl;
@@ -860,7 +862,8 @@ void bookObjects()
     //getting VZ histogram for each multiplicity
    cout<<"Loading Vz and ZDCs..."<<endl;
     TFile fEvent("inputs.event_hijing.root");
-    TH3F* mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
+    TH3F* mh3VzZdcMult = new TH3F();
+    mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
 //    hRefMult = (TH1D*)fEvent.Get("hrefMult");
 
     TFile fVertexReso("vertexReso.root");
@@ -975,6 +978,8 @@ void bookObjects()
                                "pRM:pRPt:pREta:pRY:pRPhi:pRVx:pRVy:pRVz:pRDca:pRSDca:pRDcaXY:pRDcaZ:pTpc:" // Rc Pion1
                                "kPID:pPID:kHft:pHft", BufSize);
 // nt->SetAutoSave(-500000); // autosave every 1 Mbytes
+
+    cout<<"files loaded"<<endl;
 }
 
 //___________
