@@ -155,6 +155,9 @@ TH1D* h1ZdcX[nmultEdge+1];
 TH1D* h1VxError[nmultEdge+1];
 TH1D* h1VzError[nmultEdge+1];
 
+TH1F* hD0ptHIJING;
+TH1F* hD0yHIJING;
+
 TH1D* hHftRatio1[nParticles][nEtasHftRatio][nVzsHftRatio][nPhisHftRatio][m_nZdc];
 int const nCentDca = 9;
 TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nPtBinsDca][nmultEdgeDCA];
@@ -406,9 +409,16 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 void getKinematics(TLorentzVector& b, double const mass)
 {
 //    float const pt = gRandom->Uniform(momentumRange.first, momentumRange.second);
-    float const pt = fWeightFunction->GetRandom();
-    float const y = gRandom->Uniform(-acceptanceRapidity, acceptanceRapidity);
-    float const phi = TMath::TwoPi() * gRandom->Rndm();
+//    float const pt = fWeightFunction->GetRandom();
+//    float const y = gRandom->Uniform(-acceptanceRapidity, acceptanceRapidity);
+
+    float pt = 999;
+    while (pt > 8)  pt = hD0ptHIJING->GetRandom();
+
+    float y = 999;
+    while (fabs(y)>1) y = hD0yHIJING->GetRandom();
+
+    float const phi = TMath::TwoPi() * gRandom->Rndm(); //rndm [0,1]
 
     float const mT = sqrt(mass * mass + pt * pt);
     float const pz = mT * sinh(y);
@@ -832,6 +842,11 @@ void bookObjects()
     TFile filePidPi("totalEff_pi.root");
     f1PidPi = (TF1*)filePidPi.Get("fTotalGraphEffPid_pi")->Clone("f1PidPi");
     filePidPi.Close();
+
+    TFile fileHijing("HIJING_D0_pt_y.root");
+    hD0ptHIJING = (TH1F*)fileHijing.Get("hMcD0Pt")->Clone("hD0ptHIJING");
+    hD0yHIJING = (TH1F*)fileHijing.Get("hMcD0Y")->Clone("hD0yHIJING");
+    fileHijing.Close();
 
     cout<<"Loading TOF eff."<<endl;
     TFile f_tof("eff_tof.root");
