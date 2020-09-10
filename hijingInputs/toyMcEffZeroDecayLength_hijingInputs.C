@@ -24,6 +24,7 @@
 #include "phys_constants.h"
 #include "SystemOfUnits.h"
 #include "TStopwatch.h"
+#include "StAnaCutsHijing.h"
 // #include "TSystem.h"
 // #include "TMemStat.h"
 
@@ -57,7 +58,6 @@ int getVzIndexDca(double);
 int getPhiIndexDca(double);
 int getZdcBinDca(float);
 
-int getPtIndexHftRatio(double);
 int getEtaIndexHftRatio(double);
 int getVzIndexHftRatio(double);
 int getPhiIndexHftRatio(double);
@@ -91,26 +91,8 @@ float const multEdge[nmultEdge+1] = {0, 4, 8, 12, 16, 20, 24, 200};
 const int nmultEdgeTPC = 1;
 float const multEdgeTPC[nmultEdgeTPC+1] = {0, 200};
 
-const int nmultEdgeDCA = 1;
-float const multEdgeDCA[nmultEdgeDCA+1] = {0, 200};
 
-//const int m_nmultEdge = 1; //7
-//float const m_multEdge[m_nmultEdge+1] = {0, 200}; //currently not used in dca
 
-//const Int_t nZdcX = 5;
-//const Double_t zdcxBins[] = {0,40,50,60,70,200};
-
-const int nZdcDCA = 1;
-float const zdcxBinsDCA[nZdcDCA+1] = {0,210};
-
-const int m_nZdc = 1;
-float const m_zdcEdge[m_nZdc+1] = {0,210};
-
-//const int m_nZdcDCA = 2;
-//float const m_zdcEdgeDCA[m_nZdcDCA+1] = {0,150,210};
-
-//const int m_nZdc = 10;
-//float const m_zdcEdge[m_nZdc+1] = {0,50,70,90,110,130,150,170,190,210,250};
 
 // HFT ratio binning
 const Int_t nEtasHftRatio = 6;
@@ -125,9 +107,7 @@ const Double_t VzEdgeHftRatio[nVzsHftRatio + 1] = //ok
         {
                 -6.0, -2.0, 2.0, 6.0
         };
-const Double_t ptEdgeHftRatio[nPtBinsHftRatio + 1] = { //ok
-        0.2,0.3,0.4,0.5,0.6,0.8,1.0,1.2,1.4,1.6,2.0,2.5,3.0,4.0,6.0,12.0
-};
+
 const Double_t PhiEdgeHftRatio[nPhisHftRatio + 1] = //ok
         {
                 -3.14159 , -2.80359 , -2.17527 , -1.54696 , -0.918637 , -0.290319 , 0.338 , 0.966319 , 1.59464 , 2.22296 , 2.85127 , 3.14159
@@ -150,6 +130,17 @@ const Double_t ptEdgeDca[nPtBinsDca + 1] =
                 0.15, 0.4, 0.8, 1., 1.5, 2., 4., 12.
         };
 
+const int nmultEdgeDCA = 1;
+float const multEdgeDCA[nmultEdgeDCA+1] = {0, 200};
+
+const int nZdcDCA = 1;
+float const zdcxBinsDCA[nZdcDCA+1] = {0,210};
+
+const int m_nZdc = 1;
+float const m_zdcEdge[m_nZdc+1] = {0,210};
+
+//
+
 TH1D* h1Vz[nmultEdge+1];
 TH1D* h1ZdcX[nmultEdge+1];
 TH1D* h1VxError[nmultEdge+1];
@@ -160,7 +151,7 @@ TH1F* hD0yHIJING;
 
 TH1D* hHftRatio1[nParticles][nEtasHftRatio][nVzsHftRatio][nPhisHftRatio][m_nZdc];
 int const nCentDca = 9;
-TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nPtBinsDca][nmultEdgeDCA];
+TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nmultEdgeDCA][nPtBinsDca];
 
 TH1D* hTpcPiPlus[nmultEdgeTPC]; //embedding
 TH1D* hTpcPiMinus[nmultEdgeTPC]; //embedding
@@ -541,17 +532,6 @@ int getPhiIndexDca(double Phi)
     return nPhisDca - 1 ;
 }
 
-//_______________________________________________________________________________________________________________
-int getPtIndexHftRatio(double pT)
-{
-    for (int i = 0; i < nPtBinsHftRatio; i++)
-    {
-        if ((pT >= ptEdgeHftRatio[i]) && (pT < ptEdgeHftRatio[i + 1]))
-            return i;
-    }
-    if (pT<ptEdgeHftRatio[0]) return 0;
-    return nPtBinsHftRatio - 1 ;
-}
 
 //_______________________________________________________________________________________________________________
 int getEtaIndexHftRatio(double Eta)
@@ -825,8 +805,7 @@ void bookObjects()
     fKaonMom.Close();
 
    cout << "Loading input spectra ..." << endl;
-//   TFile fPP("pp200_spectra.root");
-//   fWeightFunction = (TF1*)fPP.Get("run12/f1Levy")->Clone("f1Levy");
+
     TFile fPP("published_run10_D0_AuAu_data.root");
     fWeightFunction = (TF1*)fPP.Get("Levy_pp")->Clone("f1Levy");
     fPP.Close();
@@ -866,13 +845,6 @@ void bookObjects()
     mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
 //    hRefMult = (TH1D*)fEvent.Get("hrefMult");
 
-    TFile fVertexReso("vertexReso.root");
-    TH2F* mh2VxRefMult = new TH2F();
-    mh2VxRefMult = (TH2F*)fVertexReso.Get("picoDstVErrX_vs_refMult");
-
-    TH2F* mh2VzRefMult = new TH2F();
-    mh2VzRefMult = (TH2F*)fVertexReso.Get("picoDstVErrZ_vs_refMult");
-
     int binVzmin = 1;
     int binVzup = mh3VzZdcMult->GetXaxis()->GetNbins();
     int binZDCmin = 1;
@@ -885,17 +857,11 @@ void bookObjects()
         h1Vz[ii]->SetDirectory(0);
         h1ZdcX[ii] = mh3VzZdcMult -> ProjectionY("_py",binVzmin, binVzup, binMultmin, binMultmax, ""); //vz zdc
         h1ZdcX[ii]->SetDirectory(0);
-
-        h1VzError[ii] = mh2VzRefMult-> ProjectionY("_py", mh2VzRefMult->GetXaxis()->FindBin(multEdge[ii]), mh2VzRefMult->GetXaxis()->FindBin(multEdge[ii+1]), "");
-        h1VzError[ii]->SetDirectory(0);
-        h1VxError[ii] = mh2VxRefMult-> ProjectionY("_py", mh2VxRefMult->GetXaxis()->FindBin(multEdge[ii]), mh2VxRefMult->GetXaxis()->FindBin(multEdge[ii+1]), "");
-        h1VxError[ii]->SetDirectory(0);
-
     }
+
     hRefMult = (TH1D*) mh3VzZdcMult -> ProjectionZ("_pz",binVzmin, binVzup, binZDCmin, binZDCmax, "");
     hRefMult->SetDirectory(0);
     fEvent.Close();
-    fVertexReso.Close();
 
    cout << "Loading input HFT ratios and DCA ...HIJING..." << endl;
     TFile fDca1("dcaxy_vs_dcaz_hijing.root");
