@@ -56,7 +56,6 @@ int getEtaIndexDca(double);
 int getVzIndexDca(double);
 int getPhiIndexDca(double);
 
-int getEtaIndexHftRatio(double);
 int getVzIndexHftRatio(double);
 int getPhiIndexHftRatio(double);
 int getZdcBinRatio(float);
@@ -94,10 +93,7 @@ const Int_t m_nEtasRatio = 6;
 const Int_t nVzsHftRatio = 3;
 const Int_t nPtBinsHftRatio = 15;
 const Int_t nPhisHftRatio = 11;
-const Double_t m_EtaEdgeRatio[vars::m_nEtasRatio + 1] = //ok
-        {
-                -1.0, -0.6, -0.2, 0.0, 0.2, 0.6, 1.0
-        };
+
 const Double_t VzEdgeHftRatio[nVzsHftRatio + 1] = //ok
         {
                 -6.0, -2.0, 2.0, 6.0
@@ -528,18 +524,6 @@ int getPhiIndexDca(double Phi)
     return nPhisDca - 1 ;
 }
 
-
-//_______________________________________________________________________________________________________________
-int getEtaIndexHftRatio(double Eta)
-{
-    for (int i = 0; i < vars::m_nEtasRatio; i++)
-    {
-        if ((Eta >= vars::m_EtaEdgeRatio[i]) && (Eta < vars::m_EtaEdgeRatio[i + 1]))
-            return i;
-    }
-    return  -1 ;
-}
-
 //_______________________________________________________________________________________________________________
 int getVzIndexHftRatio(double Vz)
 {
@@ -847,7 +831,7 @@ void bookObjects()
                 for (int iCent = 0; iCent < vars::m_nmultEdgeDCA; ++iCent) {
                     for (int iPt = 0; iPt < vars::m_nPtsDca; ++iPt) {
                         const char *h2dName=Form("mh3DcaXyZPt_p%d_eta%d_vz%d_m%d_pt%d", iParticle, iEta, iVz, iCent, iPt);
-                        h2Dca[iParticle][iEta][iVz][iCent][iPt] = (TH2F * )((fDca1.Get(h2dName)));
+                        h2Dca[iParticle][iEta][iVz][iCent][iPt] = (TH2F* )((fDca1.Get(h2dName)));
                         h2Dca[iParticle][iEta][iVz][iCent][iPt]->SetDirectory(0);
                     }
                 }
