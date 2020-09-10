@@ -601,7 +601,7 @@ TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLore
 //
     int const iEtaIndex = getIndex(rMom.PseudoRapidity(), vars::m_EtaEdgeDca, vars::m_nEtasDca);
     int const iVzIndex = getIndex(vz, vars::m_VzEdgeDca, vars::m_nVzsDca);
-    int const iPtIndex = getIndex(rMom.Perp(), vars::m_nPtsDca, vars::m_nPtsDca);
+    int const iPtIndex = getIndex(rMom.Perp(), vars::m_PtEdgeDca, vars::m_nPtsDca);
 
     double sigmaPosZ = 0;
     double sigmaPosXY = 0;
@@ -710,7 +710,7 @@ bool matchHft(int const iParticleIndex, double const vz, int const zdcb, TLorent
 //    int const iPhiIndex = getPhiIndexHftRatio(mom.Phi());
 
     int const iEtaIndex = getIndex(mom.PseudoRapidity(), vars::m_EtaEdgeRatio, m_nEtasRatio);
-    int const iVzIndex = getIndex(vz, vars::m_VzEdgeRatio, vars::m_nVzsRatio)
+    int const iVzIndex = getIndex(vz, vars::m_VzEdgeRatio, vars::m_nVzsRatio);
     int const iPhiIndex = getIndex(mom.Phi(), vars::m_PhiEdgeRatio, vars::m_nPhisRatio);
 
     if (iEtaIndex<0 || iVzIndex<0 || iPhiIndex<0) return false;
