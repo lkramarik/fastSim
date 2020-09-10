@@ -147,7 +147,8 @@ TH1F* hD0yHIJING;
 TH1D* hHftRatio1[vars::m_nParticles][vars::m_nEtasRatio][vars::m_nVzsRatio][vars::m_nPhisRatio][vars::m_nZdc];
 int const nCentDca = 9;
 //TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nmultEdgeDCA][nPtBinsDca];
-TH2F* h2Dca[vars::m_nParticles][vars::m_nEtasDca][vars::m_nVzsDca][vars::m_nmultEdgeDCA][vars::m_nPtsDca];
+//TH2F* h2Dca[vars::m_nParticles][vars::m_nEtasDca][vars::m_nVzsDca][vars::m_nmultEdgeDCA][vars::m_nPtsDca];
+TH2F* h2Dca[2][3][4][1][11];
 
 TH1D* hTpcPiPlus[nmultEdgeTPC]; //embedding
 TH1D* hTpcPiMinus[nmultEdgeTPC]; //embedding
