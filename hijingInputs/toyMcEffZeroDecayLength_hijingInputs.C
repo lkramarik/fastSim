@@ -832,18 +832,20 @@ void bookObjects()
                 }
             }
         }
+        cout<<"dcas lodad"<<endl;
 
-        for (int iZdc = 0; iZdc < vars::m_nZdc; ++iZdc) {
-            for (int iEta = 0; iEta < vars::m_nEtasRatio; ++iEta) {
-                for (int iVz = 0; iVz < vars::m_nVzsRatio; ++iVz) {
-                    for (int iPhi = 0; iPhi < vars::m_nPhisRatio; ++iPhi) {
-                        if (iParticle==0)  hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc] = (TH1D*)(fHftRatio1Pion.Get(Form("h_hftratio_p%d_eta%d_vz%d_phi%d_z%d", iParticle, iEta, iVz, iPhi, iZdc)));
-                        if (iParticle==1)  hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc] = (TH1D*)(fHftRatio1Kaon.Get(Form("h_hftratio_p%d_eta%d_vz%d_phi%d_z%d", iParticle, iEta, iVz, iPhi, iZdc)));
-                        hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc]->SetDirectory(0);
-                    }
+        hisName=Form("h_hftratio_p%d_eta%d_vz%d_phi%d", iParticle, iEta, iVz, iPhi);
+
+        for (int iEta = 0; iEta < vars::m_nEtasRatio; iEta++) {
+            for (int iVz = 0; iVz < vars::m_nVzsRatio; iVz++) {
+                for (int iPhi = 0; iPhi < vars::m_nPhisRatio; iPhi++) {
+                    if (iParticle==0)  hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc] = (TH1D*)(fHftRatio1Pion.Get(Form("h_hftratio_p%d_eta%d_vz%d_phi%d", iParticle, iEta, iVz, iPhi)));
+                    if (iParticle==1)  hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc] = (TH1D*)(fHftRatio1Kaon.Get(Form("h_hftratio_p%d_eta%d_vz%d_phi%d", iParticle, iEta, iVz, iPhi));
+                    hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc]->SetDirectory(0);
                 }
             }
         }
+
         cout<<"hft loaded"<<endl;
 
 
