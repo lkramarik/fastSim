@@ -801,8 +801,8 @@ void bookObjects()
     //getting VZ histogram for each multiplicity
     cout<<"Loading Vz and ZDCs..."<<endl;
     TFile fEvent("inputs.event_hijing.root");
-    TH3F* mh3VzZdcMult = new TH3F();
-    mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
+    TH3D* mh3VzZdcMult = new TH3D();
+    mh3VzZdcMult = (TH3D*)fEvent.Get("mh3VzZdcMult");
     mh3VzZdcMult->SetDirectory(0);
 
     int binVzmin = 1;
@@ -819,7 +819,7 @@ void bookObjects()
         h1ZdcX[ii]->SetDirectory(0);
     }
 
-    hRefMult = (TH1D*) mh3VzZdcMult -> ProjectionZ("_pz",binVzmin, binVzup, binZDCmin, binZDCmax, "");
+    hRefMult = (TH1D*)fEvent.Get("hrefMult");
     hRefMult->SetDirectory(0);
     fEvent.Close();
 
