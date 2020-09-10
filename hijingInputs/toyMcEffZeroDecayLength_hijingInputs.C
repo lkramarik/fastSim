@@ -144,7 +144,7 @@ TH1D* h1VzError[nmultEdge+1];
 TH1F* hD0ptHIJING;
 TH1F* hD0yHIJING;
 
-TH1D* hHftRatio1[vars::m_nParticles][vars::m_nEtasRatio][vars::m_nVzsRatio][vars::m_nPhisRatio][vars::m_nZdc];
+TH1D* hHftRatio1[vars::m_nParticles][vars::m_nEtasRatio][vars::m_nVzsRatio][vars::m_nPhisRatio];
 int const nCentDca = 9;
 //TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nmultEdgeDCA][nPtBinsDca];
 //TH2F* h2Dca[vars::m_nParticles][vars::m_nEtasDca][vars::m_nVzsDca][vars::m_nmultEdgeDCA][vars::m_nPtsDca];
@@ -838,7 +838,7 @@ void bookObjects()
         for (int iEta = 0; iEta < vars::m_nEtasRatio; iEta++) {
             for (int iVz = 0; iVz < vars::m_nVzsRatio; iVz++) {
                 for (int iPhi = 0; iPhi < vars::m_nPhisRatio; iPhi++) {
-                    if (iParticle==0)  hHftRatio1[iParticle][iEta][iVz][iPhi] = (TH1D*)(fHftRatio1Pion.Get(Form("h_hftratio_p%d_eta%d_vz%d_phi%d", iParticle, iEta, iVz, iPhi)));
+                    if (iParticle==0)  hHftRatio1[iParticle][iEta][iVz][iPhi] = (TH1D*)(fHftRatio1Pion.Get(Form("h_hftratio_p%d_eta%d_vz%d_phi%d", iParticle, iEta, iVz, iPhi));
                     if (iParticle==1)  hHftRatio1[iParticle][iEta][iVz][iPhi] = (TH1D*)(fHftRatio1Kaon.Get(Form("h_hftratio_p%d_eta%d_vz%d_phi%d", iParticle, iEta, iVz, iPhi));
                     hHftRatio1[iParticle][iEta][iVz][iPhi][iZdc]->SetDirectory(0);
                 }
