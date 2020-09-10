@@ -606,7 +606,7 @@ TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLore
     double sigmaPosZ = 0;
     double sigmaPosXY = 0;
 
-    if (h2Dca[iParticleIndex][iEtaIndex][iVzIndex][iPtIndex][centrality]->GetEntries()>0) h2Dca[iParticleIndex][iEtaIndex][iVzIndex][iPtIndex][centrality]->GetRandom2(sigmaPosXY,sigmaPosZ);
+    if (h2Dca[iParticleIndex][iEtaIndex][iVzIndex][centrality][iPtIndex]->GetEntries()>0) h2Dca[iParticleIndex][iEtaIndex][iVzIndex][centrality][iPtIndex]->GetRandom2(sigmaPosXY,sigmaPosZ);
 
     TVector3 newPos(pos);
     newPos.SetZ(0);
@@ -847,8 +847,8 @@ void bookObjects()
                 for (int iCent = 0; iCent < vars::m_nmultEdgeDCA; ++iCent) {
                     for (int iPt = 0; iPt < vars::m_nPtsDca; ++iPt) {
                         const char *h2dName=Form("mh3DcaXyZPt_p%d_eta%d_vz%d_m%d_pt%d", iParticle, iEta, iVz, iCent, iPt);
-                        h2Dca[iParticle][iEta][iVz][iPt][iCent] = (TH2F * )((fDca1.Get(h2dName)));
-                        h2Dca[iParticle][iEta][iVz][iPt][iCent]->SetDirectory(0);
+                        h2Dca[iParticle][iEta][iVz][iCent][iPt] = (TH2F * )((fDca1.Get(h2dName)));
+                        h2Dca[iParticle][iEta][iVz][iCent][iPt]->SetDirectory(0);
                     }
                 }
             }
