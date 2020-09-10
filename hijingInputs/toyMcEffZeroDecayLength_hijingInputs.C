@@ -803,7 +803,7 @@ void bookObjects()
     TFile fEvent("inputs.event_hijing.root");
     TH3F* mh3VzZdcMult = new TH3F();
     mh3VzZdcMult = (TH3F*)fEvent.Get("mh3VzZdcMult");
-//    hRefMult = (TH1D*)fEvent.Get("hrefMult");
+    mh3VzZdcMult->SetDirectory(0);
 
     int binVzmin = 1;
     int binVzup = mh3VzZdcMult->GetXaxis()->GetNbins();
@@ -846,8 +846,8 @@ void bookObjects()
             for (int iVz = 0; iVz < vars::m_nVzsDca; ++iVz) {
                 for (int iCent = 0; iCent < vars::m_nmultEdgeDCA; ++iCent) {
                     for (int iPt = 0; iPt < vars::m_nPtsDca; ++iPt) {
-                        const char *h2dName = Form("mh2DcaPtCentPartEtaVzPhi_p%i_eta%i_vz%i_m%i_pt%i_zdc%i", iParticle, iEta, iVz, iCent, iPt, iZdc);
-                        h2Dca[iParticle][iEta][iVz][iPt][iCent] = (TH2D * )((fDca1.Get(h2dName)));
+                        const char *h2dName=Form("mh3DcaXyZPt_p%d_eta%d_vz%d_m%d_pt%d", iParticle, iEta, iVz, iCent, iPt);
+                        h2Dca[iParticle][iEta][iVz][iPt][iCent] = (TH2F * )((fDca1.Get(h2dName)));
                         h2Dca[iParticle][iEta][iVz][iPt][iCent]->SetDirectory(0);
                     }
                 }
