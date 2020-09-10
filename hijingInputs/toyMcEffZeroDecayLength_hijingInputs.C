@@ -828,6 +828,7 @@ void bookObjects()
                 }
             }
         }
+        cout<<"hft loaded"<<endl;
 
         //DCA
         int iZdc=0;
