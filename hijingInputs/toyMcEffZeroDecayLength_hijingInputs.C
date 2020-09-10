@@ -90,11 +90,11 @@ float const multEdgeTPC[nmultEdgeTPC+1] = {0, 200};
 
 
 // HFT ratio binning
-const Int_t vars::m_nEtasRatio = 6;
+const Int_t m_nEtasRatio = 6;
 const Int_t nVzsHftRatio = 3;
 const Int_t nPtBinsHftRatio = 15;
 const Int_t nPhisHftRatio = 11;
-const Double_t vars::m_EtaEdgeRatio[vars::m_nEtasRatio + 1] = //ok
+const Double_t m_EtaEdgeRatio[vars::m_nEtasRatio + 1] = //ok
         {
                 -1.0, -0.6, -0.2, 0.0, 0.2, 0.6, 1.0
         };
