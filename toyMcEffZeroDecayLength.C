@@ -76,7 +76,6 @@ TFile* result;
 TF1* fKaonMomResolution = NULL;
 TF1* fPionMomResolution = NULL;
 TF1* fWeightFunction = NULL;
-TF1* fWeightFunctionAuAu = NULL;
 TF1* f1PidPi = NULL;
 TF1* f1PidK = NULL;
 TGraph* grEff[3];
@@ -816,15 +815,9 @@ void bookObjects()
     fKaonMom.Close();
 
    cout << "Loading input spectra ..." << endl;
-//   TFile fPP("pp200_spectra.root");
-//   fWeightFunction = (TF1*)fPP.Get("run12/f1Levy")->Clone("f1Levy");
     TFile fPP("published_run10_D0_AuAu_data.root");
     fWeightFunction = (TF1*)fPP.Get("Levy_pp")->Clone("f1Levy");
     fPP.Close();
-
-    TFile fAuAu("Run14_D0_MyRaa_pT1.0.root");
-    fWeightFunctionAuAu = (TF1*)fAuAu.Get("myLevyFcn_9")->Clone("f1LevyAuAu");
-    fAuAu.Close();
 
 
     TFile filePidK("totalEff_K.root");
