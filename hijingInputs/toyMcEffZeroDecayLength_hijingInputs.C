@@ -834,7 +834,7 @@ void bookObjects()
             for (int iVz = 0; iVz < vars::m_nVzsDca; ++iVz) {
                 for (int iCent = 0; iCent < vars::m_nmultEdgeDCA; ++iCent) {
                     for (int iPt = 0; iPt < vars::m_nPtsDca; ++iPt) {
-                        const char *h2dName=Form("mh3DcaXyZPt_p%d_eta%d_vz%d_m%d_pt%d", iParticle, iEta, iVz, iCent, iPt);
+                        TString h2dName=Form("mh3DcaXyZPt_p%d_eta%d_vz%d_m%d_pt%d", iParticle, iEta, iVz, iCent, iPt);
                         h2Dca[iParticle][iEta][iVz][iCent][iPt] = (TH2F* )((fDca1.Get(h2dName)));
                         h2Dca[iParticle][iEta][iVz][iCent][iPt]->SetDirectory(0);
                     }
