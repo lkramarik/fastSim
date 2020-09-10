@@ -148,7 +148,7 @@ TH1D* hHftRatio1[vars::m_nParticles][vars::m_nEtasRatio][vars::m_nVzsRatio][vars
 int const nCentDca = 9;
 //TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nmultEdgeDCA][nPtBinsDca];
 //TH2F* h2Dca[vars::m_nParticles][vars::m_nEtasDca][vars::m_nVzsDca][vars::m_nmultEdgeDCA][vars::m_nPtsDca];
-TH2F* h2Dca[2][3][4][1][11];
+TH2D* h2Dca[2][3][4][1][11];
 
 TH1D* hTpcPiPlus[nmultEdgeTPC]; //embedding
 TH1D* hTpcPiMinus[nmultEdgeTPC]; //embedding
@@ -817,6 +817,22 @@ void bookObjects()
     TFile fHftRatio1Pion("hftratio_vs_pt_dAu_pion_hijing.root");
     TFile fHftRatio1Kaon("hftratio_vs_pt_dAu_kaon_hijing.root");
     for (int iParticle = 0; iParticle < vars::m_nParticles; ++iParticle) {
+        //DCA
+        int iZdc=0;
+        for (int iEta = 0; iEta < vars::m_nEtasDca; ++iEta) {
+            for (int iVz = 0; iVz < vars::m_nVzsDca; ++iVz) {
+                for (int iCent = 0; iCent < vars::m_nmultEdgeDCA; ++iCent) {
+                    for (int iPt = 0; iPt < vars::m_nPtsDca; ++iPt) {
+                        TString h2dName=Form("mh3DcaXyZPt_p%d_eta%d_vz%d_m%d_pt%d", iParticle, iEta, iVz, iCent, iPt);
+                        cout<<h2dName<<endl;
+                        h2Dca[iParticle][iEta][iVz][iCent][iPt] = new TH2D();
+                        h2Dca[iParticle][iEta][iVz][iCent][iPt] = (TH2D* )((fDca1.Get(h2dName)));
+                        h2Dca[iParticle][iEta][iVz][iCent][iPt]->SetDirectory(0);
+                    }
+                }
+            }
+        }
+
         for (int iZdc = 0; iZdc < vars::m_nZdc; ++iZdc) {
             for (int iEta = 0; iEta < vars::m_nEtasRatio; ++iEta) {
                 for (int iVz = 0; iVz < vars::m_nVzsRatio; ++iVz) {
@@ -830,21 +846,7 @@ void bookObjects()
         }
         cout<<"hft loaded"<<endl;
 
-        //DCA
-        int iZdc=0;
-        for (int iEta = 0; iEta < vars::m_nEtasDca; ++iEta) {
-            for (int iVz = 0; iVz < vars::m_nVzsDca; ++iVz) {
-                for (int iCent = 0; iCent < vars::m_nmultEdgeDCA; ++iCent) {
-                    for (int iPt = 0; iPt < vars::m_nPtsDca; ++iPt) {
-                        TString h2dName=Form("mh3DcaXyZPt_p%d_eta%d_vz%d_m%d_pt%d", iParticle, iEta, iVz, iCent, iPt);
-                        cout<<h2dName<<endl;
-                        h2Dca[iParticle][iEta][iVz][iCent][iPt] = new TH2F();
-                        h2Dca[iParticle][iEta][iVz][iCent][iPt] = (TH2F* )((fDca1.Get(h2dName)));
-                        h2Dca[iParticle][iEta][iVz][iCent][iPt]->SetDirectory(0);
-                    }
-                }
-            }
-        }
+
     }
     cout << "Finished loading Dca: " <<  endl;
 
