@@ -91,7 +91,6 @@ float const multEdgeTPC[nmultEdgeTPC+1] = {0, 200};
 
 
 
-
 // HFT ratio binning
 const Int_t m_nEtasRatio = 6;
 const Int_t nVzsHftRatio = 3;
@@ -259,7 +258,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 //    TVector3 const vertex = getVertexWithError(centrality); //from hVz,  converted to um
 //    TVector3 const vertexR = smearVertex(vertex); not implemented yet
     int zdcb = getZdcBin(centrality); //from data
-
+    cout<<zdcb<<endl;
     // smear primary vertex
     // float const sigmaVertex = sigmaVertexCent[cent];
     // TVector3 const vertex(gRandom->Gaus(0, sigmaVertex), gRandom->Gaus(0, sigmaVertex), gRandom->Gaus(0, sigmaVertex));
