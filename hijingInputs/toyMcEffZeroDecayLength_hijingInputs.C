@@ -706,10 +706,10 @@ bool matchHft(int const iParticleIndex, double const vz, int const zdcb, TLorent
     if (mom.Perp()>12) return false;
     if (mom.Perp()<0.15) return false;
     int bin = -1;
-    if (hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->GetEntries()>0) bin = hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->FindBin(mom.Perp());
+    if (hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex]->GetEntries()>0) bin = hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex]->FindBin(mom.Perp());
     else return false;
     if (bin<1) return false;
-    return gRandom->Rndm() < hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex][zdcb]->GetBinContent(bin);
+    return gRandom->Rndm() < hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex]->GetBinContent(bin);
 }
 
 //_______________________________________________________________________________________________________________
