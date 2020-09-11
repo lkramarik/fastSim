@@ -160,7 +160,7 @@ int getIndex(const float x, const float* edge, const int size) {
         if ((x >= edge[i]) && (x < edge[i + 1]))
             bin = i;
     }
-    return bin;
+    return size-1;
 }
 
 #endif // VARIABLE_H_INCLUDED
