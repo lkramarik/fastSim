@@ -211,17 +211,12 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     v00 += vertex; //SV + z of vertex from data, in um => Z position of the SV, nothing changed in xy
 
     // smear momentum
-    cout<<"smearMom"<<endl;
-
     TLorentzVector const kRMom = smearMom(kMom, fKaonMomResolution); //fKaonMomResolution is TF1
     TLorentzVector const pRMom = smearMom(pMom, fPionMomResolution);
 
-    cout<<"smearPosData"<<endl;
     // smear position
     TVector3 const kRPos = smearPosData(1, vertex.z(), zdcb, kRMom, v00, centralityDCA); //particle dca smearing , transverse to its vector (why not to just change xy and z according to the dcaxy and dcaz from data without transverse position)
     TVector3 const pRPos = smearPosData(0, vertex.z(), zdcb, pRMom, v00, centralityDCA);
-    cout<<"smearPosData end"<<endl;
-
 
     // reconstruct
     TLorentzVector const rMom = kRMom + pRMom;
