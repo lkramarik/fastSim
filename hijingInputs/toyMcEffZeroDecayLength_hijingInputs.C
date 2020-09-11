@@ -55,17 +55,8 @@ bool goodPID(int const iParticleIndex, TLorentzVector const& mom);
 void bookObjects();
 void write();
 
-int getPtIndexDca(double);
-int getEtaIndexDca(double);
-int getVzIndexDca(double);
-int getPhiIndexDca(double);
-
-int getVzIndexHftRatio(double);
-int getPhiIndexHftRatio(double);
-int getZdcBinRatio(float);
 int getMultiplicityBin(double);
 int getMultiplicityBinTPC(double);
-int getMultiplicityBinDCA(double);
 
 TVector3 const smearVertex(TVector3);
 
@@ -89,51 +80,8 @@ float const multEdge[nmultEdge+1] = {0, 4, 8, 12, 16, 20, 24, 200};
 const int nmultEdgeTPC = 1;
 float const multEdgeTPC[nmultEdgeTPC+1] = {0, 200};
 
-
-
-// HFT ratio binning
-const Int_t m_nEtasRatio = 6;
-const Int_t nVzsHftRatio = 3;
-const Int_t nPtBinsHftRatio = 15;
-const Int_t nPhisHftRatio = 11;
-
-const Double_t VzEdgeHftRatio[nVzsHftRatio + 1] = //ok
-        {
-                -6.0, -2.0, 2.0, 6.0
-        };
-
-const Double_t PhiEdgeHftRatio[nPhisHftRatio + 1] = //ok
-        {
-                -3.14159 , -2.80359 , -2.17527 , -1.54696 , -0.918637 , -0.290319 , 0.338 , 0.966319 , 1.59464 , 2.22296 , 2.85127 , 3.14159
-        };
-
-int const nVzsDca = 4;
-const Int_t nPhisDca = 11;
-int const nEtasDca = 4;
-const Int_t nPtBinsDca = 7;
-float const VzEdgeDca[nVzsDca + 1] = {   -6., -3., 0, 3., 6.};
-float const EtaEdgeDca[nEtasDca + 1] = {0, 0.2, 0.4, 0.8, 1};
-
-const Double_t PhiEdgeDca[nPhisDca + 1] =
-        {
-                -3.14159 , -2.80359 , -2.17527 , -1.54696 , -0.918637 , -0.290319 , 0.338 , 0.966319 , 1.59464 , 2.22296 , 2.85127 , 3.14159 //Sector by Sector
-                // sector number 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3
-        };
-const Double_t ptEdgeDca[nPtBinsDca + 1] =
-        {
-                0.15, 0.4, 0.8, 1., 1.5, 2., 4., 12.
-        };
-
-const int nmultEdgeDCA = 1;
-float const multEdgeDCA[nmultEdgeDCA+1] = {0, 200};
-
-const int nZdcDCA = 1;
-float const zdcxBinsDCA[nZdcDCA+1] = {0,210};
-
 const int m_nZdc = 1;
 float const m_zdcEdge[m_nZdc+1] = {0,210};
-
-//
 
 TH1D* h1Vz[nmultEdge+1];
 TH1D* h1ZdcX[nmultEdge+1];
@@ -248,7 +196,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     Double_t refMult = hRefMult->GetRandom();
     int centrality = getMultiplicityBin(refMult);
     int centralityTPC = getMultiplicityBinTPC(refMult);
-    int centralityDCA = getMultiplicityBinDCA(refMult);
+    int centralityDCA = getIndex(refMult, vars::m_multEdgeDCA, vars::m_nmultEdgeDCA);
 
 //    int const centrality = floor(nmultEdge * gRandom->Rndm());
 
@@ -317,7 +265,6 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     arr[iArr++] = vertex.X();
     arr[iArr++] = vertex.Y();
     arr[iArr++] = vertex.Z();
-    arr[iArr++] = getVzIndexDca(vertex.Z());
 
     arr[iArr++] = kf;
     arr[iArr++] = weight;
@@ -488,73 +435,6 @@ TLorentzVector smearMom(TLorentzVector const& b, TF1 const * const fMomResolutio
 }
 
 //_______________________________________________________________________________________________________________
-int getPtIndexDca(double pT)
-{
-    for (int i = 0; i < nPtBinsDca; i++)
-    {
-        if ((pT >= ptEdgeDca[i]) && (pT < ptEdgeDca[i + 1]))
-            return i;
-    }
-    if (pT < ptEdgeDca[0]) return 0;
-    return nPtBinsDca - 1 ;
-}
-
-//_______________________________________________________________________________________________________________
-int getEtaIndexDca(double Eta)
-{
-    for (int i = 0; i < nEtasDca; i++)
-    {
-        if ((fabs(Eta) >= EtaEdgeDca[i]) && (fabs(Eta) < EtaEdgeDca[i + 1]))
-            return i;
-    }
-    return nEtasDca - 1 ;
-}
-
-//_______________________________________________________________________________________________________________
-int getVzIndexDca(double Vz)
-{
-    for (int i = 0; i < nVzsDca; i++)
-    {
-        if ((Vz >= VzEdgeDca[i]) && (Vz < VzEdgeDca[i + 1]))
-            return i;
-    }
-    return nVzsDca - 1 ;
-}
-
-//_______________________________________________________________________________________________________________
-int getPhiIndexDca(double Phi)
-{
-    for (int i = 0; i < nPhisDca; i++)
-    {
-        if ((Phi >= PhiEdgeDca[i]) && (Phi < PhiEdgeDca[i + 1]))
-            return i;
-    }
-    return nPhisDca - 1 ;
-}
-
-//_______________________________________________________________________________________________________________
-int getVzIndexHftRatio(double Vz)
-{
-    for (int i = 0; i < nVzsHftRatio; i++)
-    {
-        if ((Vz >= VzEdgeHftRatio[i]) && (Vz < VzEdgeHftRatio[i + 1]))
-            return i;
-    }
-    return -1 ;
-}
-
-//_______________________________________________________________________________________________________________
-int getPhiIndexHftRatio(double Phi)
-{
-    for (int i = 0; i < nPhisHftRatio; i++)
-    {
-        if ((Phi >= PhiEdgeHftRatio[i]) && (Phi < PhiEdgeHftRatio[i + 1]))
-            return i;
-    }
-    return -1 ;
-}
-
-//_______________________________________________________________________________________________________________
 int getMultiplicityBin(double mult)
 {
     for (int i = 0; i < nmultEdge; i++) {
@@ -575,27 +455,11 @@ int getMultiplicityBinTPC(double mult)
 }
 
 //_______________________________________________________________________________________________________________
-int getMultiplicityBinDCA(double mult)
-{
-    for (int i = 0; i < nmultEdgeDCA; i++) {
-        if ((mult >= multEdgeDCA[i]) && (mult < multEdgeDCA[i+1]))
-            return i;
-    }
-    return -1 ;
-}
-
-//_______________________________________________________________________________________________________________
 TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLorentzVector const& rMom, TVector3 const& pos, int const centrality) //pos is SV
 {
-//    int const iEtaIndex = getEtaIndexDca(rMom.PseudoRapidity());
-//    int const iVzIndex = getVzIndexDca(vz);
-//    int const iPtIndex = getPtIndexDca(rMom.Perp());
-//
     int const iEtaIndex = getIndex(rMom.PseudoRapidity(), vars::m_EtaEdgeDca, vars::m_nEtasDca);
     int const iVzIndex = getIndex(vz, vars::m_VzEdgeDca, vars::m_nVzsDca);
     int const iPtIndex = getIndex(rMom.Perp(), vars::m_PtEdgeDca, vars::m_nPtsDca);
-
-    cout<<iEtaIndex<<" "<<iVzIndex<<" "<<iPtIndex<<endl;
 
     double sigmaPosZ = 0;
     double sigmaPosXY = 0;
@@ -660,7 +524,6 @@ int getZdcBin(int const centrality)
     float zdc;
     int zdcbin=-1;
     zdc = h1ZdcX[centrality]->GetRandom();
-//    zdcbin = getZdcBinRatio(zdc);
     zdcbin = getIndex(zdc, vars::m_zdcEdge, vars::m_nZdc);
 
     return zdcbin;
@@ -699,11 +562,7 @@ bool tpcReconstructed(int iParticleIndex, float charge, int cent, TLorentzVector
 //_______________________________________________________________________________________________________________
 bool matchHft(int const iParticleIndex, double const vz, int const zdcb, TLorentzVector const& mom)
 {
-//    int const iEtaIndex = getEtaIndexHftRatio(mom.PseudoRapidity());
-//    int const iVzIndex = getVzIndexHftRatio(vz);
-//    int const iPhiIndex = getPhiIndexHftRatio(mom.Phi());
-
-    int const iEtaIndex = getIndex(mom.PseudoRapidity(), vars::m_EtaEdgeRatio, m_nEtasRatio);
+    int const iEtaIndex = getIndex(mom.PseudoRapidity(), vars::m_EtaEdgeRatio, vars::m_nEtasRatio);
     int const iVzIndex = getIndex(vz, vars::m_VzEdgeRatio, vars::m_nVzsRatio);
     int const iPhiIndex = getIndex(mom.Phi(), vars::m_PhiEdgeRatio, vars::m_nPhisRatio);
 
@@ -889,7 +748,7 @@ void bookObjects()
 
     int BufSize = (int)pow(2., 16.);
 // int Split = 1;
-    nt = new TNtuple("nt", "", "cent:refMult:zdcxbin:vx:vy:vz:vzIdx:"
+    nt = new TNtuple("nt", "", "cent:refMult:zdcxbin:vx:vy:vz:"
                                "pid:w:m:pt:eta:y:phi:v0x:v0y:v0z:" // MC D0
                                "rM:rPt:rEta:rY:rPhi:rV0x:rV0y:rV0z:" // Rc D0
                                "dca12:decayLength:dcaD0ToPv:cosTheta:angle12:cosThetaStar:" // Rc pair
