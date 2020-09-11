@@ -258,7 +258,6 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 //    TVector3 const vertex = getVertexWithError(centrality); //from hVz,  converted to um
 //    TVector3 const vertexR = smearVertex(vertex); not implemented yet
     int zdcb = getZdcBin(centrality); //from data
-    cout<<zdcb<<endl;
     // smear primary vertex
     // float const sigmaVertex = sigmaVertexCent[cent];
     // TVector3 const vertex(gRandom->Gaus(0, sigmaVertex), gRandom->Gaus(0, sigmaVertex), gRandom->Gaus(0, sigmaVertex));
@@ -266,9 +265,12 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     v00 += vertex; //SV + z of vertex from data, in um => Z position of the SV, nothing changed in xy
 
     // smear momentum
+    cout<<"smearMom"<<endl;
+
     TLorentzVector const kRMom = smearMom(kMom, fKaonMomResolution); //fKaonMomResolution is TF1
     TLorentzVector const pRMom = smearMom(pMom, fPionMomResolution);
 
+    cout<<"smearPosData"<<endl;
     // smear position
     TVector3 const kRPos = smearPosData(1, vertex.z(), zdcb, kRMom, v00, centralityDCA); //particle dca smearing , transverse to its vector (why not to just change xy and z according to the dcaxy and dcaz from data without transverse position)
     TVector3 const pRPos = smearPosData(0, vertex.z(), zdcb, pRMom, v00, centralityDCA);
@@ -303,6 +305,8 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 //    dcaD0ToPv /= 1e4;
 //    pRDca /= 1e4;
 //    kRDca /= 1e4;
+
+    cout<<"filling"<<endl;
 
     const int nNtVars = nt->GetNvar();
     float arr[nNtVars];
@@ -591,6 +595,7 @@ TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLore
     int const iVzIndex = getIndex(vz, vars::m_VzEdgeDca, vars::m_nVzsDca);
     int const iPtIndex = getIndex(rMom.Perp(), vars::m_PtEdgeDca, vars::m_nPtsDca);
 
+
     double sigmaPosZ = 0;
     double sigmaPosXY = 0;
 
@@ -823,7 +828,6 @@ void bookObjects()
                 for (int iCent = 0; iCent < vars::m_nmultEdgeDCA; ++iCent) {
                     for (int iPt = 0; iPt < vars::m_nPtsDca; ++iPt) {
                         TString h2dName=Form("mh3DcaXyZPt_p%d_eta%d_vz%d_m%d_pt%d", iParticle, iEta, iVz, iCent, iPt);
-                        cout<<h2dName<<endl;
                         h2Dca[iParticle][iEta][iVz][iCent][iPt] = new TH2D();
                         h2Dca[iParticle][iEta][iVz][iCent][iPt] = (TH2D* )((fDca1.Get(h2dName)));
                         h2Dca[iParticle][iEta][iVz][iCent][iPt]->SetDirectory(0);
@@ -832,7 +836,6 @@ void bookObjects()
             }
         }
         cout<<"dcas lodad"<<endl;
-
 
         for (int iEta = 0; iEta < vars::m_nEtasRatio; iEta++) {
             for (int iVz = 0; iVz < vars::m_nVzsRatio; iVz++) {
