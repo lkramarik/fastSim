@@ -145,7 +145,6 @@ TH1F* hD0yHIJING;
 
 TH1D* hHftRatio1[vars::m_nParticles][vars::m_nEtasRatio][vars::m_nVzsRatio][vars::m_nPhisRatio];
 int const nCentDca = 9;
-//TH2D* h2Dca[nParticles][nEtasDca][nVzsDca][nmultEdgeDCA][nPtBinsDca];
 TH2D* h2Dca[vars::m_nParticles][vars::m_nEtasDca][vars::m_nVzsDca][vars::m_nmultEdgeDCA][vars::m_nPtsDca];
 
 TH1D* hTpcPiPlus[nmultEdgeTPC]; //embedding
@@ -596,6 +595,7 @@ TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLore
     int const iVzIndex = getIndex(vz, vars::m_VzEdgeDca, vars::m_nVzsDca);
     int const iPtIndex = getIndex(rMom.Perp(), vars::m_PtEdgeDca, vars::m_nPtsDca);
 
+    cout<<iEtaIndex<<" "<<iVzIndex<<" "<<iPtIndex<<endl;
 
     double sigmaPosZ = 0;
     double sigmaPosXY = 0;
