@@ -37,7 +37,7 @@ echo "Copying done."
 rm -r LocalLibraries.package
 rm LocalLibraries.zip
 
-codePath="/gpfs01/star/pwg/lkramarik/sim/fastsimD0_2016/workDir/"${productionId}
+codePath="/gpfs01/star/pwg/lkramarik/sim/fastsimD0_2016/hijingInputs/workDir/"${productionId}
 echo codePath
 
 mkdir ./jobs
