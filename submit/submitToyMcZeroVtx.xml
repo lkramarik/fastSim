@@ -57,6 +57,7 @@
       <File>file:&codePath;/totalEff_K.root</File>
       <File>file:&codePath;/totalEff_pi.root</File>
       <File>file:&codePath;/HIJING_D0_pt_y.root</File>
+      <File>file:&codePath;/StAnaCutsHijing.h</File>
 	</Package>
 </SandBox>
 
