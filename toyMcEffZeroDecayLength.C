@@ -192,7 +192,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     int centralityTPC = getMultiplicityBinTPC(refMult);
     int centralityDCA = getIndex(refMult, vars::m_multEdge, vars::m_nmultEdge);
 
-    TVector3 const vertex = getVertex(centrality); //from hVz,  converted to um
+    TVector3 const vertex = getVertex(centralityDCA); //from hVz,  converted to um
 //    TVector3 const vertex = getVertexWithError(centrality); //from hVz,  converted to um
 //    TVector3 const vertexR = smearVertex(vertex); not implemented yet
 
