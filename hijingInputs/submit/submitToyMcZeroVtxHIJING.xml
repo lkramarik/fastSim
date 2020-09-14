@@ -39,9 +39,7 @@
       <File>file:&codePath;/divide_ntp.cxx</File>
       <File>file:&codePath;/toyMcEffZeroDecayLength_hijingInputs.C</File>
       <File>file:&codePath;/pp200_spectra.root</File>
-      <File>file:&codePath;/Run14_D0_MyRaa_pT1.0.root</File>
       <File>file:&codePath;/dcaxy_vs_dcaz_hijing.root</File>
-      <File>file:&codePath;/Vz_Cent.root</File>
       <File>file:&codePath;/piplus_tpc_eff_embedding.root</File>
       <File>file:&codePath;/piminus_tpc_eff_embedding.root</File>
       <File>file:&codePath;/kplus_tpc_eff_embedding.root</File>
@@ -52,13 +50,13 @@
       <File>file:&codePath;/hftratio_vs_pt_dAu_pion_hijing.root</File>
       <File>file:&codePath;/hftratio_vs_pt_dAu_kaon_hijing.root</File>
       <File>file:&codePath;/inputs.event_hijing.root</File>
-      <File>file:&codePath;/inputs.event.hijing.root</File>
       <File>file:&codePath;/vertexReso.root</File>
       <File>file:&codePath;/published_run10_D0_AuAu_data.root</File>
       <File>file:&codePath;/totalEff_K.root</File>
       <File>file:&codePath;/totalEff_pi.root</File>
       <File>file:&codePath;/HIJING_D0_pt_y.root</File>
-	</Package>
+      <File>file:&codePath;/StAnaCutsHijing.h</File>
+  </Package>
 </SandBox>
 
 </job>

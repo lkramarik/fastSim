@@ -341,10 +341,6 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 //_______________________________________________________________________________________________________________
 void getKinematics(TLorentzVector& b, double const mass)
 {
-//    float const pt = gRandom->Uniform(momentumRange.first, momentumRange.second);
-//    float const pt = fWeightFunction->GetRandom();
-//    float const y = gRandom->Uniform(-acceptanceRapidity, acceptanceRapidity);
-
     float pt = 999;
     while (pt > 8)  pt = hD0ptHIJING->GetRandom();
 

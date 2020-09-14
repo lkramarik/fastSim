@@ -7,11 +7,11 @@ cd workDir/${productionId}
 echo "Start of cps."
 cp -Lr ../../submit/* ./
 cp ../../toyMcEffZeroDecayLength_hijingInputs.C ./
+
 cp ../../pp200_spectra.root ./
-cp ../../Run14_D0_MyRaa_pT1.0.root ./
 
 cp ../../dcaxy_vs_dcaz_hijing.root ./
-cp ../../tupleManage/divide_ntp.cxx ./
+cp ../../../tupleManage/divide_ntp.cxx ./
 
 cp ../../totalEff_pi.root ./
 cp ../../totalEff_K.root ./
@@ -25,7 +25,6 @@ cp ../../HIJING_D0_pt_y.root ./
 cp ../../kaon_momentum_resolution.root ./
 cp ../../pion_momentum_resolution.root ./
 cp ../../inputs.event_hijing.root ./
-cp ../../inputs.event.hijing.root ./
 cp ../../vertexReso.root ./
 cp ../../eff_tof.root ./
 cp ../../hftratio_vs_pt_dAu_kaon_hijing.root ./
