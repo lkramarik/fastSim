@@ -31,7 +31,7 @@ cp ../../eff_tof.root ./
 cp ../../hftratio_vs_pt_dAu_kaon_hijing.root ./
 cp ../../hftratio_vs_pt_dAu_pion_hijing.root ./
 cp ../../published_run10_D0_AuAu_data.root ./
-cp ../../StAnaCutsHijing.h ./
+cp ../../StAnaCutsHijing.h./
 
 echo "Copying done."
 
