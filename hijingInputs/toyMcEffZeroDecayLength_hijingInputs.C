@@ -46,7 +46,6 @@ float dcaXY(TVector3 const& p, TVector3 const& pos, TVector3 const& vertex);
 float dcaZ(TVector3 const& p, TVector3 const& pos, TVector3 const& vertex);
 float dca1To2(TVector3 const& p1, TVector3 const& pos1, TVector3 const& p2, TVector3 const& pos2, TVector3& v0);
 TVector3 getVertex(int centrality);
-TVector3 getVertexWithError(int centrality);
 int getZdcBin(int const centrality);
 bool matchHft(int iParticleIndex, double vz, int zdcb, TLorentzVector const& mom);
 bool tpcReconstructed(int iParticleIndex, float charge, int cent, TLorentzVector const& mom);
@@ -201,21 +200,15 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 //    int const centrality = floor(nmultEdge * gRandom->Rndm());
 
     TVector3 const vertex = getVertex(centrality); //from hVz,  converted to um
-//    TVector3 const vertex = getVertexWithError(centrality); //from hVz,  converted to um
-//    TVector3 const vertexR = smearVertex(vertex); not implemented yet
     int zdcb = getZdcBin(centrality); //from data
-    // smear primary vertex
-    // float const sigmaVertex = sigmaVertexCent[cent];
-    // TVector3 const vertex(gRandom->Gaus(0, sigmaVertex), gRandom->Gaus(0, sigmaVertex), gRandom->Gaus(0, sigmaVertex));
-
-    v00 += vertex; //SV + z of vertex from data, in um => Z position of the SV, nothing changed in xy
+    v00 += vertex; //SV + z of vertex from data, in cm => Z position of the SV, nothing changed in xy
 
     // smear momentum
     TLorentzVector const kRMom = smearMom(kMom, fKaonMomResolution); //fKaonMomResolution is TF1
     TLorentzVector const pRMom = smearMom(pMom, fPionMomResolution);
 
     // smear position
-    TVector3 const kRPos = smearPosData(1, vertex.z(), zdcb, kRMom, v00, centralityDCA); //particle dca smearing , transverse to its vector (why not to just change xy and z according to the dcaxy and dcaz from data without transverse position)
+    TVector3 const kRPos = smearPosData(1, vertex.z(), zdcb, kRMom, v00, centralityDCA); //particle dca smearing , transverse to its vector
     TVector3 const pRPos = smearPosData(0, vertex.z(), zdcb, pRMom, v00, centralityDCA);
 
     // reconstruct
@@ -474,39 +467,12 @@ TVector3 getVertex(int const centrality)
     else
     {
         do {
-            rdmVz = h1Vz[centrality]->GetRandom(); //um
-        }
-        while (fabs(rdmVz) > gVzCut);
-    }
-
-    return TVector3(0., 0., rdmVz);
-}
-
-//_______________________________________________________________________________________________________________
-TVector3 getVertexWithError(int const centrality)
-{
-    double rdmVz;
-
-    if (h1Vz[centrality]->GetEntries() == 0) rdmVz = 0.;
-    else
-    {
-        do {
             rdmVz = h1Vz[centrality]->GetRandom();
         }
         while (fabs(rdmVz) > gVzCut);
     }
 
-    double xError = h1VxError[centrality]->GetRandom();
-    double yError = h1VxError[centrality]->GetRandom();
-    double zError = h1VzError[centrality]->GetRandom();
-
-    float rand;
-    do {
-        rand = gRandom->Uniform(-1, 1);
-    } while ( rand==0 );
-    if (rand<0) rand=-1;
-    if (rand>0) rand=1;
-    return TVector3(0.+rand*xError, 0.+rand*yError, rdmVz+rand*zError);
+    return TVector3(0., 0., rdmVz);
 }
 
 //_______________________________________________________________________________________________________________

@@ -5,10 +5,9 @@ echo ${productionId}
 mkdir -p workDir/${productionId}
 cd workDir/${productionId}
 echo "Start of cps."
-cp -Lr /gpfs01/star/pwg/lkramarik/sim/fastsimD0_2016/submit/* ./
+cp -Lr ../../submit/* ./
 cp ../../toyMcEffZeroDecayLength.C ./
 cp ../../pp200_spectra.root ./
-cp ../../Run14_D0_MyRaa_pT1.0.root ./
 
 cp ../../dcaxy_vs_dcaz.root ./
 cp ../../tupleManage/divide_ntp.cxx ./
@@ -30,6 +29,7 @@ cp ../../eff_tof.root ./
 cp ../../hftratio_vs_pt_dAu_kaon.root ./
 cp ../../hftratio_vs_pt_dAu_pion.root ./
 cp ../../published_run10_D0_AuAu_data.root ./
+cp ../../StAnaCutsData.h ./
 
 echo "Copying done."
 

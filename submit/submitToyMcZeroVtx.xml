@@ -38,7 +38,6 @@
       <File>file:&codePath;/divide_ntp.cxx</File>
       <File>file:&codePath;/toyMcEffZeroDecayLength.C</File>
       <File>file:&codePath;/pp200_spectra.root</File>
-      <File>file:&codePath;/HftRatio_AuAu2016_lumiprod.root</File>
       <File>file:&codePath;/dcaxy_vs_dcaz.root</File>
       <File>file:&codePath;/piplus_tpc_eff_embedding.root</File>
       <File>file:&codePath;/piminus_tpc_eff_embedding.root</File>
