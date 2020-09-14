@@ -43,6 +43,7 @@ float dcaZ(TVector3 const& p, TVector3 const& pos, TVector3 const& vertex);
 float dca1To2(TVector3 const& p1, TVector3 const& pos1, TVector3 const& p2, TVector3 const& pos2, TVector3& v0);
 TVector3 getVertex(int centrality);
 TVector3 getVertexWithError(int centrality);
+int getIndex(const float x, const float* edge, const int size);
 bool matchHft(int iParticleIndex, double vz, double multiplicity, TLorentzVector const& mom);
 bool tpcReconstructed(int iParticleIndex, float charge, int cent, TLorentzVector const& mom);
 bool matchTOF(int const iParticleIndex, TLorentzVector const& mom);
@@ -477,6 +478,16 @@ TVector3 getVertexWithError(int const centrality)
     if (rand>0) rand=1;
     return TVector3(0.+rand*xError, 0.+rand*yError, rdmVz+rand*zError);
 }
+//_______________________________________________________________________________________________________________
+int getIndex(const float x, const float* edge, const int size) {
+    int bin = -1;
+    if(size<=0) return bin;
+    for (int i = 0; i < size; i++) {
+        if ((x >= edge[i]) && (x < edge[i + 1]))
+            bin = i;
+    }
+    return size/2;
+}
 
 //_______________________________________________________________________________________________________________
 bool tpcReconstructed(int iParticleIndex, float charge, int cent, TLorentzVector const& mom)
@@ -547,7 +558,6 @@ bool goodPID(int const iParticleIndex, TLorentzVector const& mom)
 TVector3 const smearVertex(TVector3 vertex){
     return vertex;
 }
-
 
 //_______________________________________________________________________________________________________________
 void bookObjects()
