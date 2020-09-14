@@ -234,8 +234,6 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     if (cosThetaStar!=cosThetaStar) cosThetaStar=-999;
     int const charge = kf > 0 ? 1 : -1;
 
-    cout<<"filling"<<endl;
-
     const int nNtVars = nt->GetNvar();
     float arr[nNtVars];
     int iArr = 0;
