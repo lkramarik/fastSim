@@ -578,7 +578,7 @@ void bookObjects()
     fPionMom.Close();
     fKaonMom.Close();
 
-   cout << "Loading input spectra ..." << endl;
+    cout << "Loading input spectra ..." << endl;
     TFile fPP("published_run10_D0_AuAu_data.root");
     fWeightFunction = (TF1*)fPP.Get("Levy_pp")->Clone("f1Levy");
     fPP.Close();
