@@ -57,7 +57,7 @@ int getMultiplicityBinTPC(double);
 
 TVector3 const smearVertex(TVector3);
 
-//TPythia6Decayer* pydecay;
+//TPythia6Decayer* ;
 class StarPythia8Decayer;
 StarPythia8Decayer *pydecay = 0;
 
@@ -127,7 +127,7 @@ void toyMcEffZeroDecayLength_hijingInputs_pythia8(int npart = 1e5, int jobId=0)
     bookObjects();
 
 //    pydecay = TPythia6Decayer::Instance();
-    pydecay = = new StarPythia8Decayer();
+    pydecay = new StarPythia8Decayer();
     pydecay->Init();
     setDecayChannels(763); // D0 --> Kpi
     TLorentzVector* b_d = new TLorentzVector;
