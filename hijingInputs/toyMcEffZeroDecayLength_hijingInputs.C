@@ -627,8 +627,8 @@ void bookObjects()
         h1ZdcX[ii]->SetDirectory(0);
     }
 
-    hrefMult = mh3VzZdcMult -> ProjectionZ("_pz",binVzmin, binVzup, binZDCmin, binZDCmax, "");
-    hrefMult->SetName("hrefMult");
+    hRefMult = mh3VzZdcMult -> ProjectionZ("_pz",binVzmin, binVzup, binZDCmin, binZDCmax, "");
+    hRefMult->SetName("hrefMult");
 
 //    hRefMult = (TH1D*)fEvent.Get("hrefMult");
     hRefMult->SetDirectory(0);
