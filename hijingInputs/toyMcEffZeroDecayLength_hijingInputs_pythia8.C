@@ -29,6 +29,7 @@
 #include "StAnaCutsHijing.h"
 // #include "TSystem.h"
 // #include "TMemStat.h"
+class StarPythia8Decayer;
 
 using namespace std;
 
@@ -58,7 +59,7 @@ int getMultiplicityBinTPC(double);
 TVector3 const smearVertex(TVector3);
 
 //TPythia6Decayer* ;
-class StarPythia8Decayer;
+
 StarPythia8Decayer *pydecay = 0;
 
 TNtuple* nt;
