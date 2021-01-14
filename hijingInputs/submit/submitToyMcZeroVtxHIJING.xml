@@ -41,6 +41,7 @@
       <File>file:&codePath;/pion_momentum_resolution.root</File>
       <File>file:&codePath;/kaon_momentum_resolution.root</File>
       <File>file:&codePath;/eff_tof.root</File>
+      <File>file:&codePath;/hijing.sim.hists.root</File>
       <File>file:&codePath;/hftratio_vs_pt_dAu_pion_hijing.root</File>
       <File>file:&codePath;/hftratio_vs_pt_dAu_kaon_hijing.root</File>
       <File>file:&codePath;/inputs.event_hijing.root</File>

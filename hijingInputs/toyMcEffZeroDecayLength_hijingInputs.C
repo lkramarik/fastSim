@@ -607,7 +607,8 @@ void bookObjects()
     char name[500];
     //getting VZ histogram for each multiplicity
     cout<<"Loading Vz and ZDCs..."<<endl;
-    TFile fEvent("inputs.event_hijing.root");
+//    TFile fEvent("inputs.event_hijing.root");
+    TFile fEvent("hijing.sim.hists.root");
     TH3D* mh3VzZdcMult = new TH3D();
     mh3VzZdcMult = (TH3D*)fEvent.Get("mh3VzZdcMult");
     mh3VzZdcMult->SetDirectory(0);
