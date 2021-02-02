@@ -95,14 +95,14 @@ namespace vars {
 
     //    ____TMP-----------------------------------------------------------------
     //HFT ratio:
-    const int m_nEtasRatio = 1;
-    float const m_EtaEdgeRatio[m_nEtasRatio + 1] = { -1.0,  1.0};
-
-    const int m_nPhisRatio = 1;
-    float const m_PhiEdgeRatio[m_nPhisRatio + 1] = { -3.14159, 3.14159};
-
-    const int m_nVzsRatio = 1;
-    float const m_VzEdgeRatio[m_nVzsRatio + 1] = { -6.0, 6.0};
+    const int m_nEtasRatio = 4;
+    float const m_EtaEdgeRatio[m_nEtasRatio + 1] = { -1.0, -0.2, 0.0, 0.2, 1.0};
+//
+    const int m_nPhisRatio = 11;
+    float const m_PhiEdgeRatio[m_nPhisRatio + 1] = { -3.14159, -2.80359, -2.17527, -1.54696, -0.918637, -0.290319, 0.338, 0.966319, 1.59464, 2.22296, 2.85127, 3.14159};
+//
+    const int m_nVzsRatio = 3;
+    float const m_VzEdgeRatio[m_nVzsRatio + 1] = { -6.0, -2.0, 2.0, 6.0};
     //    ____TMP-----------------------------------------------------------------
 
 
