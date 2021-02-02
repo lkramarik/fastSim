@@ -154,7 +154,7 @@ void setDecayChannels(int const mdme)
 //_______________________________________________________________________________________________________________
 void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesArray& daughters)
 {
-//    cout<<"decayAndFill start"<<endl;
+    cout<<"decayAndFill start"<<endl;
     pydecay->Decay(kf, b);
     pydecay->ImportParticles(&daughters);
 
@@ -188,7 +188,7 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
 //_______________________________________________________________________________________________________________
 void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& kMom, TLorentzVector const& pMom, TVector3 v00)
 {
-//    cout<<"Fill() start"<<endl;
+    cout<<"Fill() start"<<endl;
     Double_t refMult = hRefMult->GetRandom();
     int centrality = getMultiplicityBin(refMult);
     int centralityTPC = getMultiplicityBinTPC(refMult);
@@ -239,7 +239,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 //    pRDca /= 1e4;
 //    kRDca /= 1e4;
 
-//    cout<<"filling"<<endl;
+    cout<<"filling"<<endl;
 
     const int nNtVars = nt->GetNvar();
     float arr[nNtVars];
@@ -337,7 +337,7 @@ void getKinematics(TLorentzVector& b, double const mass)
     float y = 999;
     while (fabs(y)>1) y = hD0yHIJING->GetRandom();
 
-    float const phi = TMath::TwoPi() * gRandom->Rndm(); //rndm [0,1]
+    float const phi = TMath::TwoPi() * gRandom->Uniform(1.); //rndm [0,1]
 
     float const mT = sqrt(mass * mass + pt * pt);
     float const pz = mT * sinh(y);
@@ -496,7 +496,7 @@ int getZdcBinRatio(float zdc){
 bool tpcReconstructed(int iParticleIndex, float charge, int cent, TLorentzVector const& mom)
 {
     TH1D* h = NULL;
-
+    if (mom.Perp()<0.15) return false;
     if (iParticleIndex == 0)
     {
         if (charge > 0) h = hTpcPiPlus[cent];
@@ -510,7 +510,7 @@ bool tpcReconstructed(int iParticleIndex, float charge, int cent, TLorentzVector
 
     int const bin = h->FindBin(mom.Perp());
 
-    return gRandom->Rndm() < h->GetBinContent(bin);
+    return gRandom->Uniform(1.) < h->GetBinContent(bin);
 }
 
 //_______________________________________________________________________________________________________________
@@ -527,17 +527,17 @@ bool matchHft(int const iParticleIndex, double const vz, int const zdcb, TLorent
     if (hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex]->GetEntries()>0) bin = hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex]->FindBin(mom.Perp());
     else return false;
     if (bin<1) return false;
-    return gRandom->Rndm() < hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex]->GetBinContent(bin);
+    return gRandom->Uniform(1.) < hHftRatio1[iParticleIndex][iEtaIndex][iVzIndex][iPhiIndex]->GetBinContent(bin);
 }
 
 //_______________________________________________________________________________________________________________
 bool matchTOF(int const iParticleIndex, TLorentzVector const& mom)
 {
     if (iParticleIndex == 0) { // pion
-        return gRandom->Rndm() < h_pi_tof_eff->GetBinContent(h_pi_tof_eff->FindBin(mom.Perp())); //from histogram
+        return gRandom->Uniform(1.) < h_pi_tof_eff->GetBinContent(h_pi_tof_eff->FindBin(mom.Perp())); //from histogram
     }
     else if (iParticleIndex == 1) { // kaon
-        return gRandom->Rndm() < h_k_tof_eff->GetBinContent(h_k_tof_eff->FindBin(mom.Perp())); //from histogram
+        return gRandom->Uniform(1.) < h_k_tof_eff->GetBinContent(h_k_tof_eff->FindBin(mom.Perp())); //from histogram
     } else {
         return false;
     }
@@ -549,10 +549,10 @@ bool goodPID(int const iParticleIndex, TLorentzVector const& mom)
 //    cout<<"pid"<<endl;
 
     if (iParticleIndex == 0) { // pion
-        return gRandom->Rndm() < f1PidPi->Eval(mom.Perp()); //from histogram
+        return gRandom->Uniform(1.) < f1PidPi->Eval(mom.Perp()); //from histogram
     }
     else if (iParticleIndex == 1) { // kaon
-        return gRandom->Rndm() < f1PidK->Eval(mom.Perp()); //from histogram
+        return gRandom->Uniform(1.) < f1PidK->Eval(mom.Perp()); //from histogram
     } else {
         return false;
     }

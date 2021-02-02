@@ -83,14 +83,27 @@ namespace vars {
     float const m_multEdgeDCA[m_nmultEdgeDCA+1] = {0, 200};
 
     //HFT ratio:
-    const int m_nEtasRatio = 10;
-    float const m_EtaEdgeRatio[m_nEtasRatio + 1] = { -1.0, -0.8, -0.6, -0.4, -0.2, 0.0, 0.2, 0.4 , 0.6, 0.8, 1.0};
+//    const int m_nEtasRatio = 6;
+//    float const m_EtaEdgeRatio[m_nEtasRatio + 1] = { -1.0, -0.6, -0.2, 0.0, 0.2, 0.6, 1.0};
+//
+//    const int m_nPhisRatio = 11;
+//    float const m_PhiEdgeRatio[m_nPhisRatio + 1] = { -3.14159, -2.80359, -2.17527, -1.54696, -0.918637, -0.290319, 0.338, 0.966319, 1.59464, 2.22296, 2.85127, 3.14159};
+//
+//    const int m_nVzsRatio = 3;
+//    float const m_VzEdgeRatio[m_nVzsRatio + 1] = { -6.0, -2.0, 2.0, 6.0};
 
-    const int m_nPhisRatio = 11;
-    float const m_PhiEdgeRatio[m_nPhisRatio + 1] = { -3.14159, -2.80359, -2.17527, -1.54696, -0.918637, -0.290319, 0.338, 0.966319, 1.59464, 2.22296, 2.85127, 3.14159};
 
-    const int m_nVzsRatio = 3;
-    float const m_VzEdgeRatio[m_nVzsRatio + 1] = { -6.0, -2.0, 2.0, 6.0};
+    //    ____TMP-----------------------------------------------------------------
+    //HFT ratio:
+    const int m_nEtasRatio = 1;
+    float const m_EtaEdgeRatio[m_nEtasRatio + 1] = { -1.0,  1.0};
+
+    const int m_nPhisRatio = 1;
+    float const m_PhiEdgeRatio[m_nPhisRatio + 1] = { -3.14159, 3.14159};
+
+    const int m_nVzsRatio = 1;
+    float const m_VzEdgeRatio[m_nVzsRatio + 1] = { -6.0, 6.0};
+    //    ____TMP-----------------------------------------------------------------
 
 
     const int m_nmultEdge = 7;
