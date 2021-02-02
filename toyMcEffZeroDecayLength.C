@@ -484,7 +484,7 @@ int getIndex(const float x, const float* edge, const int size) {
         if ((x >= edge[i]) && (x < edge[i + 1]))
             bin = i;
     }
-    return size/2;
+    return bin;
 }
 
 //_______________________________________________________________________________________________________________
