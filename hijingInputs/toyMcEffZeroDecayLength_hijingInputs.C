@@ -450,6 +450,7 @@ TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLore
     int const iEtaIndex = getIndex(rMom.PseudoRapidity(), vars::m_EtaEdgeDca, vars::m_nEtasDca);
     int const iVzIndex = getIndex(vz, vars::m_VzEdgeDca, vars::m_nVzsDca);
     int const iPtIndex = getIndex(rMom.Perp(), vars::m_PtEdgeDca, vars::m_nPtsDca);
+    if (iEtaIndex==-1 || iVzIndex==-1 || iPtIndex==-1) return rMom;
 
     double sigmaPosZ = 0;
     double sigmaPosXY = 0;
