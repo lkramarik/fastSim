@@ -240,7 +240,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 //    pRDca /= 1e4;
 //    kRDca /= 1e4;
 
-    cout<<"filling"<<endl;
+//    cout<<"filling"<<endl;
 
     const int nNtVars = nt->GetNvar();
     float arr[nNtVars];
@@ -441,7 +441,7 @@ int getMultiplicityBinTPC(double mult)
 TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLorentzVector const& rMom, TVector3 const& pos, int const centrality) //pos is SV
 {
 //    cout<<"smear pos data"<<endl;
-    cout<<rMom.PseudoRapidity()<<endl;
+//    cout<<rMom.PseudoRapidity()<<endl;
     int const iEtaIndex = getIndex(rMom.PseudoRapidity(), vars::m_EtaEdgeDca, vars::m_nEtasDca);
     int const iVzIndex = getIndex(vz, vars::m_VzEdgeDca, vars::m_nVzsDca);
     int const iPtIndex = getIndex(rMom.Perp(), vars::m_PtEdgeDca, vars::m_nPtsDca);
