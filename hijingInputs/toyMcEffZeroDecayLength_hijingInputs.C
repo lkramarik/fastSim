@@ -206,8 +206,13 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     TLorentzVector const pRMom = smearMom(pMom, fPionMomResolution);
 
      cout<<"smear position"<<endl;
-    TVector3 const kRPos = smearPosData(1, vertex.z(), zdcb, kRMom, v00, centralityDCA); //particle dca smearing , transverse to its vector
-    TVector3 const pRPos = smearPosData(0, vertex.z(), zdcb, pRMom, v00, centralityDCA);
+    TVector3 const kRPos;
+    TVector3 const pRPos;
+    if (abs(kRMom.PseudoRapidity())>1) kRPos = kRMom;
+     else  kRPos = smearPosData(1, vertex.z(), zdcb, kRMom, v00, centralityDCA); //particle dca smearing , transverse to its vector
+
+     if (abs(pRMom.PseudoRapidity())>1) pRPos = pRMom;
+    pRPos = smearPosData(0, vertex.z(), zdcb, pRMom, v00, centralityDCA);
 
      cout<<"reconstruct"<<endl;
     TLorentzVector const rMom = kRMom + pRMom;
