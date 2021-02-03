@@ -562,7 +562,17 @@ bool goodPID(int const iParticleIndex, TLorentzVector const& mom)
 TVector3 const smearVertex(TVector3 vertex){
     return vertex;
 }
-
+//_______________________________________________________________________________________________________________
+// get array index
+int getIndex(const float x, const float* edge, const int size) {
+    int bin = -1;
+    if(size<=0) return bin;
+    for (int i = 0; i < size; i++) {
+        if ((x >= edge[i]) && (x < edge[i + 1]))
+            bin = i;
+    }
+    return bin;
+}
 
 //_______________________________________________________________________________________________________________
 void bookObjects()
