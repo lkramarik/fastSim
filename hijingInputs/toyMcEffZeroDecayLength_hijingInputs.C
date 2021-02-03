@@ -155,7 +155,7 @@ void setDecayChannels(int const mdme)
 //_______________________________________________________________________________________________________________
 void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesArray& daughters)
 {
-//    cout<<"decayAndFill start"<<endl;
+    cout<<"decayAndFill start"<<endl;
     pydecay->Decay(kf, b);
     pydecay->ImportParticles(&daughters);
 
@@ -189,7 +189,7 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
 //_______________________________________________________________________________________________________________
 void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& kMom, TLorentzVector const& pMom, TVector3 v00)
 {
-//    cout<<"Fill() start"<<endl;
+    cout<<"Fill() start"<<endl;
     Double_t refMult = hRefMult->GetRandom();
     int centrality = getMultiplicityBin(refMult);
     int centralityTPC = getMultiplicityBinTPC(refMult);
