@@ -450,7 +450,7 @@ TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLore
     double sigmaPosXY = 0;
     cout<<iParticleIndex<<" "<<iEtaIndex<<" "<<iVzIndex<<" "<<centrality<<" "<<iPtIndex<<endl;
     if (h2Dca[iParticleIndex][iEtaIndex][iVzIndex][centrality][iPtIndex]->GetEntries()>0) h2Dca[iParticleIndex][iEtaIndex][iVzIndex][centrality][iPtIndex]->GetRandom2(sigmaPosXY,sigmaPosZ);
-
+    cout<<"histo ok"<<endl;
 
     TVector3 newPos(pos);
     newPos.SetZ(0);
