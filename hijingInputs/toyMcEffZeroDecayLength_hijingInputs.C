@@ -44,6 +44,7 @@ float dcaZ(TVector3 const& p, TVector3 const& pos, TVector3 const& vertex);
 float dca1To2(TVector3 const& p1, TVector3 const& pos1, TVector3 const& p2, TVector3 const& pos2, TVector3& v0);
 TVector3 getVertex(int centrality);
 int getZdcBin(int const centrality);
+int getIndex(const float x, const float* edge, const int size);
 bool matchHft(int iParticleIndex, double vz, int zdcb, TLorentzVector const& mom);
 bool tpcReconstructed(int iParticleIndex, float charge, int cent, TLorentzVector const& mom);
 bool matchTOF(int const iParticleIndex, TLorentzVector const& mom);
