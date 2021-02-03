@@ -201,22 +201,20 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     int zdcb = getZdcBin(centrality); //from data
     v00 += vertex; //SV + z of vertex from data, in cm => Z position of the SV, nothing changed in xy
 
-     cout<<"smear momentum"<<endl;
+    cout<<"smear momentum"<<endl;
     TLorentzVector const kRMom = smearMom(kMom, fKaonMomResolution); //fKaonMomResolution is TF1
     TLorentzVector const pRMom = smearMom(pMom, fPionMomResolution);
 
-     cout<<"smear position"<<endl;
+    cout<<"smear position"<<endl;
     TVector3 kRPos;
     TVector3 pRPos;
-    if (abs(kRMom.PseudoRapidity())>1) {
-        kRPos = v00;
-    }
-     else  kRPos = smearPosData(1, vertex.z(), zdcb, kRMom, v00, centralityDCA); //particle dca smearing , transverse to its vector
+    if (abs(kRMom.PseudoRapidity())>1) kRPos = v00;
+    else  kRPos = smearPosData(1, vertex.z(), zdcb, kRMom, v00, centralityDCA); //particle dca smearing , transverse to its vector
 
-     if (abs(pRMom.PseudoRapidity())>1) pRPos = v00;
-    pRPos = smearPosData(0, vertex.z(), zdcb, pRMom, v00, centralityDCA);
+    if (abs(pRMom.PseudoRapidity())>1) pRPos = v00;
+    else pRPos = smearPosData(0, vertex.z(), zdcb, pRMom, v00, centralityDCA);
 
-     cout<<"reconstruct"<<endl;
+    cout<<"reconstruct"<<endl;
     TLorentzVector const rMom = kRMom + pRMom;
     float const kDca = dca(kMom.Vect(), v00, vertex);
     float const pDca = dca(pMom.Vect(), v00, vertex);
