@@ -206,8 +206,8 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     TLorentzVector const pRMom = smearMom(pMom, fPionMomResolution);
 
      cout<<"smear position"<<endl;
-    TVector3 const kRPos;
-    TVector3 const pRPos;
+    TVector3 kRPos;
+    TVector3 pRPos;
     if (abs(kRMom.PseudoRapidity())>1) {
         kRPos = v00;
     }
