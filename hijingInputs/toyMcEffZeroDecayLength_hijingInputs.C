@@ -240,7 +240,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
 //    pRDca /= 1e4;
 //    kRDca /= 1e4;
 
-//    cout<<"filling"<<endl;
+    cout<<"filling"<<endl;
 
     const int nNtVars = nt->GetNvar();
     float arr[nNtVars];
@@ -327,6 +327,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     arr[iArr++] = matchHft(0, vertex.z(), zdcb, pRMom);
 
     nt->Fill(arr);
+    cout<<"fill done"<<endl;
 }
 
 //_______________________________________________________________________________________________________________
