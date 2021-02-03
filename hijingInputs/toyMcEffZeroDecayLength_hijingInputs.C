@@ -440,14 +440,16 @@ int getMultiplicityBinTPC(double mult)
 //_______________________________________________________________________________________________________________
 TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLorentzVector const& rMom, TVector3 const& pos, int const centrality) //pos is SV
 {
+    cout<<"smear pos data"<<endl;
     int const iEtaIndex = getIndex(rMom.PseudoRapidity(), vars::m_EtaEdgeDca, vars::m_nEtasDca);
     int const iVzIndex = getIndex(vz, vars::m_VzEdgeDca, vars::m_nVzsDca);
     int const iPtIndex = getIndex(rMom.Perp(), vars::m_PtEdgeDca, vars::m_nPtsDca);
 
     double sigmaPosZ = 0;
     double sigmaPosXY = 0;
-
+    cout<<iParticleIndex<<" "<<iEtaIndex<<" "<<iVzIndex<<" "<<centrality<<" "<<iPtIndex<<endl;
     if (h2Dca[iParticleIndex][iEtaIndex][iVzIndex][centrality][iPtIndex]->GetEntries()>0) h2Dca[iParticleIndex][iEtaIndex][iVzIndex][centrality][iPtIndex]->GetRandom2(sigmaPosXY,sigmaPosZ);
+
 
     TVector3 newPos(pos);
     newPos.SetZ(0);
