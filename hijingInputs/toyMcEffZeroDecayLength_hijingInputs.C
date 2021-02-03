@@ -155,7 +155,7 @@ void setDecayChannels(int const mdme)
 //_______________________________________________________________________________________________________________
 void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesArray& daughters)
 {
-    cout<<"decayAndFill start"<<endl;
+//    cout<<"decayAndFill start"<<endl;
     pydecay->Decay(kf, b);
     pydecay->ImportParticles(&daughters);
 
@@ -189,7 +189,7 @@ void decayAndFill(int const kf, TLorentzVector* b, double const weight, TClonesA
 //_______________________________________________________________________________________________________________
 void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& kMom, TLorentzVector const& pMom, TVector3 v00)
 {
-    cout<<"Fill() start"<<endl;
+//    cout<<"Fill() start"<<endl;
     Double_t refMult = hRefMult->GetRandom();
     int centrality = getMultiplicityBin(refMult);
     int centralityTPC = getMultiplicityBinTPC(refMult);
@@ -201,20 +201,15 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     int zdcb = getZdcBin(centrality); //from data
     v00 += vertex; //SV + z of vertex from data, in cm => Z position of the SV, nothing changed in xy
 
-    cout<<"smear momentum"<<endl;
+//    cout<<"smear momentum"<<endl;
     TLorentzVector const kRMom = smearMom(kMom, fKaonMomResolution); //fKaonMomResolution is TF1
     TLorentzVector const pRMom = smearMom(pMom, fPionMomResolution);
 
-    cout<<"smear position"<<endl;
-    TVector3 kRPos;
-    TVector3 pRPos;
-    if (abs(kRMom.PseudoRapidity())>1) kRPos = v00;
-    else  kRPos = smearPosData(1, vertex.z(), zdcb, kRMom, v00, centralityDCA); //particle dca smearing , transverse to its vector
+//    cout<<"smear position"<<endl;
+    TVector3 const kRPos = smearPosData(1, vertex.z(), zdcb, kRMom, v00, centralityDCA);;
+    TVector3 const pRPos = smearPosData(0, vertex.z(), zdcb, pRMom, v00, centralityDCA);
 
-    if (abs(pRMom.PseudoRapidity())>1) pRPos = v00;
-    else pRPos = smearPosData(0, vertex.z(), zdcb, pRMom, v00, centralityDCA);
-
-    cout<<"reconstruct"<<endl;
+    //    cout<<"reconstruct"<<endl;
     TLorentzVector const rMom = kRMom + pRMom;
     float const kDca = dca(kMom.Vect(), v00, vertex);
     float const pDca = dca(pMom.Vect(), v00, vertex);
@@ -332,7 +327,7 @@ void fill(int const kf, TLorentzVector* b, double weight, TLorentzVector const& 
     arr[iArr++] = matchHft(0, vertex.z(), zdcb, pRMom);
 
     nt->Fill(arr);
-    cout<<"fill done"<<endl;
+//    cout<<"fill done"<<endl;
 }
 
 //_______________________________________________________________________________________________________________
@@ -445,7 +440,7 @@ int getMultiplicityBinTPC(double mult)
 //_______________________________________________________________________________________________________________
 TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLorentzVector const& rMom, TVector3 const& pos, int const centrality) //pos is SV
 {
-    cout<<"smear pos data"<<endl;
+//    cout<<"smear pos data"<<endl;
     cout<<rMom.PseudoRapidity()<<endl;
     int const iEtaIndex = getIndex(rMom.PseudoRapidity(), vars::m_EtaEdgeDca, vars::m_nEtasDca);
     int const iVzIndex = getIndex(vz, vars::m_VzEdgeDca, vars::m_nVzsDca);
@@ -454,9 +449,7 @@ TVector3 smearPosData(int const iParticleIndex, double const vz, int zdcb, TLore
 
     double sigmaPosZ = 0;
     double sigmaPosXY = 0;
-    cout<<iParticleIndex<<" "<<iEtaIndex<<" "<<iVzIndex<<" "<<centrality<<" "<<iPtIndex<<endl;
     if (h2Dca[iParticleIndex][iEtaIndex][iVzIndex][centrality][iPtIndex]->GetEntries()>0) h2Dca[iParticleIndex][iEtaIndex][iVzIndex][centrality][iPtIndex]->GetRandom2(sigmaPosXY,sigmaPosZ);
-    cout<<"histo ok"<<endl;
 
     TVector3 newPos(pos);
     newPos.SetZ(0);
